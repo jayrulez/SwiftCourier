@@ -1,0 +1,46 @@
+﻿<!-- sidebar menu -->
+<ul class="sidebar-menu">
+    <li class="header">MAIN NAVIGATION</li>
+    <li>
+        <a asp-controller="Home" asp-action="Index">
+            <i class="fa fa-dashboard"></i>
+            <span>Dashboard</span>
+        </a>
+    </li>
+
+    <li>
+        <a asp-controller="Bookings" asp-action="Index">
+            <i class="fa fa-table"></i>
+            <span>Bookings</span>
+        </a>
+    </li>
+    <li>
+        <a asp-controller="Customers" asp-action="Index">
+            <i class="fa fa-users"></i>
+            <span>Customers</span>
+        </a>
+    </li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-wrench"></i>
+            <span>Administration</span>
+            <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+            <li><a asp-controller="Locations" asp-action="Index"><i class="fa fa-circle-o"></i> Locations</a></li>
+            <li><a href="#"><i class="fa fa-circle-o"></i> Users</a></li>
+        </ul>
+    </li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-cogs"></i>
+            <span>Settings</span>
+            <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="#"><i class="fa fa-circle-o"></i> Services</a></li>
+            <li><a href="#"><i class="fa fa-circle-o"></i> Payment Methods</a></li>
+            <li><a href="#"><i class="fa fa-circle-o"></i> Roles &amp; Permissions</a></li>
+        </ul>
+    </li>
+</ul>
