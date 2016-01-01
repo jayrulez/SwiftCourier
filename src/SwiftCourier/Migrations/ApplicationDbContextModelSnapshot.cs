@@ -104,18 +104,15 @@ namespace SwiftCourier.Migrations
 
                     b.Property<string>("ContactNumber")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 1)
-                        .HasAnnotation("Relational:ColumnType", "varchar");
+                        .HasAnnotation("MaxLength", 15);
 
                     b.Property<string>("EmailAddress")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 1)
-                        .HasAnnotation("Relational:ColumnType", "varchar");
+                        .HasAnnotation("MaxLength", 50);
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 1)
-                        .HasAnnotation("Relational:ColumnType", "varchar");
+                        .HasAnnotation("MaxLength", 100);
 
                     b.Property<bool>("TaxExempted");
 
@@ -138,13 +135,11 @@ namespace SwiftCourier.Migrations
 
                     b.Property<string>("ConsigneeContactNumber")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 1)
-                        .HasAnnotation("Relational:ColumnType", "varchar");
+                        .HasAnnotation("MaxLength", 15);
 
                     b.Property<string>("ConsigneeName")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 1)
-                        .HasAnnotation("Relational:ColumnType", "varchar");
+                        .HasAnnotation("MaxLength", 100);
 
                     b.Property<int>("Status");
 
@@ -172,8 +167,7 @@ namespace SwiftCourier.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 1)
-                        .HasAnnotation("Relational:ColumnType", "varchar");
+                        .HasAnnotation("MaxLength", 100);
 
                     b.HasKey("Id");
 
@@ -193,8 +187,7 @@ namespace SwiftCourier.Migrations
                         .HasAnnotation("Relational:ColumnType", "text");
 
                     b.Property<string>("TrackingNumber")
-                        .HasAnnotation("MaxLength", 1)
-                        .HasAnnotation("Relational:ColumnType", "varchar");
+                        .HasAnnotation("MaxLength", 256);
 
                     b.HasKey("BookingId");
 
@@ -249,8 +242,7 @@ namespace SwiftCourier.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 1)
-                        .HasAnnotation("Relational:ColumnType", "varchar");
+                        .HasAnnotation("MaxLength", 100);
 
                     b.HasKey("Id");
 
@@ -268,8 +260,7 @@ namespace SwiftCourier.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 1)
-                        .HasAnnotation("Relational:ColumnType", "varchar");
+                        .HasAnnotation("MaxLength", 100);
 
                     b.Property<int>("PaymentMethodId");
 
@@ -310,13 +301,11 @@ namespace SwiftCourier.Migrations
 
                     b.Property<string>("Group")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 1)
-                        .HasAnnotation("Relational:ColumnType", "varchar");
+                        .HasAnnotation("MaxLength", 100);
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 1)
-                        .HasAnnotation("Relational:ColumnType", "varchar");
+                        .HasAnnotation("MaxLength", 100);
 
                     b.HasKey("Id");
 
@@ -337,8 +326,7 @@ namespace SwiftCourier.Migrations
 
                     b.Property<string>("ContactNumber")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 1)
-                        .HasAnnotation("Relational:ColumnType", "varchar");
+                        .HasAnnotation("MaxLength", 15);
 
                     b.Property<int>("Status");
 
@@ -379,8 +367,7 @@ namespace SwiftCourier.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 1)
-                        .HasAnnotation("Relational:ColumnType", "varchar");
+                        .HasAnnotation("MaxLength", 100);
 
                     b.HasKey("Id");
 

@@ -13,7 +13,7 @@ namespace SwiftCourier.Controllers
 
         public LocationsController(ApplicationDbContext context)
         {
-            _context = context;    
+            _context = context; 
         }
         
         public async Task<IActionResult> Index()
@@ -44,12 +44,12 @@ namespace SwiftCourier.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Location location)
+        public IActionResult Create(Location location)
         {
             if (ModelState.IsValid)
             {
                 _context.Locations.Add(location);
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(location);

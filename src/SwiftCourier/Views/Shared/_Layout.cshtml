@@ -1,84 +1,215 @@
-﻿<!DOCTYPE html>
-<html>
+﻿<!doctype html>
+<html class="no-js" lang="">
+
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>@ViewData["Title"] - SwiftCourier</title>
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!-- Bootstrap 3.3.5 -->
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="~/favicon.ico">
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- page level plugin styles -->
+    <!-- /page level plugin styles -->
+    <!-- build:css({.tmp,app}) styles/app.min.css -->
+    <link rel="stylesheet" href="~/vendor/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="~/vendor/perfect-scrollbar/css/perfect-scrollbar.css">
+    <link rel="stylesheet" href="~/styles/roboto.css">
+    <link rel="stylesheet" href="~/styles/font-awesome.css">
+    <link rel="stylesheet" href="~/styles/panel.css">
+    <link rel="stylesheet" href="~/styles/feather.css">
+    <link rel="stylesheet" href="~/styles/animate.css">
+    <link rel="stylesheet" href="~/styles/urban.css">
+    <link rel="stylesheet" href="~/styles/urban.skins.css">
+    @RenderSection("styles", required: false)
+    <!-- endbuild -->
 
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-
-    <!-- Theme style -->
-    <link rel="stylesheet" href="~/dist/css/AdminLTE.min.css">
-
-    <!-- AdminLTE Skins -->
-    <link rel="stylesheet" href="~/dist/css/skins/_all-skins.min.css">
-
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
-    <!-- Site wrapper -->
-    <div class="wrapper">
-        @await Html.PartialAsync("_Header")
-        <!-- =============================================== -->
-        <!-- Left side column. contains the sidebar -->
-        <aside class="main-sidebar">
-            @await Html.PartialAsync("_MainSideBar")
-        </aside>
-        <!-- =============================================== -->
-        <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
-            <section class="content-header">
-                @if (IsSectionDefined("ContentHeaderTitle"))
-                {
-                    RenderSection("ContentHeaderTitle");
-                }
 
-                @if (IsSectionDefined("BreadCrumbs"))
-                {
-                    <ol class="breadcrumb">
-                        <li><a asp-controller="Home" asp-action="Index"><i class="fa fa-dashboard"></i> Home</a></li>
-                        @RenderSection("BreadCrumbs")
-                    </ol>
-                }
-            </section>
-            <!-- Main content -->
-            <section class="content">
-                @RenderBody()
-            </section>
-            <!-- /.content -->
+<body>
+
+    <div class="app layout-fixed-header">
+
+        <!-- sidebar panel -->
+        <div class="sidebar-panel offscreen-left">
+
+            <div class="brand">
+
+                <!-- logo -->
+                <div class="brand-logo">
+                    <img src="~/images/logo.png" height="15" alt="">
+                </div>
+                <!-- /logo -->
+                <!-- toggle small sidebar menu -->
+                <a href="javascript:;" class="toggle-sidebar hidden-xs hamburger-icon v3" data-toggle="layout-small-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </a>
+                <!-- /toggle small sidebar menu -->
+
+            </div>
+
+            <!-- main navigation -->
+            <nav role="navigation">
+
+                <ul class="nav">
+
+                    <!-- dashboard -->
+                    <li>
+                        <a asp-controller="Home" asp-action="Index"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
+                    </li>
+                    <!-- /dashboard -->
+                    <!-- bookings -->
+                    <li>
+                        <a href="javascript:;"><i class="fa fa-table"></i><span>Bookings</span></a>
+                        <ul class="sub-menu">
+                            <li><a href="#"><span>New Booking</span></a></li>
+                            <li><a href="#"><span>All Bookings</span></a></li>
+                        </ul>
+                    </li>
+                    <!-- /bookings -->
+                    <!-- customers -->
+                    <li>
+                        <a href="javascript:;"><i class="fa fa-users"></i><span>Customers</span></a>
+                        <ul class="sub-menu">
+                            <li><a href="#"><span>New Customer</span></a></li>
+                            <li><a href="#"><span>All Customers</span></a></li>
+                        </ul>
+                    </li>
+                    <!-- /customers -->
+                    <!-- administration -->
+                    <li>
+                        <a href="javascript:;"><i class="fa fa-wrench"></i><span>Administration</span></a>
+                        <ul class="sub-menu">
+                            <li><a asp-controller="Locations" asp-action="Index">Locations</a></li>
+                            <li><a href="#">Users</a></li>
+                        </ul>
+                    </li>
+                    <!-- /administration -->
+                    <!-- settings -->
+                    <li>
+                        <a href="javascript:;"><i class="fa fa-cogs"></i><span>Settings</span></a>
+                        <ul class="sub-menu">
+                            <li><a href="#"><span>Services</span></a></li>
+                            <li><a href="#"><span>Payment Methods</span></a></li>
+                            <li><a href="#"><span>Roles &amp; Permissions</span></a></li>
+                        </ul>
+                    </li>
+                    <!-- /settings -->
+
+                </ul>
+            </nav>
+            <!-- /main navigation -->
+
         </div>
-        <!-- /.content-wrapper -->
-        @await Html.PartialAsync("_Footer")
-        @await Html.PartialAsync("_ControlSideBar")
-    </div>
-    <!-- ./wrapper -->
-    <!-- jQuery 2.1.4 -->
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <!-- Bootstrap 3.3.5 -->
-    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-    <!-- SlimScroll -->
-    <script src="~/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-    <!-- FastClick -->
-    <script src="~/plugins/fastclick/fastclick.js"></script>
-    <!-- AdminLTE App -->
-    <script src="~/dist/js/app.min.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="~/dist/js/demo.js"></script>
+        <!-- /sidebar panel -->
+        <!-- content panel -->
+        <div class="main-panel">
 
+            <!-- top header -->
+            <header class="header navbar">
+
+                <div class="brand visible-xs">
+                    <!-- toggle offscreen menu -->
+                    <div class="toggle-offscreen">
+                        <a href="#" class="hamburger-icon visible-xs" data-toggle="offscreen" data-move="ltr">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </a>
+                    </div>
+                    <!-- /toggle offscreen menu -->
+                    <!-- logo -->
+                    <div class="brand-logo">
+                        <img src="~/images/logo-dark.png" height="15" alt="">
+                    </div>
+                    <!-- /logo -->
+                </div>
+                @if (IsSectionDefined("NavBarText"))
+                {
+                    <ul class="nav navbar-nav hidden-xs">
+                        <li>
+                            <p class="navbar-text">
+                                @RenderSection("NavBarText")
+                            </p>
+                        </li>
+                    </ul>
+                }
+
+                <ul class="nav navbar-nav navbar-right hidden-xs">
+                    <li>
+                        <a href="javascript:;" data-toggle="dropdown">
+                            <i class="fa fa-user"></i>
+                            <span>@User.Identity.Name</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a asp-controller="Account" asp-action="LogOff">Logout</a>
+                            </li>
+                        </ul>
+
+                    </li>
+                </ul>
+            </header>
+            <!-- /top header -->
+            <!-- main area -->
+            <div class="main-content">
+
+                @if (IsSectionDefined("Breadcrumbs"))
+                {
+                    RenderSection("Breadcrumbs");
+                }
+                @RenderBody()
+            </div>
+            <!-- /main area -->
+        </div>
+        <!-- /content panel -->
+        <!-- bottom footer -->
+        <footer class="content-footer">
+
+            <nav class="footer-right">
+                <ul class="nav">
+                    <li>
+                        <a href="javascript:;" class="scroll-up">
+                            <i class="fa fa-angle-up"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <nav class="footer-left">
+                <ul class="nav">
+                    <li>
+                        <a href="javascript:;">Copyright <i class="fa fa-copyright"></i> <span>Appdevery.com</span> 2015. All rights reserved</a>
+                    </li>
+                </ul>
+            </nav>
+
+        </footer>
+        <!-- /bottom footer -->
+    </div>
+
+    <!-- build:js({.tmp,app}) scripts/app.min.js -->
+    <script src="~/scripts/extentions/modernizr.js"></script>
+    <script src="~/vendor/jquery/dist/jquery.js"></script>
+    <script src="~/vendor/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/vendor/jquery.easing/jquery.easing.js"></script>
+    <script src="~/vendor/fastclick/lib/fastclick.js"></script>
+    <script src="~/vendor/onScreen/jquery.onscreen.js"></script>
+    <script src="~/vendor/jquery-countTo/jquery.countTo.js"></script>
+    <script src="~/vendor/perfect-scrollbar/js/perfect-scrollbar.jquery.js"></script>
+    <script src="~/scripts/ui/accordion.js"></script>
+    <script src="~/scripts/ui/animate.js"></script>
+    <script src="~/scripts/ui/link-transition.js"></script>
+    <script src="~/scripts/ui/panel-controls.js"></script>
+    <script src="~/scripts/ui/preloader.js"></script>
+    <script src="~/scripts/ui/toggle.js"></script>
+    <script src="~/scripts/urban-constants.js"></script>
+    <script src="~/scripts/extentions/lib.js"></script>
     @RenderSection("scripts", required: false)
+    <!-- endbuild -->
 </body>
+
 </html>

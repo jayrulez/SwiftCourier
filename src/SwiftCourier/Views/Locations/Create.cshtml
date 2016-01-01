@@ -1,37 +1,58 @@
 @model SwiftCourier.Models.Location
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Location";
 }
 
-<h2>Create</h2>
-
-<form asp-action="Create">
-    <div class="form-horizontal">
-        <h4>Location</h4>
-        <hr />
-        <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <label asp-for="Name" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+<div class="panel mb25">
+    <div class="panel-heading border">
+        Create Location
+    </div>
+    <div class="panel-body">
+        <div class="row no-margin">
+            <div class="col-lg-12">
+                <form asp-action="Create" class="form-horizontal bordered-group" role="form">
+                    <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Name" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger" />
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <input type="submit" value="Create" class="btn btn-default" />
+                        </div>
+                    </div>
+                    
+                </form>
             </div>
         </div>
     </div>
-</form>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+
+@section NavBarText {
+    <text>Locations</text>
+}
+
+@section Breadcrumbs {
+    <ol class="breadcrumb">
+        <li>
+            <a asp-controller="Home" asp-action="Index">Home</a>
+        </li>
+        <li>
+            <a asp-controller="Locations" asp-action="Index">Locations</a>
+        </li>
+        <li class="active ng-binding">
+            <a href="javascript:;">Create</a>
+        </li>
+    </ol>
 }
