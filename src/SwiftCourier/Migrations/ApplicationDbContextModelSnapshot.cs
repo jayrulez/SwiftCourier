@@ -357,6 +357,17 @@ namespace SwiftCourier.Migrations
                     b.HasAnnotation("Relational:TableName", "Roles");
                 });
 
+            modelBuilder.Entity("SwiftCourier.Models.RolePermission", b =>
+                {
+                    b.Property<int>("RoleId");
+
+                    b.Property<int>("PermissionId");
+
+                    b.HasKey("RoleId", "PermissionId");
+
+                    b.HasAnnotation("Relational:TableName", "RolePermissions");
+                });
+
             modelBuilder.Entity("SwiftCourier.Models.Service", b =>
                 {
                     b.Property<int>("Id")
@@ -547,6 +558,17 @@ namespace SwiftCourier.Migrations
                     b.HasOne("SwiftCourier.Models.Booking")
                         .WithOne()
                         .HasForeignKey("SwiftCourier.Models.Pickup", "BookingId");
+                });
+
+            modelBuilder.Entity("SwiftCourier.Models.RolePermission", b =>
+                {
+                    b.HasOne("SwiftCourier.Models.Permission")
+                        .WithMany()
+                        .HasForeignKey("PermissionId");
+
+                    b.HasOne("SwiftCourier.Models.Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId");
                 });
 
             modelBuilder.Entity("SwiftCourier.Models.UserPermission", b =>

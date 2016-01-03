@@ -1,12 +1,12 @@
-@model IEnumerable<SwiftCourier.Models.Location>
+@model IEnumerable<SwiftCourier.Models.Role>
 
 @{
-    ViewData["Title"] = "Locations";
+    ViewData["Title"] = "Roles";
 }
 
 <div class="panel mb25">
     <div class="panel-heading">
-        <span>Locations</span>
+        <span>Roles</span>
         <span class="pull-right">
             <a asp-action="Create">Create New</a>
         </span>
@@ -47,7 +47,7 @@
 </div>
 
 @section NavBarText {
-    <text>Locations</text>
+    <text>Roles</text>
 }
 
 @section Breadcrumbs {
@@ -56,7 +56,7 @@
             <a asp-controller="Home" asp-action="Index">Home</a>
         </li>
         <li class="active ng-binding">
-            <a href="javascript:;">Locations</a>
+            <a href="javascript:;">Roles</a>
         </li>
     </ol>
 }

@@ -27,6 +27,9 @@ namespace SwiftCourier.Models
                 entity.Property(e => e.Name).HasMaxLength(256);
 
                 entity.Property(e => e.NormalizedName).HasMaxLength(256);
+
+                entity.HasMany(d => d.RolePermissions).WithOne(p => p.Role).HasForeignKey(d => d.RoleId);
+
                 entity.ToTable("Roles");
             });
 
@@ -275,6 +278,16 @@ namespace SwiftCourier.Models
                     .HasMaxLength(100)
                     .IsRequired();
                 entity.ToTable("Services");
+            });
+
+            modelBuilder.Entity<RolePermission>(entity =>
+            {
+                entity.HasKey(e => new { e.RoleId, e.PermissionId });
+
+                entity.HasOne(d => d.Permission).WithMany(p => p.RolePermissions).HasForeignKey(d => d.PermissionId);
+
+                entity.HasOne(d => d.Role).WithMany(p => p.RolePermissions).HasForeignKey(d => d.RoleId);
+                entity.ToTable("RolePermissions");
             });
 
             modelBuilder.Entity<UserPermission>(entity =>

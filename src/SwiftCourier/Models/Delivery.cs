@@ -9,7 +9,7 @@ namespace SwiftCourier.Models
         public string ConsigneeAddress { get; set; }
         public string ConsigneeContactNumber { get; set; }
         public string ConsigneeName { get; set; }
-        public int Status { get; set; }
+        public DeliveryStatus Status { get; set; }
 
         public virtual Booking Booking { get; set; }
     }

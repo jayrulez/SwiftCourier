@@ -1,4 +1,4 @@
-@model SwiftCourier.Models.Location
+@model SwiftCourier.Models.Customer
 
 @{
     ViewData["Title"] = "Details";
@@ -17,6 +17,30 @@
                     </dt>
                     <dd>
                         @Html.DisplayFor(model => model.Name)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Address)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Address)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.ContactNumber)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.ContactNumber)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.EmailAddress)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.EmailAddress)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.TaxExempted)
+                    </dt>
+                    <dd>
+                        @(Model.TaxExempted ? "Yes" : "No")
                     </dd>
                 </dl>
             </div>
@@ -38,7 +62,7 @@
             <a asp-controller="Home" asp-action="Index">Home</a>
         </li>
         <li>
-            <a asp-controller="Locations" asp-action="Index">Locations</a>
+            <a asp-controller="Customers" asp-action="Index">Customers</a>
         </li>
         <li class="active ng-binding">
             <a href="javascript:;">Details</a>

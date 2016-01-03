@@ -1,4 +1,4 @@
-@model SwiftCourier.Models.Location
+@model SwiftCourier.Models.User
 
 @{
     ViewData["Title"] = "Details";
@@ -13,10 +13,16 @@
             <div class="col-lg-8">
                 <dl class="dl-horizontal">
                     <dt>
-                        @Html.DisplayNameFor(model => model.Name)
+                        @Html.DisplayNameFor(model => model.UserName)
                     </dt>
                     <dd>
-                        @Html.DisplayFor(model => model.Name)
+                        @Html.DisplayFor(model => model.UserName)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Email)
                     </dd>
                 </dl>
             </div>
@@ -38,10 +44,12 @@
             <a asp-controller="Home" asp-action="Index">Home</a>
         </li>
         <li>
-            <a asp-controller="Locations" asp-action="Index">Locations</a>
+            <a asp-controller="Users" asp-action="Index">Users</a>
         </li>
         <li class="active ng-binding">
             <a href="javascript:;">Details</a>
         </li>
     </ol>
 }
+
+

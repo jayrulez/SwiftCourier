@@ -7,7 +7,7 @@ namespace SwiftCourier.Models
     {
         public int Id { get; set; }
         public DateTime LoggedAt { get; set; }
-        public int Mode { get; set; }
+        public LogMode Mode { get; set; }
         public int PackageId { get; set; }
         public int UserId { get; set; }
 

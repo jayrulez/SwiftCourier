@@ -1,12 +1,12 @@
-@model IEnumerable<SwiftCourier.Models.Location>
+@model IEnumerable<SwiftCourier.Models.Customer>
 
 @{
-    ViewData["Title"] = "Locations";
+    ViewData["Title"] = "Customers";
 }
 
 <div class="panel mb25">
     <div class="panel-heading">
-        <span>Locations</span>
+        <span>Customers</span>
         <span class="pull-right">
             <a asp-action="Create">Create New</a>
         </span>
@@ -16,13 +16,29 @@
             <table class="table table-bordered table-striped mb0">
                 <thead>
                     <tr>
-                        <th>@Html.DisplayNameFor(model => model.Name)</th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ContactNumber)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.EmailAddress)
+                        </th>
                         <th></th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
-                        <th>@Html.DisplayNameFor(model => model.Name)</th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ContactNumber)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.EmailAddress)
+                        </th>
                         <th></th>
                     </tr>
                 </tfoot>
@@ -30,7 +46,15 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ContactNumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EmailAddress)
+                            </td>
                             <td>
                                 <a asp-action="Edit" asp-route-id="@item.Id" data-toggle=tooltip data-placement=top title="Edit"><i class="fa fa-edit"></i></a>
                                 &nbsp;
@@ -47,7 +71,7 @@
 </div>
 
 @section NavBarText {
-    <text>Locations</text>
+    <text>Customers</text>
 }
 
 @section Breadcrumbs {
@@ -56,7 +80,7 @@
             <a asp-controller="Home" asp-action="Index">Home</a>
         </li>
         <li class="active ng-binding">
-            <a href="javascript:;">Locations</a>
+            <a href="javascript:;">Customers</a>
         </li>
     </ol>
 }
@@ -66,4 +90,3 @@
         $("[data-toggle=tooltip]").tooltip();
     </script>
 }
-

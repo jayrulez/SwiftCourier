@@ -1,4 +1,4 @@
-@model SwiftCourier.Models.Location
+@model SwiftCourier.Models.Service
 
 @{
     ViewData["Title"] = "Details";
@@ -12,6 +12,12 @@
         <div class="row no-margin">
             <div class="col-lg-8">
                 <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Cost)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Cost)
+                    </dd>
                     <dt>
                         @Html.DisplayNameFor(model => model.Name)
                     </dt>
@@ -29,7 +35,7 @@
 </div>
 
 @section NavBarText {
-    <text>Locations</text>
+    <text>Services</text>
 }
 
 @section Breadcrumbs {
@@ -38,7 +44,7 @@
             <a asp-controller="Home" asp-action="Index">Home</a>
         </li>
         <li>
-            <a asp-controller="Locations" asp-action="Index">Locations</a>
+            <a asp-controller="Services" asp-action="Index">Services</a>
         </li>
         <li class="active ng-binding">
             <a href="javascript:;">Details</a>

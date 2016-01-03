@@ -1,7 +1,7 @@
-@model IEnumerable<SwiftCourier.Models.Location>
+@model IEnumerable<SwiftCourier.Models.Service>
 
 @{
-    ViewData["Title"] = "Locations";
+    ViewData["Title"] = "Services";
 }
 
 <div class="panel mb25">
@@ -16,13 +16,23 @@
             <table class="table table-bordered table-striped mb0">
                 <thead>
                     <tr>
-                        <th>@Html.DisplayNameFor(model => model.Name)</th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Cost)
+                        </th>
                         <th></th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
-                        <th>@Html.DisplayNameFor(model => model.Name)</th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Cost)
+                        </th>
                         <th></th>
                     </tr>
                 </tfoot>
@@ -30,7 +40,12 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Cost)
+                            </td>
                             <td>
                                 <a asp-action="Edit" asp-route-id="@item.Id" data-toggle=tooltip data-placement=top title="Edit"><i class="fa fa-edit"></i></a>
                                 &nbsp;
@@ -47,7 +62,7 @@
 </div>
 
 @section NavBarText {
-    <text>Locations</text>
+    <text>Services</text>
 }
 
 @section Breadcrumbs {
@@ -56,7 +71,7 @@
             <a asp-controller="Home" asp-action="Index">Home</a>
         </li>
         <li class="active ng-binding">
-            <a href="javascript:;">Locations</a>
+            <a href="javascript:;">Services</a>
         </li>
     </ol>
 }
@@ -66,4 +81,3 @@
         $("[data-toggle=tooltip]").tooltip();
     </script>
 }
-

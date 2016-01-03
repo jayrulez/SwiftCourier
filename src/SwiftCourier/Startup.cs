@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using SwiftCourier.Models;
 using SwiftCourier.Services;
 using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Identity;
 
 namespace SwiftCourier
 {
@@ -49,6 +50,7 @@ namespace SwiftCourier
                 .AddEntityFrameworkStores<ApplicationDbContext, int>()
                 .AddUserStore<UserStore<User, Role, ApplicationDbContext, int>>()
                 .AddRoleStore<RoleStore<Role, ApplicationDbContext, int>>()
+                //.AddRoleManager<RoleManager<Role>>()
                 .AddDefaultTokenProviders();
 
             services.AddMvc();
@@ -92,6 +94,28 @@ namespace SwiftCourier
                     }
                 }
                 catch { }
+            }
+
+            //Create initial user
+            using (var userManager = app.ApplicationServices.GetService<UserManager<User>>())
+            {
+                if (userManager.Users.Count() == 0)
+                {
+                    var user = new User()
+                    {
+                        UserName = "administrator",
+                        Email = "admin@appdevery.com"
+                    };
+
+                    var task = userManager.CreateAsync(user, "123@AppDevery");
+
+                    task.Wait();
+                }
+            }
+
+            //Seed Database
+            using (var dbContext = (ApplicationDbContext)app.ApplicationServices.GetService<ApplicationDbContext>())
+            {
             }
 
             app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());

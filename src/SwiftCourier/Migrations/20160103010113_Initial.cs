@@ -176,6 +176,29 @@ namespace SwiftCourier.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
             migrationBuilder.CreateTable(
+                name: "RolePermissions",
+                columns: table => new
+                {
+                    RoleId = table.Column<int>(nullable: false),
+                    PermissionId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RolePermission", x => new { x.RoleId, x.PermissionId });
+                    table.ForeignKey(
+                        name: "FK_RolePermission_Permission_PermissionId",
+                        column: x => x.PermissionId,
+                        principalTable: "Permissions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RolePermission_Role_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+            migrationBuilder.CreateTable(
                 name: "UserClaims",
                 columns: table => new
                 {
@@ -474,12 +497,13 @@ namespace SwiftCourier.Migrations
             migrationBuilder.DropTable("PackageLogs");
             migrationBuilder.DropTable("PaymentMethodFieldValues");
             migrationBuilder.DropTable("Pickups");
+            migrationBuilder.DropTable("RolePermissions");
             migrationBuilder.DropTable("Services");
             migrationBuilder.DropTable("UserPermissions");
-            migrationBuilder.DropTable("Roles");
             migrationBuilder.DropTable("Packages");
             migrationBuilder.DropTable("Payments");
             migrationBuilder.DropTable("PaymentMethodFields");
+            migrationBuilder.DropTable("Roles");
             migrationBuilder.DropTable("Permissions");
             migrationBuilder.DropTable("Invoices");
             migrationBuilder.DropTable("Users");

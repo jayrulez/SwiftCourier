@@ -7,7 +7,7 @@ namespace SwiftCourier.Models
     {
         public Permission()
         {
-            UserPermissions = new HashSet<UserPermission>();
+            RolePermissions = new HashSet<RolePermission>();
         }
 
         public int Id { get; set; }
@@ -16,5 +16,6 @@ namespace SwiftCourier.Models
         public string Name { get; set; }
 
         public virtual ICollection<UserPermission> UserPermissions { get; set; }
+        public virtual ICollection<RolePermission> RolePermissions { get; set; }
     }
 }

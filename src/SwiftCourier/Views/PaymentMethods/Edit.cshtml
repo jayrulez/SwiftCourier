@@ -1,12 +1,12 @@
-@model SwiftCourier.Models.Location
+@model SwiftCourier.Models.PaymentMethod
 
 @{
-    ViewData["Title"] = "Edit Location";
+    ViewData["Title"] = "Edit";
 }
 
 <div class="panel mb25">
     <div class="panel-heading border">
-        Create Location
+        Create Payment Method
     </div>
     <div class="panel-body">
         <div class="row no-margin">
@@ -41,7 +41,7 @@
 }
 
 @section NavBarText {
-    <text>Locations</text>
+    <text>Payment Methods</text>
 }
 
 @section Breadcrumbs {
@@ -50,7 +50,7 @@
             <a asp-controller="Home" asp-action="Index">Home</a>
         </li>
         <li>
-            <a asp-controller="Locations" asp-action="Index">Locations</a>
+            <a asp-controller="PaymentMethods" asp-action="Index">Payment Methods</a>
         </li>
         <li class="active ng-binding">
             <a href="javascript:;">Edit</a>

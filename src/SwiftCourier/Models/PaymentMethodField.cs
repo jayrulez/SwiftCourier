@@ -13,7 +13,7 @@ namespace SwiftCourier.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public int PaymentMethodId { get; set; }
-        public int Type { get; set; }
+        public FieldType Type { get; set; }
 
         public virtual ICollection<PaymentMethodFieldValue> PaymentMethodFieldValues { get; set; }
         public virtual PaymentMethod PaymentMethod { get; set; }

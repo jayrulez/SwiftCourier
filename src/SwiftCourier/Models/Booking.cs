@@ -6,7 +6,7 @@ namespace SwiftCourier.Models
     public partial class Booking
     {
         public int Id { get; set; }
-        public int BillingMode { get; set; }
+        public BillingMode BillingMode { get; set; }
         public DateTime CreatedAt { get; set; }
         public int CustomerId { get; set; }
 

@@ -8,7 +8,7 @@ using SwiftCourier.Models;
 namespace SwiftCourier.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20151231165656_Initial")]
+    [Migration("20160103010113_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -358,6 +358,17 @@ namespace SwiftCourier.Migrations
                     b.HasAnnotation("Relational:TableName", "Roles");
                 });
 
+            modelBuilder.Entity("SwiftCourier.Models.RolePermission", b =>
+                {
+                    b.Property<int>("RoleId");
+
+                    b.Property<int>("PermissionId");
+
+                    b.HasKey("RoleId", "PermissionId");
+
+                    b.HasAnnotation("Relational:TableName", "RolePermissions");
+                });
+
             modelBuilder.Entity("SwiftCourier.Models.Service", b =>
                 {
                     b.Property<int>("Id")
@@ -548,6 +559,17 @@ namespace SwiftCourier.Migrations
                     b.HasOne("SwiftCourier.Models.Booking")
                         .WithOne()
                         .HasForeignKey("SwiftCourier.Models.Pickup", "BookingId");
+                });
+
+            modelBuilder.Entity("SwiftCourier.Models.RolePermission", b =>
+                {
+                    b.HasOne("SwiftCourier.Models.Permission")
+                        .WithMany()
+                        .HasForeignKey("PermissionId");
+
+                    b.HasOne("SwiftCourier.Models.Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId");
                 });
 
             modelBuilder.Entity("SwiftCourier.Models.UserPermission", b =>

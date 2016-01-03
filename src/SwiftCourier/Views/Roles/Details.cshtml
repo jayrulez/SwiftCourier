@@ -1,4 +1,4 @@
-@model SwiftCourier.Models.Location
+@model SwiftCourier.Models.Role
 
 @{
     ViewData["Title"] = "Details";
@@ -29,7 +29,7 @@
 </div>
 
 @section NavBarText {
-    <text>Locations</text>
+    <text>Roles</text>
 }
 
 @section Breadcrumbs {
@@ -38,7 +38,7 @@
             <a asp-controller="Home" asp-action="Index">Home</a>
         </li>
         <li>
-            <a asp-controller="Locations" asp-action="Index">Locations</a>
+            <a asp-controller="Roles" asp-action="Index">Roles</a>
         </li>
         <li class="active ng-binding">
             <a href="javascript:;">Details</a>

@@ -63,20 +63,12 @@
                     <!-- /dashboard -->
                     <!-- bookings -->
                     <li>
-                        <a href="javascript:;"><i class="fa fa-table"></i><span>Bookings</span></a>
-                        <ul class="sub-menu">
-                            <li><a href="#"><span>New Booking</span></a></li>
-                            <li><a href="#"><span>All Bookings</span></a></li>
-                        </ul>
+                        <a asp-controller="Bookings" asp-action="Index"><i class="fa fa-table"></i><span>Bookings</span></a>
                     </li>
                     <!-- /bookings -->
                     <!-- customers -->
                     <li>
-                        <a href="javascript:;"><i class="fa fa-users"></i><span>Customers</span></a>
-                        <ul class="sub-menu">
-                            <li><a href="#"><span>New Customer</span></a></li>
-                            <li><a href="#"><span>All Customers</span></a></li>
-                        </ul>
+                        <a asp-controller="Customers" asp-action="Index"><i class="fa fa-users"></i><span>Customers</span></a>
                     </li>
                     <!-- /customers -->
                     <!-- administration -->
@@ -84,7 +76,7 @@
                         <a href="javascript:;"><i class="fa fa-wrench"></i><span>Administration</span></a>
                         <ul class="sub-menu">
                             <li><a asp-controller="Locations" asp-action="Index">Locations</a></li>
-                            <li><a href="#">Users</a></li>
+                            <li><a asp-controller="Users" asp-action="Index">Users</a></li>
                         </ul>
                     </li>
                     <!-- /administration -->
@@ -92,9 +84,9 @@
                     <li>
                         <a href="javascript:;"><i class="fa fa-cogs"></i><span>Settings</span></a>
                         <ul class="sub-menu">
-                            <li><a href="#"><span>Services</span></a></li>
-                            <li><a href="#"><span>Payment Methods</span></a></li>
-                            <li><a href="#"><span>Roles &amp; Permissions</span></a></li>
+                            <li><a asp-controller="Services" asp-action="Index"><span>Services</span></a></li>
+                            <li><a asp-controller="PaymentMethods" asp-action="Index"><span>Payment Methods</span></a></li>
+                            <li><a asp-controller="Roles" asp-action="Index"><span>Roles &amp; Permissions</span></a></li>
                         </ul>
                     </li>
                     <!-- /settings -->
