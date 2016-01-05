@@ -8,6 +8,7 @@ namespace SwiftCourier.Models
         public Permission()
         {
             RolePermissions = new HashSet<RolePermission>();
+            UserPermissions = new HashSet<UserPermission>();
         }
 
         public int Id { get; set; }

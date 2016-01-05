@@ -1,50 +1,143 @@
-@model SwiftCourier.Models.Booking
+@model SwiftCourier.ViewModels.BookingViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Booking";
 }
 
-<h2>Create</h2>
-
-<form asp-action="Create">
-    <div class="form-horizontal">
-        <h4>Booking</h4>
-        <hr />
-        <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <label asp-for="BillingMode" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <select asp-for="BillingMode" class="form-control"></select>
-                <span asp-validation-for="BillingMode" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="CreatedAt" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="CreatedAt" class="form-control" />
-                <span asp-validation-for="CreatedAt" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="CustomerId" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <select asp-for="CustomerId" class ="form-control"></select>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+<div class="panel mb25">
+    <div class="panel-heading border">
+        Create Billing
+    </div>
+    <div class="panel-body">
+        <div class="row no-margin">
+            <div class="col-lg-12">
+                <form asp-action="Create" id="bookingForm" class="form-horizontal" role="form">
+                    <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
+                    <div class="box-tab justified" id="rootwizard">
+                        <ul class="nav nav-tabs">
+                            <li><a href="#tab1" data-toggle="tab">Customer</a></li>
+                            <li><a href="#tab2" data-toggle="tab">Pickup</a></li>
+                            <li><a href="#tab3" data-toggle="tab">Delivery</a></li>
+                            <li><a href="#tab4" data-toggle="tab">Billing</a></li>
+                            <li><a href="#tab5" data-toggle="tab">Booking</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane" id="tab1">
+                                <div class="form-group">
+                                    <label asp-for="CustomerId" class="col-sm-2 control-label"></label>
+                                    <div class="col-sm-10">
+                                        <select asp-for="CustomerId" class="form-control"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab2">
+                                <div class="form-group">
+                                    <label asp-for="Pickup.Address" class="col-sm-2 control-label"></label>
+                                    <div class="col-sm-10">
+                                        <textarea asp-for="Pickup.Address" class="form-control" rows="5" cols="300"></textarea>
+                                        <span asp-validation-for="Pickup.Address" class="text-danger" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Pickup.ContactNumber" class="col-sm-2 control-label"></label>
+                                    <div class="col-sm-10">
+                                        <input asp-for="Pickup.ContactNumber" class="form-control" />
+                                        <span asp-validation-for="Pickup.ContactNumber" class="text-danger" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab3">
+                                <div class="form-group">
+                                    <label asp-for="Delivery.ConsigneeName" class="col-sm-2 control-label"></label>
+                                    <div class="col-sm-10">
+                                        <input asp-for="Delivery.ConsigneeName" class="form-control" />
+                                        <span asp-validation-for="Delivery.ConsigneeName" class="text-danger" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Delivery.ConsigneeAddress" class="col-sm-2 control-label"></label>
+                                    <div class="col-sm-10">
+                                        <textarea asp-for="Delivery.ConsigneeAddress" class="form-control" rows="5" cols="300"></textarea>
+                                        <span asp-validation-for="Delivery.ConsigneeAddress" class="text-danger" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Delivery.ConsigneeContactNumber" class="col-sm-2 control-label"></label>
+                                    <div class="col-sm-10">
+                                        <input asp-for="Delivery.ConsigneeContactNumber" class="form-control" />
+                                        <span asp-validation-for="Delivery.ConsigneeContactNumber" class="text-danger" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab4">
+                                <div class="form-group">
+                                    <label asp-for="BillingMode" class="col-sm-2 control-label"></label>
+                                    <div class="col-sm-10">
+                                        <select asp-for="BillingMode" asp-items="Html.GetEnumSelectList(typeof(BillingMode))" class="form-control"></select>
+                                        <span asp-validation-for="BillingMode" class="text-danger" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab5">Booking Details</div>
+                            <div class="wizard-pager">
+                                <div class="pull-right">
+                                    <button type="button" class="btn btn-default button-previous">Previous</button>
+                                    <button type="button" class="btn btn-primary button-next">Next</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-</form>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/vendor/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script type="text/javascript">
+        // Jquery validator
+        var $validator = $('#bookingForm').validate({
+            rules: {}
+        });
+
+        function checkValidation() {
+            var $valid = $('#bookingForm').valid();
+            if (!$valid) {
+                $validator.focusInvalid();
+                return false;
+            }
+        }
+
+        // Twitter bootstrap wizard
+        $('#rootwizard').bootstrapWizard({
+            tabClass: '',
+            'nextSelector': '.button-next',
+            'previousSelector': '.button-previous',
+            onNext: checkValidation,
+            onLast: checkValidation,
+            onTabClick: checkValidation
+        });
+    </script>
 }
+
+@section NavBarText {
+    <text>Bookings</text>
+}
+
+@section Breadcrumbs {
+    <ol class="breadcrumb">
+        <li>
+            <a asp-controller="Home" asp-action="Index">Home</a>
+        </li>
+        <li>
+            <a asp-controller="Bookings" asp-action="Index">Bookings</a>
+        </li>
+        <li class="active ng-binding">
+            <a href="javascript:;">Create</a>
+        </li>
+    </ol>
+}
+

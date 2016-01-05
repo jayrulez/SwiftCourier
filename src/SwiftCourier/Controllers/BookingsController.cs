@@ -4,6 +4,7 @@ using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.Data.Entity;
 using SwiftCourier.Models;
+using SwiftCourier.ViewModels;
 
 namespace SwiftCourier.Controllers
 {
@@ -44,22 +45,24 @@ namespace SwiftCourier.Controllers
         public IActionResult Create()
         {
             ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Customer");
+
             return View();
         }
 
         // POST: Bookings/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Booking booking)
+        public async Task<IActionResult> Create(BookingViewModel model)
         {
             if (ModelState.IsValid)
             {
+                var booking = new Booking();
                 _context.Bookings.Add(booking);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Customer", booking.CustomerId);
-            return View(booking);
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Customer", model.CustomerId);
+            return View(model);
         }
 
         // GET: Bookings/Edit/5
