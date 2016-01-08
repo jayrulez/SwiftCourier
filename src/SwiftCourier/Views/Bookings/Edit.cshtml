@@ -29,7 +29,7 @@
         <div class="form-group">
             <label asp-for="CustomerId" class="control-label col-md-2">CustomerId</label>
             <div class="col-md-10">
-                <select asp-for="CustomerId" class="form-control" />
+                <select asp-for="CustomerId" asp-items="@((IEnumerable<SelectListItem>)ViewData["CustomerId"])" class="form-control" />
                 <span asp-validation-for="CustomerId" class="text-danger" />
             </div>
         </div>

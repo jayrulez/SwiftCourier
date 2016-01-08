@@ -11,114 +11,138 @@
     <div class="panel-body">
         <div class="row no-margin">
             <div class="col-lg-12">
-                <form asp-action="Create" id="bookingForm" class="form-horizontal" role="form">
+                <form asp-action="Create" class="form-horizontal bordered-group" role="form">
                     <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
-                    <div class="box-tab justified" id="rootwizard">
-                        <ul class="nav nav-tabs">
-                            <li><a href="#tab1" data-toggle="tab">Customer</a></li>
-                            <li><a href="#tab2" data-toggle="tab">Pickup</a></li>
-                            <li><a href="#tab3" data-toggle="tab">Delivery</a></li>
-                            <li><a href="#tab4" data-toggle="tab">Billing</a></li>
-                            <li><a href="#tab5" data-toggle="tab">Booking</a></li>
-                        </ul>
-                        <div class="tab-content">
-                            <div class="tab-pane" id="tab1">
-                                <div class="form-group">
-                                    <label asp-for="CustomerId" class="col-sm-2 control-label"></label>
-                                    <div class="col-sm-10">
-                                        <select asp-for="CustomerId" class="form-control"></select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="tab2">
-                                <div class="form-group">
-                                    <label asp-for="Pickup.Address" class="col-sm-2 control-label"></label>
-                                    <div class="col-sm-10">
-                                        <textarea asp-for="Pickup.Address" class="form-control" rows="5" cols="300"></textarea>
-                                        <span asp-validation-for="Pickup.Address" class="text-danger" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="Pickup.ContactNumber" class="col-sm-2 control-label"></label>
-                                    <div class="col-sm-10">
-                                        <input asp-for="Pickup.ContactNumber" class="form-control" />
-                                        <span asp-validation-for="Pickup.ContactNumber" class="text-danger" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="tab3">
-                                <div class="form-group">
-                                    <label asp-for="Delivery.ConsigneeName" class="col-sm-2 control-label"></label>
-                                    <div class="col-sm-10">
-                                        <input asp-for="Delivery.ConsigneeName" class="form-control" />
-                                        <span asp-validation-for="Delivery.ConsigneeName" class="text-danger" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="Delivery.ConsigneeAddress" class="col-sm-2 control-label"></label>
-                                    <div class="col-sm-10">
-                                        <textarea asp-for="Delivery.ConsigneeAddress" class="form-control" rows="5" cols="300"></textarea>
-                                        <span asp-validation-for="Delivery.ConsigneeAddress" class="text-danger" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="Delivery.ConsigneeContactNumber" class="col-sm-2 control-label"></label>
-                                    <div class="col-sm-10">
-                                        <input asp-for="Delivery.ConsigneeContactNumber" class="form-control" />
-                                        <span asp-validation-for="Delivery.ConsigneeContactNumber" class="text-danger" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="tab4">
-                                <div class="form-group">
-                                    <label asp-for="BillingMode" class="col-sm-2 control-label"></label>
-                                    <div class="col-sm-10">
-                                        <select asp-for="BillingMode" asp-items="Html.GetEnumSelectList(typeof(BillingMode))" class="form-control"></select>
-                                        <span asp-validation-for="BillingMode" class="text-danger" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="tab5">Booking Details</div>
-                            <div class="wizard-pager">
-                                <div class="pull-right">
-                                    <button type="button" class="btn btn-default button-previous">Previous</button>
-                                    <button type="button" class="btn btn-primary button-next">Next</button>
-                                </div>
-                            </div>
+                    <div class="form-group">
+                        <label asp-for="CustomerId" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <select asp-for="CustomerId" asp-items="@((IEnumerable<SelectListItem>)ViewData["CustomerId"])" class="form-control"></select>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label asp-for="PickupAddress" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <textarea asp-for="PickupAddress" class="form-control" rows="5" cols="300"></textarea>
+                            <span asp-validation-for="PickupAddress" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PickupContactNumber" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <input asp-for="PickupContactNumber" class="form-control" />
+                            <span asp-validation-for="PickupContactNumber" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ConsigneeName" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <input asp-for="ConsigneeName" class="form-control" />
+                            <span asp-validation-for="ConsigneeName" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ConsigneeAddress" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <textarea asp-for="ConsigneeAddress" class="form-control" rows="5" cols="300"></textarea>
+                            <span asp-validation-for="ConsigneeAddress" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ConsigneeContactNumber" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <input asp-for="ConsigneeContactNumber" class="form-control" />
+                            <span asp-validation-for="ConsigneeContactNumber" class="text-danger" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="ServiceId" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <select asp-for="ServiceId" asp-items="@((IEnumerable<SelectListItem>)ViewData["ServiceId"])" class="form-control">
+                                <option>Select Service</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Invoice.ServiceCost" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <input asp-for="Invoice.ServiceCost" class="form-control" />
+                            <span asp-validation-for="Invoice.ServiceCost" class="text-danger" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Invoice.GCT" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <input asp-for="Invoice.GCT" class="form-control" />
+                            <span asp-validation-for="Invoice.GCT" class="text-danger" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Invoice.Total" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <input asp-for="Invoice.Total" class="form-control" />
+                            <span asp-validation-for="Invoice.Total" class="text-danger" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="BillingMode" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <select asp-for="BillingMode" asp-items="Html.GetEnumSelectList(typeof(BillingMode))" class="form-control"></select>
+                            <span asp-validation-for="BillingMode" class="text-danger" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <input type="submit" value="Create" class="btn btn-default" />
+                        </div>
+                    </div>
+
                 </form>
             </div>
         </div>
     </div>
 </div>
 
+
+
 @section Scripts {
-    <script src="~/vendor/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script type="text/javascript">
-        // Jquery validator
-        var $validator = $('#bookingForm').validate({
-            rules: {}
-        });
-
-        function checkValidation() {
-            var $valid = $('#bookingForm').valid();
-            if (!$valid) {
-                $validator.focusInvalid();
-                return false;
-            }
-        }
-
-        // Twitter bootstrap wizard
-        $('#rootwizard').bootstrapWizard({
-            tabClass: '',
-            'nextSelector': '.button-next',
-            'previousSelector': '.button-previous',
-            onNext: checkValidation,
-            onLast: checkValidation,
-            onTabClick: checkValidation
+        $(document).ready(function () {
+            $('#ServiceId').on('change', function (e) {
+                var serviceId = $(this).val();
+                if(serviceId)
+                {
+                    $.ajax({
+                        cache: false,
+                        dataType: 'json',
+                        type: 'GET',
+                        url: '/api/service/' + serviceId,
+                        success: function (data) {
+                            if (data) {
+                                $('#Invoice_ServiceCost').val(data.Cost);
+                                $('#Invoice_GCT').val(data.Cost * 0.165);
+                                $('#Invoice_Total').val(data.Cost);
+                            } else {
+                                $('#Invoice_ServiceCost').val('');
+                                $('#Invoice_GCT').val('');
+                                $('#Invoice_Total').val('');
+                            }
+                        },
+                        error: function () {
+                            $('#Invoice_ServiceCost').val('');
+                            $('#Invoice_GCT').val('');
+                            $('#Invoice_Total').val('');
+                        }
+                    });
+                }
+            });
         });
     </script>
 }

@@ -44,7 +44,8 @@ namespace SwiftCourier.Controllers
         // GET: Bookings/Create
         public IActionResult Create()
         {
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Customer");
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name");
+            ViewData["ServiceId"] = new SelectList(_context.Services, "Id", "Name");
 
             return View();
         }
@@ -57,11 +58,42 @@ namespace SwiftCourier.Controllers
             if (ModelState.IsValid)
             {
                 var booking = new Booking();
+
+                booking.CustomerId = model.CustomerId;
+
+                booking.ServiceId = model.ServiceId;
+                booking.BillingMode = model.BillingMode;
+
+                booking.PickupAddress = model.PickupAddress;
+                booking.PickupContactNumber = model.PickupContactNumber;
+                booking.PickupStatus = PickupStatus.Pending;
+
+                booking.ConsigneeName = model.ConsigneeName;
+                booking.ConsigneeAddress = model.ConsigneeAddress;
+                booking.ConsigneeContactNumber = model.ConsigneeContactNumber;
+                booking.DeliveryStatus = DeliveryStatus.Pending;
+
+                var invoice = new Invoice();
+
+                invoice.ServiceCost = model.Invoice.ServiceCost;
+                invoice.GCT = model.Invoice.GCT;
+                invoice.Total = model.Invoice.Total;
+
+                booking.Invoice = invoice;
+
+                //var package = new Package();
+                //booking.Package = package;
+
                 _context.Bookings.Add(booking);
+
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction("Index");
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Customer", model.CustomerId);
+
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name", model.CustomerId);
+            ViewData["ServiceId"] = new SelectList(_context.Services, "Id", "Name", model.ServiceId);
+
             return View(model);
         }
 

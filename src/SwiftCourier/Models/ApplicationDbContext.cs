@@ -86,6 +86,9 @@ namespace SwiftCourier.Models
                 entity.Property(e => e.CreatedAt).HasColumnType("datetime");
 
                 entity.HasOne<Customer>(d => d.Customer).WithMany(p => p.Bookings).HasForeignKey(d => d.CustomerId);
+                entity.HasOne<Service>(d => d.Service).WithMany(p => p.Bookings).HasForeignKey(d => d.ServiceId);
+                entity.HasOne<Invoice>(d => d.Invoice).WithOne(p => p.Booking);
+                entity.HasOne<Package>(d => d.Package).WithOne(p => p.Booking);
                 entity.ToTable("Bookings");
             });
 
@@ -111,28 +114,6 @@ namespace SwiftCourier.Models
                 entity.ToTable("Customers");
             });
 
-            modelBuilder.Entity<Delivery>(entity =>
-            {
-                entity.HasKey(e => e.BookingId);
-
-                entity.Property(e => e.BookingId).ValueGeneratedNever();
-
-                entity.Property(e => e.ConsigneeAddress)
-                    .IsRequired()
-                    .HasColumnType("text");
-
-                entity.Property(e => e.ConsigneeContactNumber)
-                    .HasMaxLength(15)
-                    .IsRequired();
-
-                entity.Property(e => e.ConsigneeName)
-                    .HasMaxLength(100)
-                    .IsRequired();
-
-                entity.HasOne(d => d.Booking).WithOne(p => p.Deliveries).HasForeignKey<Delivery>(d => d.BookingId);
-                entity.ToTable("Deliveries");
-            });
-
             modelBuilder.Entity<Invoice>(entity =>
             {
                 entity.HasKey(e => e.BookingId);
@@ -141,7 +122,7 @@ namespace SwiftCourier.Models
 
                 entity.Property(e => e.Total).HasColumnType("decimal");
 
-                entity.HasOne(d => d.Booking).WithOne(p => p.Invoices).HasForeignKey<Invoice>(d => d.BookingId);
+                entity.HasOne(d => d.Booking).WithOne(p => p.Invoice).HasForeignKey<Invoice>(d => d.BookingId);
                 entity.ToTable("Invoices");
             });
 
@@ -178,7 +159,7 @@ namespace SwiftCourier.Models
                 entity.Property(e => e.TrackingNumber)
                     .HasMaxLength(256);
 
-                entity.HasOne(d => d.Booking).WithOne(p => p.Packages).HasForeignKey<Package>(d => d.BookingId);
+                entity.HasOne(d => d.Booking).WithOne(p => p.Package).HasForeignKey<Package>(d => d.BookingId);
                 entity.ToTable("Packages");
             });
 
@@ -250,24 +231,6 @@ namespace SwiftCourier.Models
                 entity.ToTable("Permissions");
             });
 
-            modelBuilder.Entity<Pickup>(entity =>
-            {
-                entity.HasKey(e => e.BookingId);
-
-                entity.Property(e => e.BookingId).ValueGeneratedNever();
-
-                entity.Property(e => e.Address)
-                    .IsRequired()
-                    .HasColumnType("text");
-
-                entity.Property(e => e.ContactNumber)
-                    .HasMaxLength(15)
-                    .IsRequired();
-
-                entity.HasOne(d => d.Booking).WithOne(p => p.Pickups).HasForeignKey<Pickup>(d => d.BookingId);
-                entity.ToTable("Pickups");
-            });
-
             modelBuilder.Entity<Service>(entity =>
             {
                 entity.HasIndex(e => e.Name).HasName("UK_Service").IsUnique();
@@ -277,6 +240,7 @@ namespace SwiftCourier.Models
                 entity.Property(e => e.Name)
                     .HasMaxLength(100)
                     .IsRequired();
+                entity.HasMany(d => d.Bookings).WithOne(p => p.Service).HasForeignKey(d => d.ServiceId);
                 entity.ToTable("Services");
             });
 
@@ -309,7 +273,6 @@ namespace SwiftCourier.Models
         public virtual new DbSet<User> Users { get; set; }
         public virtual DbSet<Booking> Bookings { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
-        public virtual DbSet<Delivery> Deliveries { get; set; }
         public virtual DbSet<Invoice> Invoices { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
         public virtual DbSet<PackageLog> PackageLogs { get; set; }
@@ -319,7 +282,6 @@ namespace SwiftCourier.Models
         public virtual DbSet<PaymentMethod> PaymentMethods { get; set; }
         public virtual DbSet<Payment> Payments { get; set; }
         public virtual DbSet<Permission> Permissions { get; set; }
-        public virtual DbSet<Pickup> Pickups { get; set; }
         public virtual DbSet<Service> Services { get; set; }
         public virtual DbSet<UserPermission> UserPermissions { get; set; }
     }

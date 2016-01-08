@@ -11,6 +11,8 @@ namespace SwiftCourier.Models
         }
 
         public int BookingId { get; set; }
+        public decimal ServiceCost { get; set; }
+        public decimal GCT { get; set; }
         public decimal Total { get; set; }
 
         public virtual ICollection<Payment> Payments { get; set; }
