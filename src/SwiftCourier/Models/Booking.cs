@@ -5,10 +5,13 @@ namespace SwiftCourier.Models
 {
     public partial class Booking
     {
+        public Booking()
+        {
+        }
+
         public int Id { get; set; }
         public int CustomerId { get; set; }
         public int ServiceId { get; set; }
-        public BillingMode BillingMode { get; set; }
 
         public string PickupAddress { get; set; }
         public string PickupContactNumber { get; set; }

@@ -5,6 +5,7 @@ using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.Data.Entity;
 using SwiftCourier.Models;
 using SwiftCourier.ViewModels;
+using System;
 
 namespace SwiftCourier.Controllers
 {
@@ -16,15 +17,15 @@ namespace SwiftCourier.Controllers
         {
             _context = context;    
         }
-
-        // GET: Bookings
+        
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Bookings.Include(b => b.Customer);
+            var applicationDbContext = _context.Bookings
+                .Include(b => b.Customer)
+                .Include(b => b.Service);
             return View(await applicationDbContext.ToListAsync());
         }
-
-        // GET: Bookings/Details/5
+        
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,16 +33,20 @@ namespace SwiftCourier.Controllers
                 return HttpNotFound();
             }
 
-            Booking booking = await _context.Bookings.SingleAsync(m => m.Id == id);
+            Booking booking = await _context.Bookings
+                .Include(b => b.Customer)
+                .Include(b => b.Invoice)
+                .Include(b => b.Package)
+                .Include(b => b.Service)
+                .SingleAsync(m => m.Id == id);
             if (booking == null)
             {
                 return HttpNotFound();
             }
 
-            return View(booking);
+            return View(booking.ToDetailsViewModel());
         }
-
-        // GET: Bookings/Create
+        
         public IActionResult Create()
         {
             ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name");
@@ -49,40 +54,30 @@ namespace SwiftCourier.Controllers
 
             return View();
         }
-
-        // POST: Bookings/Create
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(BookingViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var booking = new Booking();
+                var booking = model.ToEntity();
 
-                booking.CustomerId = model.CustomerId;
+                booking.CreatedAt = DateTime.Now;
 
-                booking.ServiceId = model.ServiceId;
-                booking.BillingMode = model.BillingMode;
-
-                booking.PickupAddress = model.PickupAddress;
-                booking.PickupContactNumber = model.PickupContactNumber;
                 booking.PickupStatus = PickupStatus.Pending;
-
-                booking.ConsigneeName = model.ConsigneeName;
-                booking.ConsigneeAddress = model.ConsigneeAddress;
-                booking.ConsigneeContactNumber = model.ConsigneeContactNumber;
+                
                 booking.DeliveryStatus = DeliveryStatus.Pending;
-
-                var invoice = new Invoice();
-
-                invoice.ServiceCost = model.Invoice.ServiceCost;
-                invoice.GCT = model.Invoice.GCT;
-                invoice.Total = model.Invoice.Total;
-
-                booking.Invoice = invoice;
-
-                //var package = new Package();
-                //booking.Package = package;
+                
+                if(booking.Invoice != null)
+                {
+                    booking.Invoice.Status = InvoiceStatus.PendingPayment;
+                }
+                
+                if(booking.Package != null)
+                {
+                    booking.Package.Status = PackageStatus.Default;
+                }
 
                 _context.Bookings.Add(booking);
 
@@ -96,8 +91,7 @@ namespace SwiftCourier.Controllers
 
             return View(model);
         }
-
-        // GET: Bookings/Edit/5
+        
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -105,31 +99,51 @@ namespace SwiftCourier.Controllers
                 return HttpNotFound();
             }
 
-            Booking booking = await _context.Bookings.SingleAsync(m => m.Id == id);
+            Booking booking = await _context.Bookings
+                    .Include(b => b.Invoice)
+                    .Include(b => b.Package)
+                    .SingleAsync(m => m.Id == id);
+
             if (booking == null)
             {
                 return HttpNotFound();
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Customer", booking.CustomerId);
-            return View(booking);
-        }
 
-        // POST: Bookings/Edit/5
+            var model = booking.ToViewModel();
+
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name", model.CustomerId);
+            ViewData["ServiceId"] = new SelectList(_context.Services, "Id", "Name", model.ServiceId);
+
+            return View(model);
+        }
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Booking booking)
+        public async Task<IActionResult> Edit(BookingViewModel model)
         {
             if (ModelState.IsValid)
             {
+
+                var booking = await _context.Bookings
+                    .Include(b => b.Invoice)
+                    .Include(b => b.Package)
+                    .SingleAsync(m => m.Id == model.Id);
+
+                model.UpdateEntity(booking);
+
                 _context.Update(booking);
+
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction("Index");
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Customer", booking.CustomerId);
-            return View(booking);
-        }
 
-        // GET: Bookings/Delete/5
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name", model.CustomerId);
+            ViewData["ServiceId"] = new SelectList(_context.Services, "Id", "Name", model.ServiceId);
+
+            return View(model);
+        }
+        
         [ActionName("Delete")]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -138,16 +152,21 @@ namespace SwiftCourier.Controllers
                 return HttpNotFound();
             }
 
-            Booking booking = await _context.Bookings.SingleAsync(m => m.Id == id);
+            Booking booking = await _context.Bookings
+                            .Include(b => b.Customer)
+                            .Include(b => b.Invoice)
+                            .Include(b => b.Package)
+                            .Include(b => b.Service)
+                            .SingleAsync(m => m.Id == id);
+
             if (booking == null)
             {
                 return HttpNotFound();
             }
 
-            return View(booking);
+            return View(booking.ToDetailsViewModel());
         }
-
-        // POST: Bookings/Delete/5
+        
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

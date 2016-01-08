@@ -32,12 +32,20 @@ namespace SwiftCourier.Controllers
             return _context.Services.FirstOrDefault(s => s.Id == id);
         }
 
+        [Route("api/customer/{id}")]
+        [HttpGet]
+        public Customer GetCustomer(int id)
+        {
+            return _context.Customers.FirstOrDefault(c => c.Id == id);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
                 _context.Dispose();
             }
+
             base.Dispose(disposing);
         }
     }

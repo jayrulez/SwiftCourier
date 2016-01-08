@@ -15,6 +15,7 @@ namespace SwiftCourier.Models
             Roles = new HashSet<UserRole>();
             Logins = new HashSet<UserLogin>();
             */
+            DeliveredPackages = new HashSet<Package>();
             PackageLogs = new HashSet<PackageLog>();
             Payments = new HashSet<Payment>();
             UserPermissions = new HashSet<UserPermission>();
@@ -25,6 +26,7 @@ namespace SwiftCourier.Models
         public virtual new ICollection<UserRole> Roles { get; set; }
         public virtual new ICollection<UserLogin> Logins { get; set; }
         */
+        public virtual ICollection<Package> DeliveredPackages { get; set; }
         public virtual ICollection<PackageLog> PackageLogs { get; set; }
         public virtual ICollection<Payment> Payments { get; set; }
         public virtual ICollection<UserPermission> UserPermissions { get; set; }

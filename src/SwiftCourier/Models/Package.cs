@@ -13,8 +13,13 @@ namespace SwiftCourier.Models
         public int BookingId { get; set; }
         public string Description { get; set; }
         public string TrackingNumber { get; set; }
+        public DateTime? PickedUpAt { get; set; }
+        public DateTime? DeliveredAt { get; set; }
+        public int? DeliveredByUserId { get; set; }
+        public PackageStatus Status { get; set; }
 
         public virtual ICollection<PackageLog> PackageLogs { get; set; }
         public virtual Booking Booking { get; set; }
+        public virtual User DeliveredBy { get; set; }
     }
 }

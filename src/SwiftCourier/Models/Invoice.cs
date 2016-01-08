@@ -11,6 +11,8 @@ namespace SwiftCourier.Models
         }
 
         public int BookingId { get; set; }
+        public BillingMode BillingMode { get; set; }
+        public InvoiceStatus Status { get; set; }
         public decimal ServiceCost { get; set; }
         public decimal GCT { get; set; }
         public decimal Total { get; set; }

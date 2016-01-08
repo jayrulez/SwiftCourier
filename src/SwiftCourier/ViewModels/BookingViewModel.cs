@@ -8,6 +8,7 @@ namespace SwiftCourier.ViewModels
 {
     public class BookingViewModel
     {
+        public int Id { get; set; }
         public int CustomerId { get; set; }
         public int ServiceId { get; set; }
         public string PickupAddress { get; set; }
@@ -15,15 +16,24 @@ namespace SwiftCourier.ViewModels
         public string ConsigneeName { get; set; }
         public string ConsigneeAddress { get; set; }
         public string ConsigneeContactNumber { get; set; }
-        public BillingMode BillingMode { get; set; }
 
         public InvoiceViewModel Invoice { get; set; }
+        public PackageViewModel Package { get; set; }
     }
 
-    public class InvoiceViewModel
+    public class BookingDetailsViewModel
     {
-        public decimal ServiceCost { get; set; }
-        public decimal GCT { get; set; }
-        public decimal Total { get; set; }
+        public int Id { get; set; }
+        public string CustomerName { get; set; }
+        public string ServiceName { get; set; }
+        public string PickupAddress { get; set; }
+        public string PickupContactNumber { get; set; }
+        public string ConsigneeName { get; set; }
+        public string ConsigneeAddress { get; set; }
+        public string ConsigneeContactNumber { get; set; }
+        public DateTime CreatedAt { get; set; }
+
+        public InvoiceDetailsViewModel Invoice { get; set; }
+        public PackageDetailsViewModel Package { get; set; }
     }
 }

@@ -8,9 +8,10 @@ using SwiftCourier.Models;
 namespace SwiftCourier.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160108054440_PackageUpdates")]
+    partial class PackageUpdates
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
@@ -81,6 +82,8 @@ namespace SwiftCourier.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("BillingMode");
+
                     b.Property<string>("ConsigneeAddress");
 
                     b.Property<string>("ConsigneeContactNumber");
@@ -143,8 +146,6 @@ namespace SwiftCourier.Migrations
                 {
                     b.Property<int>("BookingId");
 
-                    b.Property<int>("BillingMode");
-
                     b.Property<decimal>("GCT");
 
                     b.Property<decimal>("ServiceCost");
@@ -181,7 +182,7 @@ namespace SwiftCourier.Migrations
                 {
                     b.Property<int>("BookingId");
 
-                    b.Property<DateTime?>("DeliveredAt");
+                    b.Property<DateTime>("DeliveredAt");
 
                     b.Property<int?>("DeliveredByUserId");
 
@@ -189,7 +190,7 @@ namespace SwiftCourier.Migrations
                         .IsRequired()
                         .HasAnnotation("Relational:ColumnType", "text");
 
-                    b.Property<DateTime?>("PickedUpAt");
+                    b.Property<DateTime>("PickedUpAt");
 
                     b.Property<int>("Status");
 

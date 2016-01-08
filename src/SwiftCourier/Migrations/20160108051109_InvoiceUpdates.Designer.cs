@@ -8,9 +8,10 @@ using SwiftCourier.Models;
 namespace SwiftCourier.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160108051109_InvoiceUpdates")]
+    partial class InvoiceUpdates
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
@@ -81,6 +82,8 @@ namespace SwiftCourier.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("BillingMode");
+
                     b.Property<string>("ConsigneeAddress");
 
                     b.Property<string>("ConsigneeContactNumber");
@@ -143,8 +146,6 @@ namespace SwiftCourier.Migrations
                 {
                     b.Property<int>("BookingId");
 
-                    b.Property<int>("BillingMode");
-
                     b.Property<decimal>("GCT");
 
                     b.Property<decimal>("ServiceCost");
@@ -181,17 +182,9 @@ namespace SwiftCourier.Migrations
                 {
                     b.Property<int>("BookingId");
 
-                    b.Property<DateTime?>("DeliveredAt");
-
-                    b.Property<int?>("DeliveredByUserId");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasAnnotation("Relational:ColumnType", "text");
-
-                    b.Property<DateTime?>("PickedUpAt");
-
-                    b.Property<int>("Status");
 
                     b.Property<string>("TrackingNumber")
                         .HasAnnotation("MaxLength", 256);
@@ -492,10 +485,6 @@ namespace SwiftCourier.Migrations
                     b.HasOne("SwiftCourier.Models.Booking")
                         .WithOne()
                         .HasForeignKey("SwiftCourier.Models.Package", "BookingId");
-
-                    b.HasOne("SwiftCourier.Models.User")
-                        .WithMany()
-                        .HasForeignKey("DeliveredByUserId");
                 });
 
             modelBuilder.Entity("SwiftCourier.Models.PackageLog", b =>

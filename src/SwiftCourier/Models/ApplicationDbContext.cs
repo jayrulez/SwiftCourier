@@ -52,6 +52,7 @@ namespace SwiftCourier.Models
                 entity.HasMany(d => d.Roles).WithOne(p => p.User).HasForeignKey(d => d.UserId);
                 entity.HasMany(d => d.Logins).WithOne(p => p.User).HasForeignKey(d => d.UserId);
                 */
+                entity.HasMany(d => d.DeliveredPackages).WithOne(p => p.DeliveredBy).HasForeignKey(d => d.DeliveredByUserId);
                 entity.HasMany(d => d.PackageLogs).WithOne(p => p.User).HasForeignKey(d => d.UserId);
                 entity.HasMany(d => d.Payments).WithOne(p => p.User).HasForeignKey(d => d.UserId);
                 entity.HasMany(d => d.UserPermissions).WithOne(p => p.User).HasForeignKey(d => d.UserId);
