@@ -1,8 +1,31 @@
 ﻿$(document).ready(function () {
     var GCT_RATE = 0.165;
 
+    $('.checkbo').checkBo();
+
+    if ($('#PickupRequired').is(':checked'))
+    {
+        $('#PickupAddress').parents('div[class="form-group"]').show();
+        $('#PickupContactNumber').parents('div[class="form-group"]').show();
+    } else {
+        $('#PickupAddress').parents('div[class="form-group"]').hide();
+        $('#PickupContactNumber').parents('div[class="form-group"]').hide();
+    }
+
+    $('#PickupRequired').on('change', function () {
+        if ($(this).is(':checked'))
+        {
+            $('#PickupAddress').parents('div[class="form-group"]').show();
+            $('#PickupContactNumber').parents('div[class="form-group"]').show();
+        } else {
+            $('#PickupAddress').parents('div[class="form-group"]').hide();
+            $('#PickupContactNumber').parents('div[class="form-group"]').hide();
+        }
+    });
+
     $('#CustomerId').on('change', function (e) {
         var customerId = $(this).val();
+        var pickupRequired = $('#PickupRequired').val();
 
         if (customerId) {
             $.ajax({
@@ -12,12 +35,12 @@
                 url: '/api/customer/' + customerId,
                 success: function (data) {
                     if (data) {
-                        if (!$('#PickupAddress').val()) {
-                            $('#PickupAddress').val(data.Address)
-                        }
-
-                        if (!$('#PickupContactNumber').val()) {
-                            $('#PickupContactNumber').val(data.ContactNumber)
+                        if (pickupRequired) {
+                            $('#PickupAddress').val(data.Address);
+                            $('#PickupContactNumber').val(data.ContactNumber);
+                        } else {
+                            $('#PickupAddress').val('');
+                            $('#PickupContactNumber').val('');
                         }
 
                         if (data.TaxExempted) {

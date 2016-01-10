@@ -9,7 +9,7 @@ namespace SwiftCourier.Models
     public enum PackageStatus
     {
         [Display(Name = "Pending Pickup")]
-        Default,
+        PendingPickup,
 
         [Display(Name = "Received By Location")]
         ReceivedByLocation,

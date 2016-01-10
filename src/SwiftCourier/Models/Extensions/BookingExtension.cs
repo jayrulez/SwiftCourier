@@ -14,9 +14,11 @@ namespace SwiftCourier.Models
 
             destination.Id = source.Id;
 
+            destination.CreatedByUserId = source.CreatedByUserId;
             destination.CustomerId = source.CustomerId;
             destination.ServiceId = source.ServiceId;
             destination.RequestDate = source.RequestDate;
+            destination.PickupRequired = source.PickupRequired;
             destination.PickupAddress = source.PickupAddress;
             destination.PickupContactNumber = source.PickupContactNumber;
             destination.ConsigneeName = source.ConsigneeName;
@@ -41,9 +43,11 @@ namespace SwiftCourier.Models
 
             destination.Id = source.Id;
 
+            destination.CreatedBy = source.CreatedBy.UserName;
             destination.CustomerName = source.Customer.Name;
             destination.ServiceName = source.Service.Name;
             destination.RequestDate = source.RequestDate;
+            destination.PickupRequired = source.PickupRequired;
             destination.PickupAddress = source.PickupAddress;
             destination.PickupContactNumber = source.PickupContactNumber;
             destination.ConsigneeName = source.ConsigneeName;
@@ -84,9 +88,11 @@ namespace SwiftCourier.Models
 
             destination.Id = source.Id;
 
+            destination.CreatedBy = source.CreatedBy.UserName;
             destination.CustomerName = source.Customer.Name;
             destination.ServiceName = source.Service.Name;
             destination.RequestDate = source.RequestDate;
+            destination.PickupRequired = source.PickupRequired ? "Yes" : "No";
             destination.PickupAddress = source.PickupAddress;
             destination.PickupContactNumber = source.PickupContactNumber;
             destination.ConsigneeName = source.ConsigneeName;
@@ -118,6 +124,7 @@ namespace SwiftCourier.Models
             destination.CustomerId = source.CustomerId;
             destination.ServiceId = source.ServiceId;
             destination.RequestDate = source.RequestDate;
+            destination.PickupRequired = source.PickupRequired;
             destination.PickupAddress = source.PickupAddress;
             destination.PickupContactNumber = source.PickupContactNumber;
             destination.ConsigneeName = source.ConsigneeName;
@@ -141,6 +148,7 @@ namespace SwiftCourier.Models
             destination.CustomerId = source.CustomerId;
             destination.ServiceId = source.ServiceId;
             destination.RequestDate = source.RequestDate;
+            destination.PickupRequired = source.PickupRequired;
             destination.PickupAddress = source.PickupAddress;
             destination.PickupContactNumber = source.PickupContactNumber;
             destination.ConsigneeName = source.ConsigneeName;

@@ -58,6 +58,7 @@ namespace SwiftCourier.Models
                 entity.HasMany(d => d.DispatchedPackageLogs).WithOne(p => p.DispatchedByUser).HasForeignKey(d => d.DispatchedByUserId);
                 entity.HasMany(d => d.Payments).WithOne(p => p.User).HasForeignKey(d => d.UserId);
                 entity.HasMany(d => d.UserPermissions).WithOne(p => p.User).HasForeignKey(d => d.UserId);
+                entity.HasMany(d => d.CreatedBookings).WithOne(p => p.CreatedBy).HasForeignKey(d => d.CreatedByUserId);
 
                 entity.ToTable("Users");
             });
@@ -90,6 +91,7 @@ namespace SwiftCourier.Models
 
                 entity.HasOne<Customer>(d => d.Customer).WithMany(p => p.Bookings).HasForeignKey(d => d.CustomerId);
                 entity.HasOne<Service>(d => d.Service).WithMany(p => p.Bookings).HasForeignKey(d => d.ServiceId);
+                entity.HasOne<User>(d => d.CreatedBy).WithMany(p => p.CreatedBookings).HasForeignKey(d => d.CreatedByUserId);
                 entity.HasOne<Invoice>(d => d.Invoice).WithOne(p => p.Booking);
                 entity.HasOne<Package>(d => d.Package).WithOne(p => p.Booking);
                 entity.ToTable("Bookings");

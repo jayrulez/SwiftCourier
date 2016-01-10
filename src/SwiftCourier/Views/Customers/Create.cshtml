@@ -41,12 +41,14 @@
                             <span asp-validation-for="EmailAddress" class="text-danger" />
                         </div>
                     </div>
-                    <div class="form-group">
+
+
+                    <div class="form-group checkbo">
                         <div class="col-sm-offset-2 col-sm-10">
-                            <div class="checkbox">
+                            <label for="PickupRequired" class="cb-checkbox cb-sm">
                                 <input asp-for="TaxExempted" />
-                                <label asp-for="TaxExempted"></label>
-                            </div>
+                                <span>@Html.DisplayNameFor(model => model.TaxExempted)</span>
+                            </label>
                         </div>
                     </div>
 
@@ -62,9 +64,19 @@
     </div>
 </div>
 
+@section styles {
+    <link rel="stylesheet" href="~/vendor/checkbo/src/0.1.4/css/checkBo.css">
+}
+
 @section Scripts {
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/vendor/checkbo/src/0.1.4/js/checkBo.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.checkbo').checkBo();
+        });
+    </script>
 }
 
 @section NavBarText {

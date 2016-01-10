@@ -12,6 +12,9 @@ namespace SwiftCourier.ViewModels
         [Display(Name = "Booking Id")]
         public int Id { get; set; }
 
+        [Display(Name = "Created By")]
+        public int CreatedByUserId { get; set; }
+
         [Display(Name = "Customer Id")]
         public int CustomerId { get; set; }
 
@@ -20,6 +23,9 @@ namespace SwiftCourier.ViewModels
 
         [Display(Name = "Request Date")]
         public DateTime RequestDate { get; set; }
+
+        [Display(Name = "Pickup Required")]
+        public bool PickupRequired { get; set; }
 
         [Display(Name = "Pickup Address")]
         public string PickupAddress { get; set; }
@@ -45,6 +51,9 @@ namespace SwiftCourier.ViewModels
         [Display(Name = "Booking Id")]
         public int Id { get; set; }
 
+        [Display(Name = "Created By")]
+        public string CreatedBy { get; set; }
+
         [Display(Name = "Customer")]
         public string CustomerName { get; set; }
 
@@ -53,6 +62,9 @@ namespace SwiftCourier.ViewModels
 
         [Display(Name = "Request Date")]
         public DateTime RequestDate { get; set; }
+
+        [Display(Name = "Pickup Required")]
+        public bool PickupRequired { get; set; }
 
         [Display(Name = "Pickup Address")]
         public string PickupAddress { get; set; }
@@ -81,6 +93,9 @@ namespace SwiftCourier.ViewModels
         [Display(Name = "Booking Id")]
         public int Id { get; set; }
 
+        [Display(Name = "Created By")]
+        public string CreatedBy { get; set; }
+
         [Display(Name = "Customer")]
         public string CustomerName { get; set; }
 
@@ -89,6 +104,9 @@ namespace SwiftCourier.ViewModels
 
         [Display(Name = "Request Date")]
         public DateTime RequestDate { get; set; }
+
+        [Display(Name = "Pickup Required")]
+        public string PickupRequired { get; set; }
 
         [Display(Name = "Pickup Address")]
         public string PickupAddress { get; set; }

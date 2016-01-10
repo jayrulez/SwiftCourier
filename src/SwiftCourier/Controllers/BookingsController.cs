@@ -6,6 +6,7 @@ using Microsoft.Data.Entity;
 using SwiftCourier.Models;
 using SwiftCourier.ViewModels;
 using System;
+using System.Security.Claims;
 
 namespace SwiftCourier.Controllers
 {
@@ -92,8 +93,18 @@ namespace SwiftCourier.Controllers
                 var booking = model.ToEntity();
 
                 booking.CreatedAt = DateTime.Now;
-                
-                if(booking.Invoice != null)
+
+                int userId;
+
+                if (!int.TryParse(HttpContext.User.GetUserId(), out userId))
+                {
+                    //XXX:TODO Gracefully handle this
+                    throw new Exception("Unable to get logged in User Id.");
+                }
+
+                booking.CreatedByUserId = userId;
+
+                if (booking.Invoice != null)
                 {
                     booking.Invoice.Status = InvoiceStatus.Pending;
                     booking.Invoice.AmountDue = booking.Invoice.Total;
@@ -103,7 +114,15 @@ namespace SwiftCourier.Controllers
                 if(booking.Package != null)
                 {
                     booking.Package.TrackingNumber = Guid.NewGuid().ToString();
-                    booking.Package.Status = PackageStatus.Default;
+
+                    if (booking.PickupRequired)
+                    {
+                        booking.Package.Status = PackageStatus.PendingPickup;
+                    }
+                    else
+                    {
+                        booking.Package.Status = PackageStatus.ReceivedByLocation;
+                    }
                 }
 
                 _context.Bookings.Add(booking);

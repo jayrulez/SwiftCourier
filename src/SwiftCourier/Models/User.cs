@@ -21,6 +21,7 @@ namespace SwiftCourier.Models
             ReceivedPackageLogs = new HashSet<PackageLog>();
             Payments = new HashSet<Payment>();
             UserPermissions = new HashSet<UserPermission>();
+            CreatedBookings = new HashSet<Booking>();
         }
 
         /*
@@ -34,5 +35,6 @@ namespace SwiftCourier.Models
         public virtual ICollection<PackageLog> ReceivedPackageLogs { get; set; }
         public virtual ICollection<Payment> Payments { get; set; }
         public virtual ICollection<UserPermission> UserPermissions { get; set; }
+        public virtual ICollection<Booking> CreatedBookings { get; set; }
     }
 }

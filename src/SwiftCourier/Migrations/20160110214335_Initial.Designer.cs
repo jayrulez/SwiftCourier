@@ -8,8 +8,8 @@ using SwiftCourier.Models;
 namespace SwiftCourier.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160110054243_PaymentFields")]
-    partial class PaymentFields
+    [Migration("20160110214335_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -91,11 +91,15 @@ namespace SwiftCourier.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasAnnotation("Relational:ColumnType", "datetime");
 
+                    b.Property<int>("CreatedByUserId");
+
                     b.Property<int>("CustomerId");
 
                     b.Property<string>("PickupAddress");
 
                     b.Property<string>("PickupContactNumber");
+
+                    b.Property<bool>("PickupRequired");
 
                     b.Property<DateTime>("RequestDate");
 
@@ -506,6 +510,10 @@ namespace SwiftCourier.Migrations
 
             modelBuilder.Entity("SwiftCourier.Models.Booking", b =>
                 {
+                    b.HasOne("SwiftCourier.Models.User")
+                        .WithMany()
+                        .HasForeignKey("CreatedByUserId");
+
                     b.HasOne("SwiftCourier.Models.Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId");

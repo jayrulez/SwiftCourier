@@ -90,11 +90,15 @@ namespace SwiftCourier.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasAnnotation("Relational:ColumnType", "datetime");
 
+                    b.Property<int>("CreatedByUserId");
+
                     b.Property<int>("CustomerId");
 
                     b.Property<string>("PickupAddress");
 
                     b.Property<string>("PickupContactNumber");
+
+                    b.Property<bool>("PickupRequired");
 
                     b.Property<DateTime>("RequestDate");
 
@@ -505,6 +509,10 @@ namespace SwiftCourier.Migrations
 
             modelBuilder.Entity("SwiftCourier.Models.Booking", b =>
                 {
+                    b.HasOne("SwiftCourier.Models.User")
+                        .WithMany()
+                        .HasForeignKey("CreatedByUserId");
+
                     b.HasOne("SwiftCourier.Models.Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId");

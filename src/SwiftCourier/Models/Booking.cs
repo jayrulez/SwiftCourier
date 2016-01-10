@@ -10,10 +10,12 @@ namespace SwiftCourier.Models
         }
 
         public int Id { get; set; }
+        public int CreatedByUserId { get; set; }
         public int CustomerId { get; set; }
         public int ServiceId { get; set; }
         public DateTime RequestDate { get; set; }
 
+        public bool PickupRequired { get; set; }
         public string PickupAddress { get; set; }
         public string PickupContactNumber { get; set; }
 
@@ -27,5 +29,6 @@ namespace SwiftCourier.Models
         public virtual Package Package { get; set; }
         public virtual Customer Customer { get; set; }
         public virtual Service Service { get; set; }
+        public virtual User CreatedBy { get; set; }
     }
 }
