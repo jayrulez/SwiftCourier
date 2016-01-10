@@ -1,0 +1,27 @@
+@model SwiftCourier.ViewModels.BookingDetailsViewModel
+
+@{
+    ViewData["Title"] = "Bill Of Lading";
+}
+
+<div class="main-content">
+
+</div>
+
+@section NavBarText {
+    <text>Bill Of Lading</text>
+}
+
+@section Breadcrumbs {
+    <ol class="breadcrumb">
+        <li>
+            <a asp-controller="Home" asp-action="Index">Home</a>
+        </li>
+        <li>
+            <a asp-controller="Bookings" asp-action="Index">Bookings</a>
+        </li>
+        <li class="active ng-binding">
+            <a href="javascript:;">Bill Of Lading</a>
+        </li>
+    </ol>
+}

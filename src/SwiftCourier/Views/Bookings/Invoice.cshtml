@@ -1,21 +1,28 @@
+@using SwiftCourier.Helpers
 @model SwiftCourier.ViewModels.BookingDetailsViewModel
 
 @{
     ViewData["Title"] = "Invoice";
+    var invoiceTermsAndPolicies = SettingsHelper.GetSettingValue(SettingKeys.InvoiceTermsAndPoliciesText);
 }
 
 <div class="main-content">
     <div class="mb15 clearfix">
         <div class="pull-right text-right">
-            <i class="fa fa-diamond fa-4x mb20"></i>
             <p>@Model.CreatedAt</p>
             <h5 class="text-uppercase">Invoice #@Model.Id</h5>
+            <h3>@Html.DisplayNameFor(model => model.Invoice.Status) : @Html.DisplayFor(model => model.Invoice.Status)</h3>
         </div>
         <div class="w150">
-            <button type="button" class="btn btn-danger btn-block text-left no-print mb15" onclick="window.print();">
+            <a onclick="window.print();" class="btn btn-danger btn-block text-left no-print mb15">
                 <i class="ti-printer mr5"></i>Print
-            </button>
-            <button type="button" class="btn btn-info btn-block text-left no-print">Export to PDF</button>
+            </a>
+            @if (Model.Invoice.Status.Equals(InvoiceStatus.Pending.ToString(), StringComparison.OrdinalIgnoreCase))
+            {
+                <a asp-action="Create" asp-controller="Payments" asp-route-id="@Model.Id" class="btn btn-info btn-block text-left no-print">
+                    <i class="fa fa-dollar"></i> Make Payment
+                </a>
+            }
         </div>
     </div>
     <div class="row mb15">
@@ -26,7 +33,7 @@
                         <strong>Billed To:</strong><br>
                         @Model.CustomerName<br>
                         @Html.Raw(Model.PickupAddress.Replace("\r\n", "<br/>"))
-                        <br/>
+                        <br />
                         @Model.PickupContactNumber
                     </address>
                 </div>
@@ -35,7 +42,7 @@
                         <strong>Shipped To:</strong><br>
                         @Model.ConsigneeName<br>
                         @Html.Raw(Model.ConsigneeAddress.Replace("\r\n", "<br/>"))
-                        <br/>
+                        <br />
                         @Model.ConsigneeContactNumber
                     </address>
                 </div>
@@ -47,12 +54,14 @@
             <thead>
                 <tr>
                     <th>@Html.DisplayNameFor(model => model.ServiceName)</th>
+                    <th>@Html.DisplayNameFor(model => model.Package.TrackingNumber)</th>
                     <th>@Html.DisplayNameFor(model => model.Invoice.ServiceCost)</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>@Html.DisplayFor(model => model.ServiceName)</td>
+                    <th>@Html.DisplayFor(model => model.Package.TrackingNumber)</th>
                     <td>@Html.DisplayFor(model => model.Invoice.ServiceCost)</td>
                 </tr>
             </tbody>
@@ -72,173 +81,26 @@
             <span class="invoice-totals-value">@Html.DisplayFor(model => model.Invoice.Total)</span>
         </div>
         <div class="invoice-totals-row">
-            <strong class="invoice-totals-title">Amount Paid</strong>
-            <span class="invoice-totals-value">$0.00</span>
+            <strong class="invoice-totals-title">@Html.DisplayNameFor(model => model.Invoice.AmountPaid)</strong>
+            <span class="invoice-totals-value">@Html.DisplayFor(model => model.Invoice.AmountPaid)</span>
         </div>
         <div class="invoice-totals-row">
-            <strong class="invoice-totals-title">Amount Due</strong>
-            <span class="invoice-totals-value">$1619.97</span>
+            <strong class="invoice-totals-title">@Html.DisplayNameFor(model => model.Invoice.AmountDue)</strong>
+            <span class="invoice-totals-value">@Html.DisplayFor(model => model.Invoice.AmountDue)</span>
         </div>
     </div>
-    <hr>
-    <div class="clearfix mb15">
-        <p class="bold small">PAYMENT TERMS AND POLICIES</p>
-        <small>
-            All accounts are to be paid within 7 days from receipt of invoice. To be paid by cheque or credit card or direct payment online. If account is not paid within 7 days the credits details supplied as confirmation of work undertaken will be charged the agreed
-            quoted fee noted above. If the Invoice remails unpaid. our dept recovery agency, Urban, may charge you a fee of 25% of the unpaid portion of the
-            invoice amount and other legal and collection costs not covered by the fee.
-        </small>
-    </div>
-</div>
-
-<div class="panel mb25">
-    <div class="panel-heading border">
-        Details
-    </div>
-    <div class="panel-body">
-        <div class="row no-margin">
-            <div class="col-lg-8">
-                <dl class="dl-horizontal">
-                    <dt>
-                        @Html.DisplayNameFor(model => model.CreatedAt)
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(model => model.CreatedAt)
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.CustomerName)
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(model => model.CustomerName)
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.RequestDate)
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(model => model.RequestDate)
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.PickupAddress)
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(model => model.PickupAddress)
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.PickupContactNumber)
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(model => model.PickupContactNumber)
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.ConsigneeName)
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(model => model.ConsigneeName)
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.ConsigneeContactNumber)
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(model => model.ConsigneeContactNumber)
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.ConsigneeAddress)
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(model => model.ConsigneeAddress)
-                    </dd>
-                    @if(Model.Package != null)
-                    {
-                        <dt>@Html.DisplayNameFor(model => model.Package.Type)</dt>
-                        <dd>@Html.DisplayFor(model => model.Package.Type)</dd>
-
-                        <dt>@Html.DisplayNameFor(model => model.Package.Description)</dt>
-                        <dd>@Html.DisplayFor(model => model.Package.Description)</dd>
-
-                        <dt>@Html.DisplayNameFor(model => model.Package.Pieces)</dt>
-                        <dd>@Html.DisplayFor(model => model.Package.Pieces)</dd>
-
-                        <dt>@Html.DisplayNameFor(model => model.Package.Weight)</dt>
-                        <dd>@Html.DisplayFor(model => model.Package.Weight)</dd>
-
-                        <dt>@Html.DisplayNameFor(model => model.Package.SpecialInstructions)</dt>
-                        <dd>@Html.DisplayFor(model => model.Package.SpecialInstructions)</dd>
-
-                        <dt>@Html.DisplayNameFor(model => model.Package.TrackingNumber)</dt>
-                        <dd>@Html.DisplayFor(model => model.Package.TrackingNumber)</dd>
-
-                        @if (Model.Package.PickedUpAt != null)
-                        {
-                            <dt>@Html.DisplayNameFor(model => model.Package.PickedUpAt)</dt>
-                            <dd>@Html.DisplayFor(model => model.Package.PickedUpAt)</dd>
-                        }
-                        
-                        @if (Model.Package.DeliveredAt != null)
-                        {
-                            <dt>@Html.DisplayNameFor(model => model.Package.DeliveredAt)</dt>
-                            <dd>@Html.DisplayFor(model => model.Package.DeliveredAt)</dd>
-                        }
-
-                        @if (!string.IsNullOrEmpty(Model.Package.AssignedTo))
-                        {
-                            <dt>@Html.DisplayNameFor(model => model.Package.AssignedTo)</dt>
-                            <dd>@Html.DisplayFor(model => model.Package.AssignedTo)</dd>
-                        }
-
-                        @if (!string.IsNullOrEmpty(Model.Package.DeliveredBy))
-                        {
-                            <dt>@Html.DisplayNameFor(model => model.Package.DeliveredBy)</dt>
-                            <dd>@Html.DisplayFor(model => model.Package.DeliveredBy)</dd>
-                        }
-
-                        <dt>@Html.DisplayNameFor(model => model.Package.Status)</dt>
-                        <dd>@Html.DisplayFor(model => model.Package.Status)</dd>
-                    }
-                    @if (Model.Invoice != null)
-                    {
-                        <dt>
-                            @Html.DisplayNameFor(model => model.Invoice.ServiceCost)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.Invoice.ServiceCost)
-                        </dd>
-                        <dt>
-                            @Html.DisplayNameFor(model => model.Invoice.GCT)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.Invoice.GCT)
-                        </dd>
-                        <dt>
-                            @Html.DisplayNameFor(model => model.Invoice.Total)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.Invoice.Total)
-                        </dd>
-                        <dt>
-                            @Html.DisplayNameFor(model => model.Invoice.BillingMode)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.Invoice.BillingMode)
-                        </dd>
-                        <dt>
-                            @Html.DisplayNameFor(model => model.Invoice.Status)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.Invoice.Status)
-                        </dd>
-                    }
-                </dl>
-            </div>
-            <div class="col-lg-4">
-                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-default">Edit</a>
-                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
-            </div>
+    @if (!string.IsNullOrEmpty(invoiceTermsAndPolicies))
+    {
+        <hr>
+        <div class="clearfix mb15">
+            <p class="bold small">PAYMENT TERMS AND POLICIES</p>
+            <small>@invoiceTermsAndPolicies</small>
         </div>
-    </div>
+    }
 </div>
 
 @section NavBarText {
-    <text>Bookings</text>
+    <text>Invoice</text>
 }
 
 @section Breadcrumbs {
@@ -250,7 +112,7 @@
             <a asp-controller="Bookings" asp-action="Index">Bookings</a>
         </li>
         <li class="active ng-binding">
-            <a href="javascript:;">Details</a>
+            <a href="javascript:;">Invoice</a>
         </li>
     </ol>
 }

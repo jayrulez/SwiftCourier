@@ -59,6 +59,22 @@ namespace SwiftCourier.Controllers
             return View(booking.ToDetailsViewModel());
         }
 
+        public async Task<IActionResult> BillOfLading(int id)
+        {
+            var booking = await _context.Bookings
+                .Include(b => b.Customer)
+                .Include(b => b.Invoice)
+                .Include(b => b.Package)
+                .Include(b => b.Service)
+                .SingleAsync(m => m.Id == id);
+            if (booking == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(booking.ToDetailsViewModel());
+        }
+
         public IActionResult Create()
         {
             ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name");
@@ -80,6 +96,8 @@ namespace SwiftCourier.Controllers
                 if(booking.Invoice != null)
                 {
                     booking.Invoice.Status = InvoiceStatus.Pending;
+                    booking.Invoice.AmountDue = booking.Invoice.Total;
+                    booking.Invoice.AmountPaid = 0;
                 }
                 
                 if(booking.Package != null)

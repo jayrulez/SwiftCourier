@@ -143,9 +143,13 @@
                 </dl>
             </div>
             <div class="col-lg-4">
-                <a asp-action="Invoice" asp-route-id="@Model.Id" class="btn btn-default">View Invoice</a>
-                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-default">Edit</a>
-                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                <a asp-action="Invoice" asp-route-id="@Model.Id">View Invoice</a>
+                <br/>
+                <a asp-action="BillOfLading" asp-route-id="@Model.Id">Bill Of Lading</a>
+                <br />
+                <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                <br />
+                <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
             </div>
         </div>
     </div>

@@ -19,6 +19,8 @@ namespace SwiftCourier.Models
             destination.Total = source.Total;
             destination.Status = source.Status;
             destination.BillingMode = source.BillingMode;
+            destination.AmountPaid = source.AmountPaid;
+            destination.AmountDue = source.AmountDue;
 
             return destination;
         }
@@ -34,6 +36,8 @@ namespace SwiftCourier.Models
             destination.Total = source.Total;
             destination.Status = source.Status.ToString();
             destination.BillingMode = source.BillingMode.ToString();
+            destination.AmountPaid = source.AmountPaid;
+            destination.AmountDue = source.AmountDue;
 
             return destination;
         }

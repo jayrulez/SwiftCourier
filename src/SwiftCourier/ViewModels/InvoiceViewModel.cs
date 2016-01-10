@@ -26,6 +26,12 @@ namespace SwiftCourier.ViewModels
 
         [Display(Name = "Billing Mode")]
         public BillingMode BillingMode { get; set; }
+
+        [Display(Name = "Amount Paid")]
+        public decimal AmountPaid { get; set; }
+
+        [Display(Name = "Amount Due")]
+        public decimal AmountDue { get; set; }
     }
 
     public class InvoiceDetailsViewModel
@@ -47,5 +53,11 @@ namespace SwiftCourier.ViewModels
 
         [Display(Name = "Billing Mode")]
         public string BillingMode { get; set; }
+
+        [Display(Name = "Amount Paid")]
+        public decimal AmountPaid { get; set; }
+
+        [Display(Name = "Amount Due")]
+        public decimal AmountDue { get; set; }
     }
 }
