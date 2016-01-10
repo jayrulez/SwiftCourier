@@ -9,7 +9,7 @@ using System;
 
 namespace SwiftCourier.Controllers
 {
-    public class BookingsController : Controller
+    public class BookingsController : BaseController
     {
         private ApplicationDbContext _context;
 
@@ -20,20 +20,16 @@ namespace SwiftCourier.Controllers
         
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Bookings
+            var bookings = await _context.Bookings
                 .Include(b => b.Customer)
-                .Include(b => b.Service);
-            return View(await applicationDbContext.ToListAsync());
+                .Include(b => b.Service).ToListAsync();
+
+            return View(bookings.ToListViewModel());
         }
         
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
-            {
-                return HttpNotFound();
-            }
-
-            Booking booking = await _context.Bookings
+            var booking = await _context.Bookings
                 .Include(b => b.Customer)
                 .Include(b => b.Invoice)
                 .Include(b => b.Package)
@@ -46,7 +42,23 @@ namespace SwiftCourier.Controllers
 
             return View(booking.ToDetailsViewModel());
         }
-        
+
+        public async Task<IActionResult> Invoice(int id)
+        {
+            var booking = await _context.Bookings
+                .Include(b => b.Customer)
+                .Include(b => b.Invoice)
+                .Include(b => b.Package)
+                .Include(b => b.Service)
+                .SingleAsync(m => m.Id == id);
+            if (booking == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(booking.ToDetailsViewModel());
+        }
+
         public IActionResult Create()
         {
             ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name");
@@ -64,18 +76,15 @@ namespace SwiftCourier.Controllers
                 var booking = model.ToEntity();
 
                 booking.CreatedAt = DateTime.Now;
-
-                booking.PickupStatus = PickupStatus.Pending;
-                
-                booking.DeliveryStatus = DeliveryStatus.Pending;
                 
                 if(booking.Invoice != null)
                 {
-                    booking.Invoice.Status = InvoiceStatus.PendingPayment;
+                    booking.Invoice.Status = InvoiceStatus.Pending;
                 }
                 
                 if(booking.Package != null)
                 {
+                    booking.Package.TrackingNumber = Guid.NewGuid().ToString();
                     booking.Package.Status = PackageStatus.Default;
                 }
 

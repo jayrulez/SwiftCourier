@@ -53,7 +53,9 @@ namespace SwiftCourier.Models
                 entity.HasMany(d => d.Logins).WithOne(p => p.User).HasForeignKey(d => d.UserId);
                 */
                 entity.HasMany(d => d.DeliveredPackages).WithOne(p => p.DeliveredBy).HasForeignKey(d => d.DeliveredByUserId);
-                entity.HasMany(d => d.PackageLogs).WithOne(p => p.User).HasForeignKey(d => d.UserId);
+                entity.HasMany(d => d.AssignedPackages).WithOne(p => p.AssignedTo).HasForeignKey(d => d.AssignedToUserId);
+                entity.HasMany(d => d.ReceivedPackageLogs).WithOne(p => p.DispatchedToUser).HasForeignKey(d => d.DispatchedToUserId);
+                entity.HasMany(d => d.DispatchedPackageLogs).WithOne(p => p.DispatchedByUser).HasForeignKey(d => d.DispatchedByUserId);
                 entity.HasMany(d => d.Payments).WithOne(p => p.User).HasForeignKey(d => d.UserId);
                 entity.HasMany(d => d.UserPermissions).WithOne(p => p.User).HasForeignKey(d => d.UserId);
 
@@ -139,11 +141,12 @@ namespace SwiftCourier.Models
 
             modelBuilder.Entity<PackageLog>(entity =>
             {
-                entity.Property(e => e.LoggedAt).HasColumnType("datetime");
+                entity.Property(e => e.DispatchedAt).HasColumnType("datetime");
 
                 entity.HasOne<Package>(d => d.Package).WithMany(p => p.PackageLogs).HasForeignKey(d => d.PackageId);
 
-                entity.HasOne(d => d.User).WithMany(p => p.PackageLogs).HasForeignKey(d => d.UserId);
+                entity.HasOne(d => d.DispatchedToUser).WithMany(p => p.ReceivedPackageLogs).HasForeignKey(d => d.DispatchedToUserId);
+                entity.HasOne(d => d.DispatchedByUser).WithMany(p => p.DispatchedPackageLogs).HasForeignKey(d => d.DispatchedByUserId);
                 entity.ToTable("PackageLogs");
             });
 
@@ -245,6 +248,22 @@ namespace SwiftCourier.Models
                 entity.ToTable("Services");
             });
 
+            modelBuilder.Entity<Setting>(entity =>
+            {
+                entity.HasKey(e => e.Name);
+
+                entity.Property(e => e.DisplayName)
+                    .HasColumnType("text");
+
+                entity.Property(e => e.Value)
+                    .HasColumnType("text");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(100)
+                    .IsRequired();
+                entity.ToTable("Settings");
+            });
+
             modelBuilder.Entity<RolePermission>(entity =>
             {
                 entity.HasKey(e => new { e.RoleId, e.PermissionId });
@@ -284,6 +303,7 @@ namespace SwiftCourier.Models
         public virtual DbSet<Payment> Payments { get; set; }
         public virtual DbSet<Permission> Permissions { get; set; }
         public virtual DbSet<Service> Services { get; set; }
+        public virtual DbSet<Service> Settings { get; set; }
         public virtual DbSet<UserPermission> UserPermissions { get; set; }
     }
 }

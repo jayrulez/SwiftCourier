@@ -25,6 +25,12 @@
                         @Html.DisplayFor(model => model.CustomerName)
                     </dd>
                     <dt>
+                        @Html.DisplayNameFor(model => model.RequestDate)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.RequestDate)
+                    </dd>
+                    <dt>
                         @Html.DisplayNameFor(model => model.PickupAddress)
                     </dt>
                     <dd>
@@ -54,6 +60,53 @@
                     <dd>
                         @Html.DisplayFor(model => model.ConsigneeAddress)
                     </dd>
+                    @if (Model.Package != null)
+                    {
+                        <dt>@Html.DisplayNameFor(model => model.Package.Type)</dt>
+                        <dd>@Html.DisplayFor(model => model.Package.Type)</dd>
+
+                        <dt>@Html.DisplayNameFor(model => model.Package.Description)</dt>
+                        <dd>@Html.DisplayFor(model => model.Package.Description)</dd>
+
+                        <dt>@Html.DisplayNameFor(model => model.Package.Pieces)</dt>
+                        <dd>@Html.DisplayFor(model => model.Package.Pieces)</dd>
+
+                        <dt>@Html.DisplayNameFor(model => model.Package.Weight)</dt>
+                        <dd>@Html.DisplayFor(model => model.Package.Weight)</dd>
+
+                        <dt>@Html.DisplayNameFor(model => model.Package.SpecialInstructions)</dt>
+                        <dd>@Html.DisplayFor(model => model.Package.SpecialInstructions)</dd>
+
+                        <dt>@Html.DisplayNameFor(model => model.Package.TrackingNumber)</dt>
+                        <dd>@Html.DisplayFor(model => model.Package.TrackingNumber)</dd>
+
+                        @if (Model.Package.PickedUpAt != null)
+                        {
+                            <dt>@Html.DisplayNameFor(model => model.Package.PickedUpAt)</dt>
+                            <dd>@Html.DisplayFor(model => model.Package.PickedUpAt)</dd>
+                        }
+
+                        @if (Model.Package.DeliveredAt != null)
+                        {
+                            <dt>@Html.DisplayNameFor(model => model.Package.DeliveredAt)</dt>
+                            <dd>@Html.DisplayFor(model => model.Package.DeliveredAt)</dd>
+                        }
+
+                        @if (!string.IsNullOrEmpty(Model.Package.AssignedTo))
+                        {
+                            <dt>@Html.DisplayNameFor(model => model.Package.AssignedTo)</dt>
+                            <dd>@Html.DisplayFor(model => model.Package.AssignedTo)</dd>
+                        }
+
+                        @if (!string.IsNullOrEmpty(Model.Package.DeliveredBy))
+                        {
+                            <dt>@Html.DisplayNameFor(model => model.Package.DeliveredBy)</dt>
+                            <dd>@Html.DisplayFor(model => model.Package.DeliveredBy)</dd>
+                        }
+
+                        <dt>@Html.DisplayNameFor(model => model.Package.Status)</dt>
+                        <dd>@Html.DisplayFor(model => model.Package.Status)</dd>
+                    }
                     @if (Model.Invoice != null)
                     {
                         <dt>

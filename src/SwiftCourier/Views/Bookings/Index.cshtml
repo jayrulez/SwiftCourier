@@ -1,4 +1,4 @@
-@model IEnumerable<SwiftCourier.Models.Booking>
+@model IEnumerable<SwiftCourier.ViewModels.BookingListItemViewModel>
 
 @{
     ViewData["Title"] = "Bookings";
@@ -6,7 +6,7 @@
 
 <div class="panel mb25">
     <div class="panel-heading">
-        <span>Customers</span>
+        <span>Bookings</span>
         <span class="pull-right">
             <a asp-action="Create">Create New</a>
         </span>
@@ -20,16 +20,16 @@
                             @Html.DisplayNameFor(model => model.Id)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Customer.Name)
+                            @Html.DisplayNameFor(model => model.CustomerName)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Service.Name)
+                            @Html.DisplayNameFor(model => model.ConsigneeName)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.PickupStatus)
+                            @Html.DisplayNameFor(model => model.ServiceName)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.DeliveryStatus)
+                            @Html.DisplayNameFor(model => model.Package.Status)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.CreatedAt)
@@ -43,16 +43,16 @@
                             @Html.DisplayNameFor(model => model.Id)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Customer.Name)
+                            @Html.DisplayNameFor(model => model.CustomerName)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Service.Name)
+                            @Html.DisplayNameFor(model => model.ConsigneeName)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.PickupStatus)
+                            @Html.DisplayNameFor(model => model.ServiceName)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.DeliveryStatus)
+                            @Html.DisplayNameFor(model => model.Package.Status)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.CreatedAt)
@@ -69,16 +69,18 @@
                                 @Html.DisplayFor(modelItem => item.Id)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Customer.Name)
+                                @Html.DisplayFor(modelItem => item.CustomerName)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Service.Name)
+                                @Html.DisplayFor(modelItem => item.ConsigneeName)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.PickupStatus)
+                                @Html.DisplayFor(modelItem => item.ServiceName)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.DeliveryStatus)
+                                @if(item.Package != null) {
+                                Html.DisplayFor(modelItem => item.Package.Status);
+                                }
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.CreatedAt)

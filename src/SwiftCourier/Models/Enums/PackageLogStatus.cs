@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace SwiftCourier.Models
 {
-    public enum PickupStatus
+    public enum PackageLogStatus
     {
-        Pending,
-        Confirmed
+        Dispatched,
+        Received
     }
 }

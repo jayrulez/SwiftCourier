@@ -116,26 +116,6 @@ namespace SwiftCourier.Migrations
                     table.PrimaryKey("PK_User", x => x.Id);
                 });
             migrationBuilder.CreateTable(
-                name: "Bookings",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    BillingMode = table.Column<int>(nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false),
-                    CustomerId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Booking", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Booking_Customer_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-            migrationBuilder.CreateTable(
                 name: "PaymentMethodFields",
                 columns: table => new
                 {
@@ -195,6 +175,38 @@ namespace SwiftCourier.Migrations
                         name: "FK_RolePermission_Role_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+            migrationBuilder.CreateTable(
+                name: "Bookings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ConsigneeAddress = table.Column<string>(nullable: true),
+                    ConsigneeContactNumber = table.Column<string>(nullable: true),
+                    ConsigneeName = table.Column<string>(nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false),
+                    CustomerId = table.Column<int>(nullable: false),
+                    PickupAddress = table.Column<string>(nullable: true),
+                    PickupContactNumber = table.Column<string>(nullable: true),
+                    RequestDate = table.Column<DateTime>(nullable: false),
+                    ServiceId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Booking", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Booking_Customer_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Booking_Service_ServiceId",
+                        column: x => x.ServiceId,
+                        principalTable: "Services",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -284,30 +296,14 @@ namespace SwiftCourier.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
             migrationBuilder.CreateTable(
-                name: "Deliveries",
-                columns: table => new
-                {
-                    BookingId = table.Column<int>(nullable: false),
-                    ConsigneeAddress = table.Column<string>(type: "text", nullable: false),
-                    ConsigneeContactNumber = table.Column<string>(nullable: false),
-                    ConsigneeName = table.Column<string>(nullable: false),
-                    Status = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Delivery", x => x.BookingId);
-                    table.ForeignKey(
-                        name: "FK_Delivery_Booking_BookingId",
-                        column: x => x.BookingId,
-                        principalTable: "Bookings",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-            migrationBuilder.CreateTable(
                 name: "Invoices",
                 columns: table => new
                 {
                     BookingId = table.Column<int>(nullable: false),
+                    BillingMode = table.Column<int>(nullable: false),
+                    GCT = table.Column<decimal>(nullable: false),
+                    ServiceCost = table.Column<decimal>(nullable: false),
+                    Status = table.Column<int>(nullable: false),
                     Total = table.Column<decimal>(type: "decimal", nullable: false)
                 },
                 constraints: table =>
@@ -325,37 +321,39 @@ namespace SwiftCourier.Migrations
                 columns: table => new
                 {
                     BookingId = table.Column<int>(nullable: false),
+                    AssignedToUserId = table.Column<int>(nullable: true),
+                    DeliveredAt = table.Column<DateTime>(nullable: true),
+                    DeliveredByUserId = table.Column<int>(nullable: true),
                     Description = table.Column<string>(type: "text", nullable: false),
-                    TrackingNumber = table.Column<string>(nullable: true)
+                    PickedUpAt = table.Column<DateTime>(nullable: true),
+                    Pieces = table.Column<int>(nullable: false),
+                    SpecialInstructions = table.Column<string>(nullable: true),
+                    Status = table.Column<int>(nullable: false),
+                    TrackingNumber = table.Column<string>(nullable: true),
+                    Type = table.Column<int>(nullable: false),
+                    Weight = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Package", x => x.BookingId);
+                    table.ForeignKey(
+                        name: "FK_Package_User_AssignedToUserId",
+                        column: x => x.AssignedToUserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Package_Booking_BookingId",
                         column: x => x.BookingId,
                         principalTable: "Bookings",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-            migrationBuilder.CreateTable(
-                name: "Pickups",
-                columns: table => new
-                {
-                    BookingId = table.Column<int>(nullable: false),
-                    Address = table.Column<string>(type: "text", nullable: false),
-                    ContactNumber = table.Column<string>(nullable: false),
-                    Status = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Pickup", x => x.BookingId);
                     table.ForeignKey(
-                        name: "FK_Pickup_Booking_BookingId",
-                        column: x => x.BookingId,
-                        principalTable: "Bookings",
+                        name: "FK_Package_User_DeliveredByUserId",
+                        column: x => x.DeliveredByUserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
             migrationBuilder.CreateTable(
                 name: "Payments",
@@ -397,25 +395,33 @@ namespace SwiftCourier.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    LoggedAt = table.Column<DateTime>(type: "datetime", nullable: false),
-                    Mode = table.Column<int>(nullable: false),
+                    DispatchedAt = table.Column<DateTime>(type: "datetime", nullable: false),
+                    DispatchedByUserId = table.Column<int>(nullable: false),
+                    DispatchedToUserId = table.Column<int>(nullable: false),
                     PackageId = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: false)
+                    ReceivedAt = table.Column<DateTime>(nullable: true),
+                    Status = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PackageLog", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_PackageLog_User_DispatchedByUserId",
+                        column: x => x.DispatchedByUserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                    table.ForeignKey(
+                        name: "FK_PackageLog_User_DispatchedToUserId",
+                        column: x => x.DispatchedToUserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                    table.ForeignKey(
                         name: "FK_PackageLog_Package_PackageId",
                         column: x => x.PackageId,
                         principalTable: "Packages",
                         principalColumn: "BookingId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PackageLog_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
             migrationBuilder.CreateTable(
@@ -492,13 +498,10 @@ namespace SwiftCourier.Migrations
             migrationBuilder.DropTable("UserClaims");
             migrationBuilder.DropTable("UserLogins");
             migrationBuilder.DropTable("UserRoles");
-            migrationBuilder.DropTable("Deliveries");
             migrationBuilder.DropTable("Locations");
             migrationBuilder.DropTable("PackageLogs");
             migrationBuilder.DropTable("PaymentMethodFieldValues");
-            migrationBuilder.DropTable("Pickups");
             migrationBuilder.DropTable("RolePermissions");
-            migrationBuilder.DropTable("Services");
             migrationBuilder.DropTable("UserPermissions");
             migrationBuilder.DropTable("Packages");
             migrationBuilder.DropTable("Payments");
@@ -510,6 +513,7 @@ namespace SwiftCourier.Migrations
             migrationBuilder.DropTable("PaymentMethods");
             migrationBuilder.DropTable("Bookings");
             migrationBuilder.DropTable("Customers");
+            migrationBuilder.DropTable("Services");
         }
     }
 }

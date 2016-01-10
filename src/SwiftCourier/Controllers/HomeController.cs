@@ -8,7 +8,7 @@ using Microsoft.AspNet.Authorization;
 namespace SwiftCourier.Controllers
 {
     [Authorize]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         [Authorize(Policy ="HasPermission")]
         public IActionResult Index()

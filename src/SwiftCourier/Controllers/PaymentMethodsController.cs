@@ -7,7 +7,7 @@ using SwiftCourier.Models;
 
 namespace SwiftCourier.Controllers
 {
-    public class PaymentMethodsController : Controller
+    public class PaymentMethodsController : BaseController
     {
         private ApplicationDbContext _context;
 

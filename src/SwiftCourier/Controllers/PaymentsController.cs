@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SwiftCourier.Models
+namespace SwiftCourier.Controllers
 {
-    public enum LogMode
+    public class PaymentsController : BaseController
     {
-        Dispatch,
-        Receive,
-        Deliver
     }
 }

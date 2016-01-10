@@ -10,7 +10,7 @@ using SwiftCourier.ViewModels;
 
 namespace SwiftCourier.Controllers
 {
-    public class UsersController : Controller
+    public class UsersController : BaseController
     {
         private readonly UserManager<User> _userManager;
         private readonly ILogger _logger;
@@ -30,14 +30,12 @@ namespace SwiftCourier.Controllers
             _userManager = userManager;
             _logger = loggerFactory.CreateLogger<AccountController>();
         }
-
-        // GET: Users
+        
         public async Task<IActionResult> Index()
         {
             return View(await _userManager.Users.ToListAsync());
         }
-
-        // GET: Users/Details/5
+        
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -54,14 +52,12 @@ namespace SwiftCourier.Controllers
 
             return View(user);
         }
-
-        // GET: Users/Create
+        
         public IActionResult Create()
         {
             return View();
         }
-
-        // POST: Users/Create
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateUserViewModel model)

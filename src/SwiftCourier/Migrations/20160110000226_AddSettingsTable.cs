@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Data.Entity.Migrations;
-using SwiftCourier.Models;
 
 namespace SwiftCourier.Migrations
 {
-    public partial class PackageUpdates : Migration
+    public partial class AddSettingsTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,8 +17,9 @@ namespace SwiftCourier.Migrations
             migrationBuilder.DropForeignKey(name: "FK_Booking_Service_ServiceId", table: "Bookings");
             migrationBuilder.DropForeignKey(name: "FK_Invoice_Booking_BookingId", table: "Invoices");
             migrationBuilder.DropForeignKey(name: "FK_Package_Booking_BookingId", table: "Packages");
+            migrationBuilder.DropForeignKey(name: "FK_PackageLog_User_DispatchedByUserId", table: "PackageLogs");
+            migrationBuilder.DropForeignKey(name: "FK_PackageLog_User_DispatchedToUserId", table: "PackageLogs");
             migrationBuilder.DropForeignKey(name: "FK_PackageLog_Package_PackageId", table: "PackageLogs");
-            migrationBuilder.DropForeignKey(name: "FK_PackageLog_User_UserId", table: "PackageLogs");
             migrationBuilder.DropForeignKey(name: "FK_Payment_Invoice_InvoiceId", table: "Payments");
             migrationBuilder.DropForeignKey(name: "FK_Payment_PaymentMethod_PaymentMethodId", table: "Payments");
             migrationBuilder.DropForeignKey(name: "FK_PaymentMethodField_PaymentMethod_PaymentMethodId", table: "PaymentMethodFields");
@@ -28,25 +28,18 @@ namespace SwiftCourier.Migrations
             migrationBuilder.DropForeignKey(name: "FK_RolePermission_Role_RoleId", table: "RolePermissions");
             migrationBuilder.DropForeignKey(name: "FK_UserPermission_Permission_PermissionId", table: "UserPermissions");
             migrationBuilder.DropForeignKey(name: "FK_UserPermission_User_UserId", table: "UserPermissions");
-            migrationBuilder.AddColumn<DateTime>(
-                name: "DeliveredAt",
-                table: "Packages",
-                nullable: false,
-                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
-            migrationBuilder.AddColumn<int>(
-                name: "DeliveredByUserId",
-                table: "Packages",
-                nullable: true);
-            migrationBuilder.AddColumn<DateTime>(
-                name: "PickedUpAt",
-                table: "Packages",
-                nullable: false,
-                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
-            migrationBuilder.AddColumn<int>(
-                name: "Status",
-                table: "Packages",
-                nullable: false,
-                defaultValue: PackageStatus.Default);
+            migrationBuilder.CreateTable(
+                name: "Settings",
+                columns: table => new
+                {
+                    Name = table.Column<string>(nullable: false),
+                    DisplayName = table.Column<string>(type: "text", nullable: true),
+                    Value = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Setting", x => x.Name);
+                });
             migrationBuilder.AddForeignKey(
                 name: "FK_IdentityRoleClaim<int>_Role_RoleId",
                 table: "RoleClaims",
@@ -111,25 +104,25 @@ namespace SwiftCourier.Migrations
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
             migrationBuilder.AddForeignKey(
-                name: "FK_Package_User_DeliveredByUserId",
-                table: "Packages",
-                column: "DeliveredByUserId",
+                name: "FK_PackageLog_User_DispatchedByUserId",
+                table: "PackageLogs",
+                column: "DispatchedByUserId",
                 principalTable: "Users",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+                onDelete: ReferentialAction.NoAction);
+            migrationBuilder.AddForeignKey(
+                name: "FK_PackageLog_User_DispatchedToUserId",
+                table: "PackageLogs",
+                column: "DispatchedToUserId",
+                principalTable: "Users",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.NoAction);
             migrationBuilder.AddForeignKey(
                 name: "FK_PackageLog_Package_PackageId",
                 table: "PackageLogs",
                 column: "PackageId",
                 principalTable: "Packages",
                 principalColumn: "BookingId",
-                onDelete: ReferentialAction.Cascade);
-            migrationBuilder.AddForeignKey(
-                name: "FK_PackageLog_User_UserId",
-                table: "PackageLogs",
-                column: "UserId",
-                principalTable: "Users",
-                principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
             migrationBuilder.AddForeignKey(
                 name: "FK_Payment_Invoice_InvoiceId",
@@ -200,9 +193,9 @@ namespace SwiftCourier.Migrations
             migrationBuilder.DropForeignKey(name: "FK_Booking_Service_ServiceId", table: "Bookings");
             migrationBuilder.DropForeignKey(name: "FK_Invoice_Booking_BookingId", table: "Invoices");
             migrationBuilder.DropForeignKey(name: "FK_Package_Booking_BookingId", table: "Packages");
-            migrationBuilder.DropForeignKey(name: "FK_Package_User_DeliveredByUserId", table: "Packages");
+            migrationBuilder.DropForeignKey(name: "FK_PackageLog_User_DispatchedByUserId", table: "PackageLogs");
+            migrationBuilder.DropForeignKey(name: "FK_PackageLog_User_DispatchedToUserId", table: "PackageLogs");
             migrationBuilder.DropForeignKey(name: "FK_PackageLog_Package_PackageId", table: "PackageLogs");
-            migrationBuilder.DropForeignKey(name: "FK_PackageLog_User_UserId", table: "PackageLogs");
             migrationBuilder.DropForeignKey(name: "FK_Payment_Invoice_InvoiceId", table: "Payments");
             migrationBuilder.DropForeignKey(name: "FK_Payment_PaymentMethod_PaymentMethodId", table: "Payments");
             migrationBuilder.DropForeignKey(name: "FK_PaymentMethodField_PaymentMethod_PaymentMethodId", table: "PaymentMethodFields");
@@ -211,10 +204,7 @@ namespace SwiftCourier.Migrations
             migrationBuilder.DropForeignKey(name: "FK_RolePermission_Role_RoleId", table: "RolePermissions");
             migrationBuilder.DropForeignKey(name: "FK_UserPermission_Permission_PermissionId", table: "UserPermissions");
             migrationBuilder.DropForeignKey(name: "FK_UserPermission_User_UserId", table: "UserPermissions");
-            migrationBuilder.DropColumn(name: "DeliveredAt", table: "Packages");
-            migrationBuilder.DropColumn(name: "DeliveredByUserId", table: "Packages");
-            migrationBuilder.DropColumn(name: "PickedUpAt", table: "Packages");
-            migrationBuilder.DropColumn(name: "Status", table: "Packages");
+            migrationBuilder.DropTable("Settings");
             migrationBuilder.AddForeignKey(
                 name: "FK_IdentityRoleClaim<int>_Role_RoleId",
                 table: "RoleClaims",
@@ -279,18 +269,25 @@ namespace SwiftCourier.Migrations
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
             migrationBuilder.AddForeignKey(
+                name: "FK_PackageLog_User_DispatchedByUserId",
+                table: "PackageLogs",
+                column: "DispatchedByUserId",
+                principalTable: "Users",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.NoAction);
+            migrationBuilder.AddForeignKey(
+                name: "FK_PackageLog_User_DispatchedToUserId",
+                table: "PackageLogs",
+                column: "DispatchedToUserId",
+                principalTable: "Users",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.NoAction);
+            migrationBuilder.AddForeignKey(
                 name: "FK_PackageLog_Package_PackageId",
                 table: "PackageLogs",
                 column: "PackageId",
                 principalTable: "Packages",
                 principalColumn: "BookingId",
-                onDelete: ReferentialAction.Restrict);
-            migrationBuilder.AddForeignKey(
-                name: "FK_PackageLog_User_UserId",
-                table: "PackageLogs",
-                column: "UserId",
-                principalTable: "Users",
-                principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
             migrationBuilder.AddForeignKey(
                 name: "FK_Payment_Invoice_InvoiceId",

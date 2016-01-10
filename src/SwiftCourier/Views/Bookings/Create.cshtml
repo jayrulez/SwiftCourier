@@ -20,6 +20,13 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label asp-for="RequestDate" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <input asp-for="RequestDate" class="form-control" data-provide="datepicker" />
+                            <span asp-validation-for="RequestDate" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label asp-for="PickupAddress" class="col-sm-2 control-label"></label>
                         <div class="col-sm-10">
                             <textarea asp-for="PickupAddress" class="form-control" rows="5" cols="300"></textarea>
@@ -56,6 +63,46 @@
                     </div>
 
                     <div class="form-group">
+                        <label asp-for="Package.Type" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <select asp-for="Package.Type" asp-items="Html.GetEnumSelectList(typeof(PackageType))" class="form-control"></select>
+                            <span asp-validation-for="Package.Type" class="text-danger" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Package.Description" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <textarea asp-for="Package.Description" class="form-control" rows="5" cols="300"></textarea>
+                            <span asp-validation-for="Package.Description" class="text-danger" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Package.Pieces" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <input asp-for="Package.Pieces" class="form-control" />
+                            <span asp-validation-for="Package.Pieces" class="text-danger" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Package.Weight" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <input asp-for="Package.Weight" class="form-control" />
+                            <span asp-validation-for="Package.Weight" class="text-danger" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Package.SpecialInstructions" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <textarea asp-for="Package.SpecialInstructions" class="form-control" rows="5" cols="300"></textarea>
+                            <span asp-validation-for="Package.SpecialInstructions" class="text-danger" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <label asp-for="ServiceId" class="col-sm-2 control-label"></label>
                         <div class="col-sm-10">
                             <select asp-for="ServiceId" asp-items="@((IEnumerable<SelectListItem>)ViewData["ServiceId"])" class="form-control">
@@ -88,11 +135,12 @@
                         </div>
                     </div>
 
+
                     <div class="form-group">
-                        <label asp-for="Invoice.Billing class="col-sm-2 control-label"></label>
+                        <label asp-for="Invoice.BillingMode" class="col-sm-2 control-label"></label>
                         <div class="col-sm-10">
-                            <select asp-for="Invoice.Bill asp-items="Html.GetEnumSelectList(typeof(BillingMode))" class="form-control"></select>
-                            <span asp-validation-for="Invoice.Bill class="text-danger" />
+                            <select asp-for="Invoice.BillingMode" asp-items="Html.GetEnumSelectList(typeof(BillingMode))" class="form-control"></select>
+                            <span asp-validation-for="Invoice.BillingMode" class="text-danger" />
                         </div>
                     </div>
 
@@ -109,69 +157,15 @@
 </div>
 
 
+@section styles {
+    <link rel="stylesheet" href="/vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css">
+}
 
 @section Scripts {
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            var GCT_RATE = 0.165;
-
-            $('#CustomerId').on('change', function (e) {
-                var customerId = $(this).val();
-
-                if (customerId) {
-                    $.ajax({
-                        cache: false,
-                        dataType: 'json',
-                        type: 'GET',
-                        url: '/api/customer/' + customerId,
-                        success: function (data) {
-                            if (data) {
-                                if (data.TaxExempted) {
-                                    GCT_RATE = 0.165;
-                                }
-                            } else {
-                                GCT_RATE = 0.165;
-                            }
-                        },
-                        error: function () {
-                            GCT_RATE = 0.165;
-                        }
-                    });
-                }
-            });
-
-            $('#ServiceId').on('change', function (e) {
-                var serviceId = $(this).val();
-                if (serviceId) {
-                    $.ajax({
-                        cache: false,
-                        dataType: 'json',
-                        type: 'GET',
-                        url: '/api/service/' + serviceId,
-                        success: function (data) {
-                            if (data) {
-                                $('#Invoice_ServiceCost').val(data.Cost);
-                                var gct = data.Cost * GCT_RATE;
-                                $('#Invoice_GCT').val(gct);
-                                $('#Invoice_Total').val(data.Cost + gct);
-                            } else {
-                                $('#Invoice_ServiceCost').val('');
-                                $('#Invoice_GCT').val('');
-                                $('#Invoice_Total').val('');
-                            }
-                        },
-                        error: function () {
-                            $('#Invoice_ServiceCost').val('');
-                            $('#Invoice_GCT').val('');
-                            $('#Invoice_Total').val('');
-                        }
-                    });
-                }
-            });
-        });
-    </script>
+    <script src="~/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="~/scripts/booking.js"></script>
 }
 
 @section NavBarText {

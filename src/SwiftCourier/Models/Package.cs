@@ -15,11 +15,17 @@ namespace SwiftCourier.Models
         public string TrackingNumber { get; set; }
         public DateTime? PickedUpAt { get; set; }
         public DateTime? DeliveredAt { get; set; }
+        public int? AssignedToUserId { get; set; }
         public int? DeliveredByUserId { get; set; }
         public PackageStatus Status { get; set; }
+        public Decimal Weight { get; set; }
+        public int Pieces { get; set; }
+        public string SpecialInstructions { get; set; }
+        public PackageType Type { get; set; }
 
         public virtual ICollection<PackageLog> PackageLogs { get; set; }
         public virtual Booking Booking { get; set; }
         public virtual User DeliveredBy { get; set; }
+        public virtual User AssignedTo { get; set; }
     }
 }

@@ -8,13 +8,14 @@ namespace SwiftCourier.Models
 {
     public enum BillingMode
     {
-        [Display(Name = "Cash on delivery")]
-        CashOnDelivery,
 
-        [Display(Name = "Cash on pickup")]
-        CashOnPickup,
+        [Display(Name = "Pay Now")]
+        PayNow,
 
-        [Display(Name = "Bill to account")]
+        [Display(Name = "Pay On Delivery")]
+        PayOnDelivery,
+
+        [Display(Name = "Bill To Account")]
         BillToAccount
     }
 }

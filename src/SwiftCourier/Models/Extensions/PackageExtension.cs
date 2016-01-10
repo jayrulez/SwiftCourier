@@ -14,10 +14,15 @@ namespace SwiftCourier.Models
 
             destination.BookingId = source.BookingId;
 
+            destination.Type = source.Type;
             destination.Description = source.Description;
+            destination.Pieces = source.Pieces;
+            destination.Weight = source.Weight;
+            destination.SpecialInstructions = source.SpecialInstructions;
             destination.TrackingNumber = source.TrackingNumber;
             destination.PickedUpAt = source.PickedUpAt;
             destination.DeliveredAt = source.DeliveredAt;
+            destination.AssignedToUserId = source.AssignedToUserId;
             destination.DeliveredByUserId = source.DeliveredByUserId;
             destination.Status = source.Status;
 
@@ -30,11 +35,17 @@ namespace SwiftCourier.Models
 
             destination.BookingId = source.BookingId;
 
+            destination.Type = source.Type.ToString();
             destination.Description = source.Description;
+            destination.Pieces = source.Pieces;
+            destination.Weight = source.Weight;
+            destination.SpecialInstructions = source.SpecialInstructions;
+
             destination.TrackingNumber = source.TrackingNumber;
             destination.PickedUpAt = source.PickedUpAt;
             destination.DeliveredAt = source.DeliveredAt;
-            destination.DeliveredByUser = source.DeliveredBy != null ? source.DeliveredBy.UserName : string.Empty;
+            destination.AssignedTo = source.AssignedTo != null ? source.AssignedTo.UserName : string.Empty;
+            destination.DeliveredBy = source.DeliveredBy != null ? source.DeliveredBy.UserName : string.Empty;
             destination.Status = source.Status.ToString();
 
             return destination;
@@ -49,34 +60,46 @@ namespace SwiftCourier.Models
                 destination.BookingId = source.BookingId;
             }
 
+            destination.Type = source.Type;
             destination.Description = source.Description;
+            destination.Pieces = source.Pieces;
+            destination.Weight = source.Weight;
+            destination.SpecialInstructions = source.SpecialInstructions;
             destination.TrackingNumber = source.TrackingNumber;
             destination.PickedUpAt = source.PickedUpAt;
             destination.DeliveredAt = source.DeliveredAt;
+            destination.AssignedToUserId = source.AssignedToUserId;
             destination.DeliveredByUserId = source.DeliveredByUserId;
             destination.Status = source.Status;
 
             return destination;
         }
 
-        public static void UpdateEntity(this PackageViewModel source, Package destination)
+        public static Package UpdateEntity(this PackageViewModel source, Package destination)
         {
             if(destination == null)
             {
                 destination = new Package();
             }
 
-            if (destination.BookingId != 0)
+            if (source.BookingId != 0)
             {
                 destination.BookingId = source.BookingId;
             }
 
+            destination.Type = source.Type;
             destination.Description = source.Description;
-            destination.TrackingNumber = source.TrackingNumber;
-            destination.PickedUpAt = source.PickedUpAt;
-            destination.DeliveredAt = source.DeliveredAt;
-            destination.DeliveredByUserId = source.DeliveredByUserId;
-            destination.Status = source.Status;
+            destination.Pieces = source.Pieces;
+            destination.Weight = source.Weight;
+            destination.SpecialInstructions = source.SpecialInstructions;
+            //destination.TrackingNumber = source.TrackingNumber;
+            //destination.PickedUpAt = source.PickedUpAt;
+            //destination.DeliveredAt = source.DeliveredAt;
+            //destination.AssignedToUserId = source.AssignedToUserId;
+            //destination.DeliveredByUserId = source.DeliveredByUserId;
+            //destination.Status = source.Status;
+
+            return destination;
         }
     }
 }

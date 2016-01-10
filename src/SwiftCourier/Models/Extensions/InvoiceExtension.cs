@@ -55,7 +55,7 @@ namespace SwiftCourier.Models
             return destination;
         }
 
-        public static void UpdateEntity(this InvoiceViewModel source, Invoice destination)
+        public static Invoice UpdateEntity(this InvoiceViewModel source, Invoice destination)
         {
             if(destination == null)
             {
@@ -71,6 +71,8 @@ namespace SwiftCourier.Models
             destination.GCT = source.GCT;
             destination.Total = source.Total;
             destination.BillingMode = source.BillingMode;
+
+            return destination;
         }
     }
 }

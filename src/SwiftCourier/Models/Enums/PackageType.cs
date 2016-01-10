@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 
 namespace SwiftCourier.Models
 {
-    public enum DiscountType
+    public enum PackageType
     {
-        [Display(Name = "Percentage")]
-        Percentage,
+        [Display(Name = "Envelope")]
+        Envelope,
 
-        [Display(Name = "Flat Amount")]
-        FlatAmount
+        [Display(Name = "Box")]
+        Box,
+
+        [Display(Name = "Bag")]
+        Bag
     }
 }

@@ -7,7 +7,7 @@ using SwiftCourier.Models;
 
 namespace SwiftCourier.Controllers
 {
-    public class ServicesController : Controller
+    public class ServicesController : BaseController
     {
         private ApplicationDbContext _context;
 

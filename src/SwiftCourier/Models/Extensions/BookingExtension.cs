@@ -16,6 +16,7 @@ namespace SwiftCourier.Models
 
             destination.CustomerId = source.CustomerId;
             destination.ServiceId = source.ServiceId;
+            destination.RequestDate = source.RequestDate;
             destination.PickupAddress = source.PickupAddress;
             destination.PickupContactNumber = source.PickupContactNumber;
             destination.ConsigneeName = source.ConsigneeName;
@@ -34,6 +35,49 @@ namespace SwiftCourier.Models
             return destination;
         }
 
+        public static BookingListItemViewModel ToListItemViewModel(this Booking source)
+        {
+            var destination = new BookingListItemViewModel();
+
+            destination.Id = source.Id;
+
+            destination.CustomerName = source.Customer.Name;
+            destination.ServiceName = source.Service.Name;
+            destination.RequestDate = source.RequestDate;
+            destination.PickupAddress = source.PickupAddress;
+            destination.PickupContactNumber = source.PickupContactNumber;
+            destination.ConsigneeName = source.ConsigneeName;
+            destination.ConsigneeContactNumber = source.ConsigneeContactNumber;
+            destination.ConsigneeAddress = source.ConsigneeAddress;
+            destination.CreatedAt = source.CreatedAt;
+
+            if (source.Invoice != null)
+            {
+                destination.Invoice = source.Invoice.ToViewModel();
+            }
+            if (source.Package != null)
+            {
+                destination.Package = source.Package.ToViewModel();
+            }
+
+            return destination;
+        }
+
+        public static List<BookingListItemViewModel> ToListViewModel(this List<Booking> source)
+        {
+            var destination = new List<BookingListItemViewModel>();
+
+            if(source != null)
+            {
+                foreach(var item in source)
+                {
+                    destination.Add(item.ToListItemViewModel());
+                }
+            }
+
+            return destination;
+        }
+
         public static BookingDetailsViewModel ToDetailsViewModel(this Booking source)
         {
             var destination = new BookingDetailsViewModel();
@@ -42,6 +86,7 @@ namespace SwiftCourier.Models
 
             destination.CustomerName = source.Customer.Name;
             destination.ServiceName = source.Service.Name;
+            destination.RequestDate = source.RequestDate;
             destination.PickupAddress = source.PickupAddress;
             destination.PickupContactNumber = source.PickupContactNumber;
             destination.ConsigneeName = source.ConsigneeName;
@@ -72,6 +117,7 @@ namespace SwiftCourier.Models
 
             destination.CustomerId = source.CustomerId;
             destination.ServiceId = source.ServiceId;
+            destination.RequestDate = source.RequestDate;
             destination.PickupAddress = source.PickupAddress;
             destination.PickupContactNumber = source.PickupContactNumber;
             destination.ConsigneeName = source.ConsigneeName;
@@ -90,10 +136,11 @@ namespace SwiftCourier.Models
             return destination;
         }
 
-        public static void UpdateEntity(this BookingViewModel source, Booking destination)
+        public static Booking UpdateEntity(this BookingViewModel source, Booking destination)
         {
             destination.CustomerId = source.CustomerId;
             destination.ServiceId = source.ServiceId;
+            destination.RequestDate = source.RequestDate;
             destination.PickupAddress = source.PickupAddress;
             destination.PickupContactNumber = source.PickupContactNumber;
             destination.ConsigneeName = source.ConsigneeName;
@@ -102,12 +149,14 @@ namespace SwiftCourier.Models
 
             if (source.Invoice != null)
             {
-                 source.Invoice.UpdateEntity(destination.Invoice);
+                destination.Invoice = source.Invoice.UpdateEntity(destination.Invoice);
             }
             if (source.Package != null)
             {
-                 source.Package.UpdateEntity(destination.Package);
+                destination.Package = source.Package.UpdateEntity(destination.Package);
             }
+
+            return destination;
         }
     }
 }

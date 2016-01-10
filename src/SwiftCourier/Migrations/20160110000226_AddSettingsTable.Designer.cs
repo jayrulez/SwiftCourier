@@ -8,8 +8,8 @@ using SwiftCourier.Models;
 namespace SwiftCourier.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160108031511_updateEntities")]
-    partial class updateEntities
+    [Migration("20160110000226_AddSettingsTable")]
+    partial class AddSettingsTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -82,8 +82,6 @@ namespace SwiftCourier.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("BillingMode");
-
                     b.Property<string>("ConsigneeAddress");
 
                     b.Property<string>("ConsigneeContactNumber");
@@ -95,13 +93,11 @@ namespace SwiftCourier.Migrations
 
                     b.Property<int>("CustomerId");
 
-                    b.Property<int>("DeliveryStatus");
-
                     b.Property<string>("PickupAddress");
 
                     b.Property<string>("PickupContactNumber");
 
-                    b.Property<int>("PickupStatus");
+                    b.Property<DateTime>("RequestDate");
 
                     b.Property<int>("ServiceId");
 
@@ -146,6 +142,14 @@ namespace SwiftCourier.Migrations
                 {
                     b.Property<int>("BookingId");
 
+                    b.Property<int>("BillingMode");
+
+                    b.Property<decimal>("GCT");
+
+                    b.Property<decimal>("ServiceCost");
+
+                    b.Property<int>("Status");
+
                     b.Property<decimal>("Total")
                         .HasAnnotation("Relational:ColumnType", "decimal");
 
@@ -176,12 +180,30 @@ namespace SwiftCourier.Migrations
                 {
                     b.Property<int>("BookingId");
 
+                    b.Property<int?>("AssignedToUserId");
+
+                    b.Property<DateTime?>("DeliveredAt");
+
+                    b.Property<int?>("DeliveredByUserId");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasAnnotation("Relational:ColumnType", "text");
 
+                    b.Property<DateTime?>("PickedUpAt");
+
+                    b.Property<int>("Pieces");
+
+                    b.Property<string>("SpecialInstructions");
+
+                    b.Property<int>("Status");
+
                     b.Property<string>("TrackingNumber")
                         .HasAnnotation("MaxLength", 256);
+
+                    b.Property<int>("Type");
+
+                    b.Property<decimal>("Weight");
 
                     b.HasKey("BookingId");
 
@@ -193,14 +215,18 @@ namespace SwiftCourier.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("LoggedAt")
+                    b.Property<DateTime>("DispatchedAt")
                         .HasAnnotation("Relational:ColumnType", "datetime");
 
-                    b.Property<int>("Mode");
+                    b.Property<int>("DispatchedByUserId");
+
+                    b.Property<int>("DispatchedToUserId");
 
                     b.Property<int>("PackageId");
 
-                    b.Property<int>("UserId");
+                    b.Property<DateTime?>("ReceivedAt");
+
+                    b.Property<int>("Status");
 
                     b.HasKey("Id");
 
@@ -364,6 +390,22 @@ namespace SwiftCourier.Migrations
                     b.HasAnnotation("Relational:TableName", "Services");
                 });
 
+            modelBuilder.Entity("SwiftCourier.Models.Setting", b =>
+                {
+                    b.Property<string>("Name")
+                        .HasAnnotation("MaxLength", 100);
+
+                    b.Property<string>("DisplayName")
+                        .HasAnnotation("Relational:ColumnType", "text");
+
+                    b.Property<string>("Value")
+                        .HasAnnotation("Relational:ColumnType", "text");
+
+                    b.HasKey("Name");
+
+                    b.HasAnnotation("Relational:TableName", "Settings");
+                });
+
             modelBuilder.Entity("SwiftCourier.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -476,20 +518,32 @@ namespace SwiftCourier.Migrations
 
             modelBuilder.Entity("SwiftCourier.Models.Package", b =>
                 {
+                    b.HasOne("SwiftCourier.Models.User")
+                        .WithMany()
+                        .HasForeignKey("AssignedToUserId");
+
                     b.HasOne("SwiftCourier.Models.Booking")
                         .WithOne()
                         .HasForeignKey("SwiftCourier.Models.Package", "BookingId");
+
+                    b.HasOne("SwiftCourier.Models.User")
+                        .WithMany()
+                        .HasForeignKey("DeliveredByUserId");
                 });
 
             modelBuilder.Entity("SwiftCourier.Models.PackageLog", b =>
                 {
-                    b.HasOne("SwiftCourier.Models.Package")
+                    b.HasOne("SwiftCourier.Models.User")
                         .WithMany()
-                        .HasForeignKey("PackageId");
+                        .HasForeignKey("DispatchedByUserId");
 
                     b.HasOne("SwiftCourier.Models.User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("DispatchedToUserId");
+
+                    b.HasOne("SwiftCourier.Models.Package")
+                        .WithMany()
+                        .HasForeignKey("PackageId");
                 });
 
             modelBuilder.Entity("SwiftCourier.Models.Payment", b =>

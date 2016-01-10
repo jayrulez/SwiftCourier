@@ -1,8 +1,95 @@
 @model SwiftCourier.ViewModels.BookingDetailsViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Invoice";
 }
+
+<div class="main-content">
+    <div class="mb15 clearfix">
+        <div class="pull-right text-right">
+            <i class="fa fa-diamond fa-4x mb20"></i>
+            <p>@Model.CreatedAt</p>
+            <h5 class="text-uppercase">Invoice #@Model.Id</h5>
+        </div>
+        <div class="w150">
+            <button type="button" class="btn btn-danger btn-block text-left no-print mb15" onclick="window.print();">
+                <i class="ti-printer mr5"></i>Print
+            </button>
+            <button type="button" class="btn btn-info btn-block text-left no-print">Export to PDF</button>
+        </div>
+    </div>
+    <div class="row mb15">
+        <div class="col-xs-12">
+            <div class="row">
+                <div class="col-xs-6">
+                    <address class="no-margin">
+                        <strong>Billed To:</strong><br>
+                        @Model.CustomerName<br>
+                        @Html.Raw(Model.PickupAddress.Replace("\r\n", "<br/>"))
+                        <br/>
+                        @Model.PickupContactNumber
+                    </address>
+                </div>
+                <div class="col-xs-6 text-right">
+                    <address class="no-margin">
+                        <strong>Shipped To:</strong><br>
+                        @Model.ConsigneeName<br>
+                        @Html.Raw(Model.ConsigneeAddress.Replace("\r\n", "<br/>"))
+                        <br/>
+                        @Model.ConsigneeContactNumber
+                    </address>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-bordered bl br">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.ServiceName)</th>
+                    <th>@Html.DisplayNameFor(model => model.Invoice.ServiceCost)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Html.DisplayFor(model => model.ServiceName)</td>
+                    <td>@Html.DisplayFor(model => model.Invoice.ServiceCost)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="invoice-totals">
+        <div class="invoice-totals-row">
+            <strong class="invoice-totals-title">Subtotal</strong>
+            <span class="invoice-totals-value">@Html.DisplayFor(model => model.Invoice.ServiceCost)</span>
+        </div>
+        <div class="invoice-totals-row">
+            <strong class="invoice-totals-title">@Html.DisplayNameFor(model => model.Invoice.GCT)</strong>
+            <span class="invoice-totals-value">@Html.DisplayFor(model => model.Invoice.GCT)</span>
+        </div>
+        <div class="invoice-totals-row">
+            <strong class="invoice-totals-title">@Html.DisplayNameFor(model => model.Invoice.Total)</strong>
+            <span class="invoice-totals-value">@Html.DisplayFor(model => model.Invoice.Total)</span>
+        </div>
+        <div class="invoice-totals-row">
+            <strong class="invoice-totals-title">Amount Paid</strong>
+            <span class="invoice-totals-value">$0.00</span>
+        </div>
+        <div class="invoice-totals-row">
+            <strong class="invoice-totals-title">Amount Due</strong>
+            <span class="invoice-totals-value">$1619.97</span>
+        </div>
+    </div>
+    <hr>
+    <div class="clearfix mb15">
+        <p class="bold small">PAYMENT TERMS AND POLICIES</p>
+        <small>
+            All accounts are to be paid within 7 days from receipt of invoice. To be paid by cheque or credit card or direct payment online. If account is not paid within 7 days the credits details supplied as confirmation of work undertaken will be charged the agreed
+            quoted fee noted above. If the Invoice remails unpaid. our dept recovery agency, Urban, may charge you a fee of 25% of the unpaid portion of the
+            invoice amount and other legal and collection costs not covered by the fee.
+        </small>
+    </div>
+</div>
 
 <div class="panel mb25">
     <div class="panel-heading border">
@@ -143,7 +230,6 @@
                 </dl>
             </div>
             <div class="col-lg-4">
-                <a asp-action="Invoice" asp-route-id="@Model.Id" class="btn btn-default">View Invoice</a>
                 <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-default">Edit</a>
                 <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
             </div>

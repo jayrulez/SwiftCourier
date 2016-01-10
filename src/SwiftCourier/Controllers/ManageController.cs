@@ -14,7 +14,7 @@ using SwiftCourier.ViewModels.Manage;
 namespace SwiftCourier.Controllers
 {
     [Authorize]
-    public class ManageController : Controller
+    public class ManageController : BaseController
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;

@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace SwiftCourier.Controllers
 {
-    public class RolesController : Controller
+    public class RolesController : BaseController
     {
         private readonly RoleManager<Role> _roleManager;
         private readonly ILogger _logger;
