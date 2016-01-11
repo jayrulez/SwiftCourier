@@ -44,7 +44,6 @@ namespace SwiftCourier.Models
             destination.Id = source.Id;
 
             destination.CreatedBy = source.CreatedBy.UserName;
-            destination.CustomerName = source.Customer.Name;
             destination.ServiceName = source.Service.Name;
             destination.RequestDate = source.RequestDate;
             destination.PickupRequired = source.PickupRequired;
@@ -54,6 +53,11 @@ namespace SwiftCourier.Models
             destination.ConsigneeContactNumber = source.ConsigneeContactNumber;
             destination.ConsigneeAddress = source.ConsigneeAddress;
             destination.CreatedAt = source.CreatedAt;
+
+            if(source.Customer != null)
+            {
+                destination.Customer = source.Customer.ToListItemViewModel();
+            }
 
             if (source.Invoice != null)
             {
@@ -89,7 +93,6 @@ namespace SwiftCourier.Models
             destination.Id = source.Id;
 
             destination.CreatedBy = source.CreatedBy.UserName;
-            destination.CustomerName = source.Customer.Name;
             destination.ServiceName = source.Service.Name;
             destination.RequestDate = source.RequestDate;
             destination.PickupRequired = source.PickupRequired ? "Yes" : "No";
@@ -99,6 +102,11 @@ namespace SwiftCourier.Models
             destination.ConsigneeContactNumber = source.ConsigneeContactNumber;
             destination.ConsigneeAddress = source.ConsigneeAddress;
             destination.CreatedAt = source.CreatedAt;
+
+            if(source.Customer != null)
+            {
+                destination.Customer = source.Customer.ToDetailsViewModel();
+            }
 
             if (source.Invoice != null)
             {

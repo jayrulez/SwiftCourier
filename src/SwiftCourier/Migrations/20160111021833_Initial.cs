@@ -267,7 +267,7 @@ namespace SwiftCourier.Migrations
                     PickupAddress = table.Column<string>(nullable: true),
                     PickupContactNumber = table.Column<string>(nullable: true),
                     PickupRequired = table.Column<bool>(nullable: false),
-                    RequestDate = table.Column<DateTime>(nullable: false),
+                    RequestDate = table.Column<string>(nullable: true),
                     ServiceId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -417,29 +417,13 @@ namespace SwiftCourier.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    DispatchedAt = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DispatchedByUserId = table.Column<int>(nullable: false),
-                    DispatchedToUserId = table.Column<int>(nullable: false),
                     LogMessage = table.Column<string>(nullable: true),
-                    PackageId = table.Column<int>(nullable: false),
-                    ReceivedAt = table.Column<DateTime>(nullable: true),
-                    Status = table.Column<int>(nullable: false)
+                    LoggedAt = table.Column<DateTime>(type: "datetime", nullable: false),
+                    PackageId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PackageLog", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PackageLog_User_DispatchedByUserId",
-                        column: x => x.DispatchedByUserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
-                    table.ForeignKey(
-                        name: "FK_PackageLog_User_DispatchedToUserId",
-                        column: x => x.DispatchedToUserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_PackageLog_Package_PackageId",
                         column: x => x.PackageId,

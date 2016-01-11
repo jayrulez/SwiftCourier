@@ -83,5 +83,7 @@ namespace SwiftCourier.ViewModels
 
         [Display(Name = "Status")]
         public string Status { get; set; }
+
+        public List<PackageLogListItemViewModel> PackageLogs { get; set; }
     }
 }

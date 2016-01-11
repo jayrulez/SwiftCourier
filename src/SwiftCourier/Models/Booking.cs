@@ -13,7 +13,7 @@ namespace SwiftCourier.Models
         public int CreatedByUserId { get; set; }
         public int CustomerId { get; set; }
         public int ServiceId { get; set; }
-        public DateTime RequestDate { get; set; }
+        public string RequestDate { get; set; }
 
         public bool PickupRequired { get; set; }
         public string PickupAddress { get; set; }

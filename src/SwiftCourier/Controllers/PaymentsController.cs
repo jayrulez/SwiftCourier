@@ -94,7 +94,7 @@ namespace SwiftCourier.Controllers
 
                 await _context.SaveChangesAsync();
 
-                RedirectToAction("Invoice", "Bookings", new
+                return RedirectToAction("Invoice", "Bookings", new
                 {
                     id = id
                 });

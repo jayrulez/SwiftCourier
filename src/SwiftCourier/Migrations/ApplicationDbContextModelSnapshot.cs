@@ -100,7 +100,7 @@ namespace SwiftCourier.Migrations
 
                     b.Property<bool>("PickupRequired");
 
-                    b.Property<DateTime>("RequestDate");
+                    b.Property<string>("RequestDate");
 
                     b.Property<int>("ServiceId");
 
@@ -222,20 +222,12 @@ namespace SwiftCourier.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("DispatchedAt")
-                        .HasAnnotation("Relational:ColumnType", "datetime");
-
-                    b.Property<int>("DispatchedByUserId");
-
-                    b.Property<int>("DispatchedToUserId");
-
                     b.Property<string>("LogMessage");
 
+                    b.Property<DateTime>("LoggedAt")
+                        .HasAnnotation("Relational:ColumnType", "datetime");
+
                     b.Property<int>("PackageId");
-
-                    b.Property<DateTime?>("ReceivedAt");
-
-                    b.Property<int>("Status");
 
                     b.HasKey("Id");
 
@@ -546,14 +538,6 @@ namespace SwiftCourier.Migrations
 
             modelBuilder.Entity("SwiftCourier.Models.PackageLog", b =>
                 {
-                    b.HasOne("SwiftCourier.Models.User")
-                        .WithMany()
-                        .HasForeignKey("DispatchedByUserId");
-
-                    b.HasOne("SwiftCourier.Models.User")
-                        .WithMany()
-                        .HasForeignKey("DispatchedToUserId");
-
                     b.HasOne("SwiftCourier.Models.Package")
                         .WithMany()
                         .HasForeignKey("PackageId");

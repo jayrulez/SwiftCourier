@@ -17,8 +17,6 @@ namespace SwiftCourier.Models
             */
             DeliveredPackages = new HashSet<Package>();
             AssignedPackages = new HashSet<Package>();
-            DispatchedPackageLogs = new HashSet<PackageLog>();
-            ReceivedPackageLogs = new HashSet<PackageLog>();
             Payments = new HashSet<Payment>();
             UserPermissions = new HashSet<UserPermission>();
             CreatedBookings = new HashSet<Booking>();
@@ -31,8 +29,6 @@ namespace SwiftCourier.Models
         */
         public virtual ICollection<Package> DeliveredPackages { get; set; }
         public virtual ICollection<Package> AssignedPackages { get; set; }
-        public virtual ICollection<PackageLog> DispatchedPackageLogs { get; set; }
-        public virtual ICollection<PackageLog> ReceivedPackageLogs { get; set; }
         public virtual ICollection<Payment> Payments { get; set; }
         public virtual ICollection<UserPermission> UserPermissions { get; set; }
         public virtual ICollection<Booking> CreatedBookings { get; set; }

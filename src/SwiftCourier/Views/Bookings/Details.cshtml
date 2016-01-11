@@ -25,10 +25,10 @@
                         @Html.DisplayFor(model => model.CreatedAt)
                     </dd>
                     <dt>
-                        @Html.DisplayNameFor(model => model.CustomerName)
+                        @Html.DisplayNameFor(model => model.Customer.Name)
                     </dt>
                     <dd>
-                        @Html.DisplayFor(model => model.CustomerName)
+                        @Html.DisplayFor(model => model.Customer.Name)
                     </dd>
                     <dt>
                         @Html.DisplayNameFor(model => model.RequestDate)
@@ -149,6 +149,8 @@
                 </dl>
             </div>
             <div class="col-lg-4">
+                <a asp-action="Package" asp-route-id="@Model.Id">View Package</a>
+                <br />
                 <a asp-action="Invoice" asp-route-id="@Model.Id">View Invoice</a>
                 <br/>
                 <a asp-action="BillOfLading" asp-route-id="@Model.Id">Bill Of Lading</a>

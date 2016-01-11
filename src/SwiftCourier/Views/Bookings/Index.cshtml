@@ -20,7 +20,7 @@
                                 @Html.DisplayNameFor(model => model.Id)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.CustomerName)
+                                @Html.DisplayNameFor(model => model.Customer.Name)
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.ConsigneeName)
@@ -43,7 +43,7 @@
                                 @Html.DisplayNameFor(model => model.Id)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.CustomerName)
+                                @Html.DisplayNameFor(model => model.Customer.Name)
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.ConsigneeName)
@@ -69,7 +69,7 @@
                                     @Html.DisplayFor(modelItem => item.Id)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.CustomerName)
+                                    @Html.DisplayFor(modelItem => item.Customer.Name)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.ConsigneeName)
@@ -80,7 +80,7 @@
                                 <td>
                                     @if (item.Package != null)
                                     {
-                                        Html.DisplayFor(modelItem => item.Package.Status);
+                                        <text>@Html.DisplayFor(modelItem => item.Package.Status)</text>
                                     }
                                 </td>
                                 <td>

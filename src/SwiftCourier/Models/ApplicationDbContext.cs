@@ -54,8 +54,6 @@ namespace SwiftCourier.Models
                 */
                 entity.HasMany(d => d.DeliveredPackages).WithOne(p => p.DeliveredBy).HasForeignKey(d => d.DeliveredByUserId);
                 entity.HasMany(d => d.AssignedPackages).WithOne(p => p.AssignedTo).HasForeignKey(d => d.AssignedToUserId);
-                entity.HasMany(d => d.ReceivedPackageLogs).WithOne(p => p.DispatchedToUser).HasForeignKey(d => d.DispatchedToUserId);
-                entity.HasMany(d => d.DispatchedPackageLogs).WithOne(p => p.DispatchedByUser).HasForeignKey(d => d.DispatchedByUserId);
                 entity.HasMany(d => d.Payments).WithOne(p => p.User).HasForeignKey(d => d.UserId);
                 entity.HasMany(d => d.UserPermissions).WithOne(p => p.User).HasForeignKey(d => d.UserId);
                 entity.HasMany(d => d.CreatedBookings).WithOne(p => p.CreatedBy).HasForeignKey(d => d.CreatedByUserId);
@@ -143,12 +141,10 @@ namespace SwiftCourier.Models
 
             modelBuilder.Entity<PackageLog>(entity =>
             {
-                entity.Property(e => e.DispatchedAt).HasColumnType("datetime");
+                entity.Property(e => e.LoggedAt).HasColumnType("datetime");
 
                 entity.HasOne<Package>(d => d.Package).WithMany(p => p.PackageLogs).HasForeignKey(d => d.PackageId);
 
-                entity.HasOne(d => d.DispatchedToUser).WithMany(p => p.ReceivedPackageLogs).HasForeignKey(d => d.DispatchedToUserId);
-                entity.HasOne(d => d.DispatchedByUser).WithMany(p => p.DispatchedPackageLogs).HasForeignKey(d => d.DispatchedByUserId);
                 entity.ToTable("PackageLogs");
             });
 

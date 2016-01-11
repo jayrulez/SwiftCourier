@@ -48,6 +48,11 @@ namespace SwiftCourier.Models
             destination.DeliveredBy = source.DeliveredBy != null ? source.DeliveredBy.UserName : string.Empty;
             destination.Status = source.Status.ToString();
 
+            if (source.PackageLogs != null)
+            {
+                destination.PackageLogs = source.PackageLogs.ToList().ToListViewModel();
+            }
+
             return destination;
         }
 

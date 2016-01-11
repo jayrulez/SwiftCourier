@@ -1,0 +1,56 @@
+@model SwiftCourier.ViewModels.DispatchViewModel
+
+@{
+    ViewData["Title"] = "Dispatch Package";
+}
+
+<div class="panel mb25">
+    <div class="panel-heading border">
+        Create Payment
+    </div>
+    <div class="panel-body">
+        <div class="row no-margin">
+            <div class="col-lg-12">
+                <form asp-action="Dispatch" class="form-horizontal bordered-group" role="form">
+                    <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="UserId" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <select asp-for="UserId" asp-items="@((IEnumerable<SelectListItem>)ViewData["UserId"])" class="form-control"></select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <input type="submit" value="Dispatch" class="btn btn-default" />
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+
+@section NavBarText {
+    <text>Dispatch Package</text>
+}
+
+@section Breadcrumbs {
+    <ol class="breadcrumb">
+        <li>
+            <a asp-controller="Home" asp-action="Index">Home</a>
+        </li>
+        <li>
+            <a asp-controller="Bookings" asp-action="Index">Bookings</a>
+        </li>
+        <li class="active ng-binding">
+            <a href="javascript:;">Dispatch Package</a>
+        </li>
+    </ol>
+}

@@ -4,6 +4,7 @@ using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.Data.Entity;
 using SwiftCourier.Models;
+using SwiftCourier.ViewModels;
 
 namespace SwiftCourier.Controllers
 {
@@ -15,14 +16,14 @@ namespace SwiftCourier.Controllers
         {
             _context = context;    
         }
-
-        // GET: Customers
+        
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Customers.ToListAsync());
-        }
+            var customers = await _context.Customers.ToListAsync();
 
-        // GET: Customers/Details/5
+            return View(customers.ToListViewModel());
+        }
+        
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -36,30 +37,27 @@ namespace SwiftCourier.Controllers
                 return HttpNotFound();
             }
 
-            return View(customer);
+            return View(customer.ToDetailsViewModel());
         }
-
-        // GET: Customers/Create
+        
         public IActionResult Create()
         {
             return View();
         }
-
-        // POST: Customers/Create
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Customer customer)
+        public async Task<IActionResult> Create(CustomerViewModel model)
         {
             if (ModelState.IsValid)
             {
-                _context.Customers.Add(customer);
+                _context.Customers.Add(model.ToEntity());
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(customer);
+            return View(model);
         }
-
-        // GET: Customers/Edit/5
+        
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -67,26 +65,37 @@ namespace SwiftCourier.Controllers
                 return HttpNotFound();
             }
 
-            Customer customer = await _context.Customers.SingleAsync(m => m.Id == id);
+            var customer = await _context.Customers.SingleAsync(m => m.Id == id);
+
             if (customer == null)
             {
                 return HttpNotFound();
             }
-            return View(customer);
+            return View(customer.ToViewModel());
         }
-
-        // POST: Customers/Edit/5
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Customer customer)
+        public async Task<IActionResult> Edit(CustomerViewModel model)
         {
+
+            var customer = await _context.Customers.SingleAsync(m => m.Id == model.Id);
+
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+
             if (ModelState.IsValid)
             {
+                customer = model.UpdateEntity(customer);
+
                 _context.Update(customer);
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(customer);
+            return View(model);
         }
 
         // GET: Customers/Delete/5
@@ -104,7 +113,7 @@ namespace SwiftCourier.Controllers
                 return HttpNotFound();
             }
 
-            return View(customer);
+            return View(customer.ToDetailsViewModel());
         }
 
         // POST: Customers/Delete/5
