@@ -149,12 +149,10 @@
                 </dl>
             </div>
             <div class="col-lg-4">
-                <a asp-action="Package" asp-route-id="@Model.Id">View Package</a>
+                <a asp-action="Details" asp-controller="Packages" asp-route-id="@Model.Id">Package Details</a>
                 <br />
                 <a asp-action="Invoice" asp-route-id="@Model.Id">View Invoice</a>
                 <br/>
-                <a asp-action="BillOfLading" asp-route-id="@Model.Id">Bill Of Lading</a>
-                <br />
                 <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
                 <br />
                 <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>

@@ -6,7 +6,7 @@
 
 <div class="panel mb25">
     <div class="panel-heading border">
-        Package
+        Packages
     </div>
     <div class="panel-body">
         <div class="row no-margin">
@@ -149,8 +149,12 @@
                 </dl>
             </div>
             <div class="col-lg-4">
-                @if (!Model.Package.Status.Equals(PackageStatus.OutForDelivery.ToString(), StringComparison.OrdinalIgnoreCase))
+                <a asp-action="BillOfLading" asp-controller="Packages" asp-route-id="@Model.Id">Bill Of Lading</a>
+
+                @if (!(Model.Package.Status.Equals(PackageStatus.OutForDelivery.ToString(), StringComparison.OrdinalIgnoreCase)
+                || Model.Package.Status.Equals(PackageStatus.Delivered.ToString(), StringComparison.OrdinalIgnoreCase)))
                 {
+                    <br />
                     <a asp-action="Dispatch" asp-route-id="@Model.Id">Dispatch</a>
                 }
 
@@ -174,10 +178,10 @@
             <a asp-controller="Home" asp-action="Index">Home</a>
         </li>
         <li>
-            <a asp-controller="Bookings" asp-action="Index">Bookings</a>
+            <a asp-controller="Packages" asp-action="Index">Packages</a>
         </li>
         <li class="active ng-binding">
-            <a href="javascript:;">Package</a>
+            <a href="javascript:;">Package Details</a>
         </li>
     </ol>
 }
