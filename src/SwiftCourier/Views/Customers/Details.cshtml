@@ -40,7 +40,7 @@
                         @Html.DisplayNameFor(model => model.TaxExempted)
                     </dt>
                     <dd>
-                        @(Model.TaxExempted ? "Yes" : "No")
+                        @Html.DisplayFor(model => model.TaxExempted)
                     </dd>
                 </dl>
             </div>

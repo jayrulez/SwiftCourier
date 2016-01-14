@@ -21,7 +21,7 @@ namespace SwiftCourier.Controllers
         {
             var services = await _context.Services.ToListAsync();
 
-            return View(services);
+            return View(services.ToListViewModel());
         }
         
         public async Task<IActionResult> Details(int? id)

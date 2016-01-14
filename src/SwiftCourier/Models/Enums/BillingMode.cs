@@ -12,8 +12,8 @@ namespace SwiftCourier.Models
         [Display(Name = "Pay Now")]
         PayNow,
 
-        [Display(Name = "Pay On Delivery")]
-        PayOnDelivery,
+        [Display(Name = "Cash On Delivery")]
+        CashOnDelivery,
 
         [Display(Name = "Bill To Account")]
         BillToAccount
