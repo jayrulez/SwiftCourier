@@ -4,6 +4,7 @@ using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.Data.Entity;
 using SwiftCourier.Models;
+using SwiftCourier.ViewModels;
 
 namespace SwiftCourier.Controllers
 {
@@ -15,14 +16,14 @@ namespace SwiftCourier.Controllers
         {
             _context = context;    
         }
-
-        // GET: PaymentMethods
+        
         public async Task<IActionResult> Index()
         {
-            return View(await _context.PaymentMethods.ToListAsync());
-        }
+            var paymentMethods = await _context.PaymentMethods.ToListAsync();
 
-        // GET: PaymentMethods/Details/5
+            return View(paymentMethods.ToListViewModel());
+        }
+        
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -30,36 +31,35 @@ namespace SwiftCourier.Controllers
                 return HttpNotFound();
             }
 
-            PaymentMethod paymentMethod = await _context.PaymentMethods.SingleAsync(m => m.Id == id);
+            var paymentMethod = await _context.PaymentMethods.SingleAsync(m => m.Id == id);
             if (paymentMethod == null)
             {
                 return HttpNotFound();
             }
 
-            return View(paymentMethod);
+            return View(paymentMethod.ToDetailsViewModel());
         }
-
-        // GET: PaymentMethods/Create
+        
         public IActionResult Create()
         {
             return View();
         }
-
-        // POST: PaymentMethods/Create
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(PaymentMethod paymentMethod)
+        public async Task<IActionResult> Create(PaymentMethodViewModel model)
         {
             if (ModelState.IsValid)
             {
+                var paymentMethod = model.ToEntity();
+
                 _context.PaymentMethods.Add(paymentMethod);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(paymentMethod);
+            return View(model);
         }
-
-        // GET: PaymentMethods/Edit/5
+        
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -67,29 +67,34 @@ namespace SwiftCourier.Controllers
                 return HttpNotFound();
             }
 
-            PaymentMethod paymentMethod = await _context.PaymentMethods.SingleAsync(m => m.Id == id);
+            var paymentMethod = await _context.PaymentMethods.SingleAsync(m => m.Id == id);
             if (paymentMethod == null)
             {
                 return HttpNotFound();
             }
-            return View(paymentMethod);
+            return View(paymentMethod.ToViewModel());
         }
-
-        // POST: PaymentMethods/Edit/5
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(PaymentMethod paymentMethod)
+        public async Task<IActionResult> Edit(PaymentMethodViewModel model)
         {
             if (ModelState.IsValid)
             {
+                var paymentMethod = await _context.PaymentMethods.SingleAsync(m => m.Id == model.Id);
+                if (paymentMethod == null)
+                {
+                    return HttpNotFound();
+                }
+
+                paymentMethod = model.UpdateEntity(paymentMethod);
                 _context.Update(paymentMethod);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(paymentMethod);
+            return View(model);
         }
-
-        // GET: PaymentMethods/Delete/5
+        
         [ActionName("Delete")]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -98,16 +103,15 @@ namespace SwiftCourier.Controllers
                 return HttpNotFound();
             }
 
-            PaymentMethod paymentMethod = await _context.PaymentMethods.SingleAsync(m => m.Id == id);
+            var paymentMethod = await _context.PaymentMethods.SingleAsync(m => m.Id == id);
             if (paymentMethod == null)
             {
                 return HttpNotFound();
             }
 
-            return View(paymentMethod);
+            return View(paymentMethod.ToDetailsViewModel());
         }
-
-        // POST: PaymentMethods/Delete/5
+        
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

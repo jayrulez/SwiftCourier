@@ -14,7 +14,6 @@ namespace SwiftCourier.Models
 
             destination.BookingId = source.BookingId;
 
-            destination.Type = source.Type;
             destination.Description = source.Description;
             destination.Pieces = source.Pieces;
             destination.Weight = source.Weight;
@@ -26,6 +25,11 @@ namespace SwiftCourier.Models
             destination.DeliveredByUserId = source.DeliveredByUserId;
             destination.Status = source.Status;
 
+            if(source.PackageType != null)
+            {
+                destination.PackageType = source.PackageType.ToViewModel();
+            }
+
             return destination;
         }
 
@@ -34,8 +38,7 @@ namespace SwiftCourier.Models
             var destination = new PackageDetailsViewModel();
 
             destination.BookingId = source.BookingId;
-
-            destination.Type = source.Type.ToString();
+            
             destination.Description = source.Description;
             destination.Pieces = source.Pieces;
             destination.Weight = source.Weight;
@@ -47,6 +50,11 @@ namespace SwiftCourier.Models
             destination.AssignedTo = source.AssignedTo != null ? source.AssignedTo.UserName : string.Empty;
             destination.DeliveredBy = source.DeliveredBy != null ? source.DeliveredBy.UserName : string.Empty;
             destination.Status = source.Status.ToString();
+
+            if (source.PackageType != null)
+            {
+                destination.PackageType = source.PackageType.ToDetailsViewModel();
+            }
 
             if (source.PackageLogs != null)
             {
@@ -65,7 +73,6 @@ namespace SwiftCourier.Models
                 destination.BookingId = source.BookingId;
             }
 
-            destination.Type = source.Type;
             destination.Description = source.Description;
             destination.Pieces = source.Pieces;
             destination.Weight = source.Weight;
@@ -76,6 +83,7 @@ namespace SwiftCourier.Models
             destination.AssignedToUserId = source.AssignedToUserId;
             destination.DeliveredByUserId = source.DeliveredByUserId;
             destination.Status = source.Status;
+            destination.PackageTypeId = source.PackageType.Id;
 
             return destination;
         }
@@ -91,8 +99,7 @@ namespace SwiftCourier.Models
             {
                 destination.BookingId = source.BookingId;
             }
-
-            destination.Type = source.Type;
+            
             destination.Description = source.Description;
             destination.Pieces = source.Pieces;
             destination.Weight = source.Weight;
@@ -103,6 +110,7 @@ namespace SwiftCourier.Models
             //destination.AssignedToUserId = source.AssignedToUserId;
             //destination.DeliveredByUserId = source.DeliveredByUserId;
             //destination.Status = source.Status;
+            destination.PackageTypeId = source.PackageType.Id;
 
             return destination;
         }

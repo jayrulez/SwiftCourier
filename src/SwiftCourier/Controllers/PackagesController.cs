@@ -25,6 +25,7 @@ namespace SwiftCourier.Controllers
             var bookings = await _context.Bookings
                 .Include(b => b.Customer)
                 .Include(b => b.Package)
+                .Include(b => b.Package.PackageType)
                 .Include(b => b.Invoice)
                 .Include(b => b.CreatedBy)
                 .Include(b => b.Service).ToListAsync();
@@ -38,6 +39,7 @@ namespace SwiftCourier.Controllers
                 .Include(b => b.Customer)
                 .Include(b => b.Invoice)
                 .Include(b => b.Package)
+                .Include(b => b.Package.PackageType)
                 .Include(b => b.Service)
                 .SingleAsync(m => m.Id == id);
 
@@ -59,6 +61,7 @@ namespace SwiftCourier.Controllers
                 .Include(b => b.Customer)
                 .Include(b => b.Invoice)
                 .Include(b => b.Package)
+                .Include(b => b.Package.PackageType)
                 .Include(b => b.Package.PackageLogs)
                 .Include(b => b.Service)
                 .SingleAsync(m => m.Id == id);
@@ -115,6 +118,7 @@ namespace SwiftCourier.Controllers
                 .Include(b => b.Customer)
                 .Include(b => b.Invoice)
                 .Include(b => b.Package)
+                .Include(b => b.Package.PackageType)
                 .Include(b => b.Service)
                 .SingleAsync(m => m.Id == id);
 
@@ -136,6 +140,7 @@ namespace SwiftCourier.Controllers
                 .Include(b => b.Customer)
                 .Include(b => b.Invoice)
                 .Include(b => b.Package)
+                .Include(b => b.Package.PackageType)
                 .Include(b => b.Package.PackageLogs)
                 .Include(b => b.Service)
                 .SingleAsync(m => m.Id == id);
@@ -156,6 +161,7 @@ namespace SwiftCourier.Controllers
             if (ModelState.IsValid)
             {
                 booking.Package.DeliveredByUserId = model.UserId;
+                booking.Package.DeliveredAt = DateTime.Now;
                 booking.Package.Status = PackageStatus.Delivered;
 
                 var packageLog = new PackageLog()
@@ -179,18 +185,24 @@ namespace SwiftCourier.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> BillOfLading(int id)
+        public async Task<IActionResult> BillOfLading(int id, string print = "")
         {
             var booking = await _context.Bookings
                 .Include(b => b.Customer)
                 .Include(b => b.Invoice)
                 .Include(b => b.Package)
+                .Include(b => b.Package.PackageType)
                 .Include(b => b.Service)
                 .Include(b => b.CreatedBy)
                 .SingleAsync(m => m.Id == id);
             if (booking == null)
             {
                 return HttpNotFound();
+            }
+
+            if (print.Equals("yes", StringComparison.OrdinalIgnoreCase))
+            {
+                return View("BillOfLading_Print", booking.ToDetailsViewModel());
             }
 
             return View(booking.ToDetailsViewModel());
@@ -202,6 +214,7 @@ namespace SwiftCourier.Controllers
                 .Include(b => b.Customer)
                 .Include(b => b.Invoice)
                 .Include(b => b.Package)
+                .Include(b => b.Package.PackageType)
                 .Include(b => b.Package.PackageLogs)
                 .Include(b => b.Service)
                 .Include(b => b.CreatedBy)

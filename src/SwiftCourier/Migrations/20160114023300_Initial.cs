@@ -38,6 +38,18 @@ namespace SwiftCourier.Migrations
                     table.PrimaryKey("PK_Location", x => x.Id);
                 });
             migrationBuilder.CreateTable(
+                name: "PackageTypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PackageType", x => x.Id);
+                });
+            migrationBuilder.CreateTable(
                 name: "PaymentMethods",
                 columns: table => new
                 {
@@ -346,13 +358,13 @@ namespace SwiftCourier.Migrations
                     AssignedToUserId = table.Column<int>(nullable: true),
                     DeliveredAt = table.Column<DateTime>(nullable: true),
                     DeliveredByUserId = table.Column<int>(nullable: true),
-                    Description = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    PackageTypeId = table.Column<int>(nullable: false),
                     PickedUpAt = table.Column<DateTime>(nullable: true),
                     Pieces = table.Column<int>(nullable: false),
                     SpecialInstructions = table.Column<string>(nullable: true),
                     Status = table.Column<int>(nullable: false),
                     TrackingNumber = table.Column<string>(nullable: true),
-                    Type = table.Column<int>(nullable: false),
                     Weight = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
@@ -376,6 +388,12 @@ namespace SwiftCourier.Migrations
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Package_PackageType_PackageTypeId",
+                        column: x => x.PackageTypeId,
+                        principalTable: "PackageTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
             migrationBuilder.CreateTable(
                 name: "Payments",
@@ -516,6 +534,7 @@ namespace SwiftCourier.Migrations
             migrationBuilder.DropTable("PaymentMethodFields");
             migrationBuilder.DropTable("Roles");
             migrationBuilder.DropTable("Permissions");
+            migrationBuilder.DropTable("PackageTypes");
             migrationBuilder.DropTable("Invoices");
             migrationBuilder.DropTable("PaymentMethods");
             migrationBuilder.DropTable("Bookings");

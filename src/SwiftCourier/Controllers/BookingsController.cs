@@ -16,27 +16,29 @@ namespace SwiftCourier.Controllers
 
         public BookingsController(ApplicationDbContext context)
         {
-            _context = context;    
+            _context = context;
         }
-        
+
         public async Task<IActionResult> Index()
         {
             var bookings = await _context.Bookings
                 .Include(b => b.Customer)
                 .Include(b => b.Package)
+                .Include(b => b.Package.PackageType)
                 .Include(b => b.Invoice)
                 .Include(b => b.CreatedBy)
                 .Include(b => b.Service).ToListAsync();
 
             return View(bookings.ToListViewModel());
         }
-        
+
         public async Task<IActionResult> Details(int id)
         {
             var booking = await _context.Bookings
                 .Include(b => b.Customer)
                 .Include(b => b.Invoice)
                 .Include(b => b.Package)
+                .Include(b => b.Package.PackageType)
                 .Include(b => b.Service)
                 .Include(b => b.CreatedBy)
                 .SingleAsync(m => m.Id == id);
@@ -48,11 +50,14 @@ namespace SwiftCourier.Controllers
             return View(booking.ToDetailsViewModel());
         }
 
-        public async Task<IActionResult> Invoice(int id)
+        public async Task<IActionResult> Invoice(int id, string print = "")
         {
             var booking = await _context.Bookings
                 .Include(b => b.Customer)
                 .Include(b => b.Invoice)
+                .Include(b => b.Invoice.Payments)
+                .ThenInclude(p => p.PaymentMethod)
+                .Include(b => b.Package.PackageType)
                 .Include(b => b.Package)
                 .Include(b => b.Service)
                 .Include(b => b.CreatedBy)
@@ -60,6 +65,11 @@ namespace SwiftCourier.Controllers
             if (booking == null)
             {
                 return HttpNotFound();
+            }
+
+            if (print.Equals("yes", StringComparison.OrdinalIgnoreCase))
+            {
+                return View("Invoice_Print", booking.ToDetailsViewModel());
             }
 
             return View(booking.ToDetailsViewModel());
@@ -68,11 +78,12 @@ namespace SwiftCourier.Controllers
         public IActionResult Create()
         {
             ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name");
+            ViewData["PackageTypeId"] = new SelectList(_context.PackageTypes, "Id", "Name");
             ViewData["ServiceId"] = new SelectList(_context.Services, "Id", "Name");
 
             return View();
         }
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(BookingViewModel model)
@@ -99,8 +110,8 @@ namespace SwiftCourier.Controllers
                     booking.Invoice.AmountDue = booking.Invoice.Total;
                     booking.Invoice.AmountPaid = 0;
                 }
-                
-                if(booking.Package != null)
+
+                if (booking.Package != null)
                 {
                     booking.Package.TrackingNumber = Guid.NewGuid().ToString();
 
@@ -118,20 +129,21 @@ namespace SwiftCourier.Controllers
 
                 await _context.SaveChangesAsync();
 
-                if(booking.Invoice.BillingMode == BillingMode.PayNow)
+                if (booking.Invoice.BillingMode == BillingMode.PayNow)
                 {
-                    return RedirectToAction("Create", "Payments", new { id = booking.Id });
+                    return RedirectToAction("Invoice", "Bookings", new { id = booking.Id });
                 }
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Bookings", new { id = booking.Id });
             }
 
             ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name", model.CustomerId);
+            ViewData["PackageTypeId"] = new SelectList(_context.PackageTypes, "Id", "Name");
             ViewData["ServiceId"] = new SelectList(_context.Services, "Id", "Name", model.ServiceId);
 
             return View(model);
         }
-        
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -140,9 +152,10 @@ namespace SwiftCourier.Controllers
             }
 
             Booking booking = await _context.Bookings
-                    .Include(b => b.Invoice)
-                    .Include(b => b.Package)
-                    .SingleAsync(m => m.Id == id);
+                .Include(b => b.Invoice)
+                .Include(b => b.Package)
+                .Include(b => b.Package.PackageType)
+                .SingleAsync(m => m.Id == id);
 
             if (booking == null)
             {
@@ -156,7 +169,7 @@ namespace SwiftCourier.Controllers
 
             return View(model);
         }
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(BookingViewModel model)
@@ -167,6 +180,7 @@ namespace SwiftCourier.Controllers
                 var booking = await _context.Bookings
                     .Include(b => b.Invoice)
                     .Include(b => b.Package)
+                    .Include(b => b.Package.PackageType)
                     .SingleAsync(m => m.Id == model.Id);
 
                 booking = model.UpdateEntity(booking);
@@ -202,6 +216,7 @@ namespace SwiftCourier.Controllers
                             .Include(b => b.Customer)
                             .Include(b => b.Invoice)
                             .Include(b => b.Package)
+                            .Include(b => b.Package.PackageType)
                             .Include(b => b.Service)
                             .SingleAsync(m => m.Id == id);
 
@@ -212,7 +227,7 @@ namespace SwiftCourier.Controllers
 
             return View(booking.ToDetailsViewModel());
         }
-        
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

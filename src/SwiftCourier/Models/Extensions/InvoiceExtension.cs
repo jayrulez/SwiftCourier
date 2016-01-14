@@ -39,6 +39,11 @@ namespace SwiftCourier.Models
             destination.AmountPaid = source.AmountPaid;
             destination.AmountDue = source.AmountDue;
 
+            if(source.Payments != null)
+            {
+                destination.Payments = source.Payments.ToList().ToListViewModel();
+            }
+
             return destination;
         }
 

@@ -104,5 +104,23 @@ namespace SwiftCourier.Controllers
 
             return View(model);
         }
+
+        public async Task<IActionResult> Details(int id, string print = "")
+        {
+            var payment = await _context.Payments
+                .Include(p => p.PaymentMethod)
+                .Include(p => p.User)
+                .SingleAsync(m => m.Id == id);
+            if (payment == null)
+            {
+                return HttpNotFound();
+            }
+
+            if(print.Equals("yes", StringComparison.OrdinalIgnoreCase))
+            {
+                return View("Details_Print", payment.ToDetailsViewModel());
+            }
+            return View(payment.ToDetailsViewModel());
+        }
     }
 }

@@ -59,5 +59,7 @@ namespace SwiftCourier.ViewModels
 
         [Display(Name = "Amount Due")]
         public decimal AmountDue { get; set; }
+
+        public List<PaymentListItemViewModel> Payments { get; set; }
     }
 }

@@ -12,9 +12,6 @@ namespace SwiftCourier.ViewModels
         [Display(Name = "Booking Id")]
         public int BookingId { get; set; }
 
-        [Display(Name = "Package Type")]
-        public PackageType Type { get; set; }
-
         [Display(Name = "Description")]
         public string Description { get; set; }
 
@@ -44,15 +41,14 @@ namespace SwiftCourier.ViewModels
 
         [Display(Name = "Status")]
         public PackageStatus Status { get; set; }
+
+        public PackageTypeViewModel PackageType { get; set; }
     }
 
     public class PackageDetailsViewModel
     {
         [Display(Name = "Booking Id")]
         public int BookingId { get; set; }
-
-        [Display(Name = "Package Type")]
-        public string Type { get; set; }
 
         [Display(Name = "Description")]
         public string Description { get; set; }
@@ -85,5 +81,6 @@ namespace SwiftCourier.ViewModels
         public string Status { get; set; }
 
         public List<PackageLogListItemViewModel> PackageLogs { get; set; }
+        public PackageTypeDetailsViewModel PackageType { get; set; }
     }
 }

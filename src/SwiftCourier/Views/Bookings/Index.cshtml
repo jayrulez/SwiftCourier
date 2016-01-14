@@ -3,101 +3,77 @@
 @{
     ViewData["Title"] = "Bookings";
 }
-<div class="main-content">
-    <div class="panel mb25">
-        <div class="panel-heading">
-            <span>Bookings</span>
-            <span class="pull-right">
-                <a asp-action="Create">Create New</a>
-            </span>
-        </div>
-        <div class="panel-body">
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped mb0">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Id)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Customer.Name)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.ConsigneeName)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.ServiceName)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Package.Status)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.CreatedAt)
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Id)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Customer.Name)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.ConsigneeName)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.ServiceName)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Package.Status)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.CreatedAt)
-                            </th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
 
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Id)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Customer.Name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ConsigneeName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ServiceName)
-                                </td>
-                                <td>
-                                    @if (item.Package != null)
-                                    {
-                                        <text>@Html.DisplayFor(modelItem => item.Package.Status)</text>
-                                    }
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CreatedAt)
-                                </td>
-                                <td>
-                                    <a asp-action="Edit" asp-route-id="@item.Id" data-toggle=tooltip data-placement=top title="Edit"><i class="fa fa-edit"></i></a>
-                                    &nbsp;
-                                    <a asp-action="Details" asp-route-id="@item.Id" data-toggle=tooltip data-placement=top title="Details"><i class="fa fa-eye"></i></a>
-                                    &nbsp;
-                                    <a asp-action="Delete" asp-route-id="@item.Id" data-toggle=tooltip data-placement=top title="Delete"><i class="fa fa-trash"></i></a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+<div class="panel mb25">
+    <div class="panel-heading">
+        <span>Bookings</span>
+        <span class="pull-right">
+            <a asp-action="Create">Create New</a>
+        </span>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped mb0">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Id)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Customer.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ConsigneeName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ServiceName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Package.Status)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CreatedAt)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Customer.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ConsigneeName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ServiceName)
+                            </td>
+                            <td>
+                                @if (item.Package != null)
+                                {
+                                    <text>@Html.DisplayFor(modelItem => item.Package.Status)</text>
+                                }
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreatedAt)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id" data-toggle=tooltip data-placement=top title="Edit"><i class="fa fa-edit"></i></a>
+                                &nbsp;
+                                <a asp-action="Details" asp-route-id="@item.Id" data-toggle=tooltip data-placement=top title="Details"><i class="fa fa-eye"></i></a>
+                                &nbsp;
+                                <a asp-action="Delete" asp-route-id="@item.Id" data-toggle=tooltip data-placement=top title="Delete"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

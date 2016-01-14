@@ -4,6 +4,7 @@ using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.Data.Entity;
 using SwiftCourier.Models;
+using SwiftCourier.ViewModels;
 
 namespace SwiftCourier.Controllers
 {
@@ -18,7 +19,9 @@ namespace SwiftCourier.Controllers
         
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Locations.ToListAsync());
+            var locations = await _context.Locations.ToListAsync();
+
+            return View(locations.ToListViewModel());
         }
         
         public async Task<IActionResult> Details(int? id)
@@ -28,13 +31,13 @@ namespace SwiftCourier.Controllers
                 return HttpNotFound();
             }
 
-            Location location = await _context.Locations.SingleAsync(m => m.Id == id);
+            var location = await _context.Locations.SingleAsync(m => m.Id == id);
             if (location == null)
             {
                 return HttpNotFound();
             }
 
-            return View(location);
+            return View(location.ToDetailsViewModel());
         }
         
         public IActionResult Create()
@@ -44,15 +47,17 @@ namespace SwiftCourier.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Location location)
+        public IActionResult Create(LocationViewModel model)
         {
             if (ModelState.IsValid)
             {
+                var location = model.ToEntity();
+
                 _context.Locations.Add(location);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(location);
+            return View(model);
         }
         
         public async Task<IActionResult> Edit(int? id)
@@ -62,25 +67,33 @@ namespace SwiftCourier.Controllers
                 return HttpNotFound();
             }
 
-            Location location = await _context.Locations.SingleAsync(m => m.Id == id);
+            var location = await _context.Locations.SingleAsync(m => m.Id == id);
             if (location == null)
             {
                 return HttpNotFound();
             }
-            return View(location);
+            return View(location.ToViewModel());
         }
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Location location)
+        public async Task<IActionResult> Edit(LocationViewModel model)
         {
             if (ModelState.IsValid)
             {
+                var location = await _context.Locations.SingleAsync(m => m.Id == model.Id);
+                if (location == null)
+                {
+                    return HttpNotFound();
+                }
+
+                location = model.UpdateEntity(location);
+
                 _context.Update(location);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(location);
+            return View(model);
         }
         
         [ActionName("Delete")]
@@ -91,13 +104,13 @@ namespace SwiftCourier.Controllers
                 return HttpNotFound();
             }
 
-            Location location = await _context.Locations.SingleAsync(m => m.Id == id);
+            var location = await _context.Locations.SingleAsync(m => m.Id == id);
             if (location == null)
             {
                 return HttpNotFound();
             }
 
-            return View(location);
+            return View(location.ToDetailsViewModel());
         }
         
         [HttpPost, ActionName("Delete")]

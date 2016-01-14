@@ -68,8 +68,8 @@
                     </dd>
                     @if (Model.Package != null)
                     {
-                        <dt>@Html.DisplayNameFor(model => model.Package.Type)</dt>
-                        <dd>@Html.DisplayFor(model => model.Package.Type)</dd>
+                        <dt>@Html.DisplayNameFor(model => model.Package.PackageType.Name)</dt>
+                        <dd>@Html.DisplayFor(model => model.Package.PackageType.Name)</dd>
 
                         <dt>@Html.DisplayNameFor(model => model.Package.Description)</dt>
                         <dd>@Html.DisplayFor(model => model.Package.Description)</dd>

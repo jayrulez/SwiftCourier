@@ -37,7 +37,7 @@
 
                 <!-- logo -->
                 <div class="brand-logo">
-                    <img src="~/images/logo.png" height="15" alt="">
+                    <img src="~/images/swift.png" height="15" alt="">
                 </div>
                 <!-- /logo -->
                 <!-- toggle small sidebar menu -->
@@ -91,6 +91,7 @@
                         <ul class="sub-menu">
                             <li><a asp-controller="Services" asp-action="Index"><span>Services</span></a></li>
                             <li><a asp-controller="PaymentMethods" asp-action="Index"><span>Payment Methods</span></a></li>
+                            <li><a asp-controller="PackageTypes" asp-action="Index"><span>Package Types</span></a></li>
                             <li><a asp-controller="Roles" asp-action="Index"><span>Roles &amp; Permissions</span></a></li>
                         </ul>
                     </li>
@@ -142,6 +143,9 @@
                             <span>@User.Identity.Name</span>
                         </a>
                         <ul class="dropdown-menu">
+                            <li>
+                                <a asp-controller="Manage" asp-action="ChangePassword">Change Password</a>
+                            </li>
                             <li>
                                 <a asp-controller="Account" asp-action="LogOff">Logout</a>
                             </li>

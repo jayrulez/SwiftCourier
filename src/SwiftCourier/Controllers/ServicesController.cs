@@ -4,6 +4,7 @@ using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.Data.Entity;
 using SwiftCourier.Models;
+using SwiftCourier.ViewModels;
 
 namespace SwiftCourier.Controllers
 {
@@ -15,14 +16,14 @@ namespace SwiftCourier.Controllers
         {
             _context = context;    
         }
-
-        // GET: Services
+        
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Services.ToListAsync());
-        }
+            var services = await _context.Services.ToListAsync();
 
-        // GET: Services/Details/5
+            return View(services);
+        }
+        
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -30,36 +31,35 @@ namespace SwiftCourier.Controllers
                 return HttpNotFound();
             }
 
-            Service service = await _context.Services.SingleAsync(m => m.Id == id);
+            var service = await _context.Services.SingleAsync(m => m.Id == id);
             if (service == null)
             {
                 return HttpNotFound();
             }
 
-            return View(service);
+            return View(service.ToDetailsViewModel());
         }
-
-        // GET: Services/Create
+        
         public IActionResult Create()
         {
             return View();
         }
-
-        // POST: Services/Create
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Service service)
+        public async Task<IActionResult> Create(ServiceViewModel model)
         {
             if (ModelState.IsValid)
             {
+                var service = model.ToEntity();
+
                 _context.Services.Add(service);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(service);
+            return View(model);
         }
-
-        // GET: Services/Edit/5
+        
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -67,29 +67,35 @@ namespace SwiftCourier.Controllers
                 return HttpNotFound();
             }
 
-            Service service = await _context.Services.SingleAsync(m => m.Id == id);
+            var service = await _context.Services.SingleAsync(m => m.Id == id);
             if (service == null)
             {
                 return HttpNotFound();
             }
-            return View(service);
+            return View(service.ToViewModel());
         }
-
-        // POST: Services/Edit/5
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Service service)
+        public async Task<IActionResult> Edit(ServiceViewModel model)
         {
             if (ModelState.IsValid)
             {
+                var service = await _context.Services.SingleAsync(m => m.Id == model.Id);
+                if (service == null)
+                {
+                    return HttpNotFound();
+                }
+
+                service = model.UpdateEntity(service);
+
                 _context.Update(service);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(service);
+            return View(model);
         }
-
-        // GET: Services/Delete/5
+        
         [ActionName("Delete")]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -98,13 +104,13 @@ namespace SwiftCourier.Controllers
                 return HttpNotFound();
             }
 
-            Service service = await _context.Services.SingleAsync(m => m.Id == id);
+            var service = await _context.Services.SingleAsync(m => m.Id == id);
             if (service == null)
             {
                 return HttpNotFound();
             }
 
-            return View(service);
+            return View(service.ToDetailsViewModel());
         }
 
         // POST: Services/Delete/5
@@ -112,7 +118,7 @@ namespace SwiftCourier.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            Service service = await _context.Services.SingleAsync(m => m.Id == id);
+            var service = await _context.Services.SingleAsync(m => m.Id == id);
             _context.Services.Remove(service);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");

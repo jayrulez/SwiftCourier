@@ -148,20 +148,33 @@ namespace SwiftCourier.Models
                 entity.ToTable("PackageLogs");
             });
 
+            modelBuilder.Entity<PackageType>(entity =>
+            {
+                entity.HasKey(p => p.Id);
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(100)
+                    .IsRequired();
+
+                entity.HasMany(p => p.Packages).WithOne(p => p.PackageType).HasForeignKey(p => p.PackageTypeId);
+
+                entity.ToTable("PackageTypes");
+            });
+
             modelBuilder.Entity<Package>(entity =>
             {
                 entity.HasKey(e => e.BookingId);
 
                 entity.Property(e => e.BookingId).ValueGeneratedNever();
 
-                entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasColumnType("text");
+                entity.Property(e => e.PackageTypeId)
+                    .IsRequired();
 
                 entity.Property(e => e.TrackingNumber)
                     .HasMaxLength(256);
 
                 entity.HasOne(d => d.Booking).WithOne(p => p.Package).HasForeignKey<Package>(d => d.BookingId);
+                entity.HasOne(d => d.PackageType).WithMany(p => p.Packages).HasForeignKey(p => p.PackageTypeId);
                 entity.ToTable("Packages");
             });
 
@@ -295,6 +308,7 @@ namespace SwiftCourier.Models
         public virtual DbSet<Location> Locations { get; set; }
         public virtual DbSet<PackageLog> PackageLogs { get; set; }
         public virtual DbSet<Package> Packages { get; set; }
+        public virtual DbSet<PackageType> PackageTypes { get; set; }
         public virtual DbSet<PaymentMethodFieldValue> PaymentMethodFieldValues { get; set; }
         public virtual DbSet<PaymentMethodField> PaymentMethodFields { get; set; }
         public virtual DbSet<PaymentMethod> PaymentMethods { get; set; }

@@ -21,11 +21,12 @@ namespace SwiftCourier.Models
         public Decimal Weight { get; set; }
         public int Pieces { get; set; }
         public string SpecialInstructions { get; set; }
-        public PackageType Type { get; set; }
+        public int PackageTypeId { get; set; }
 
         public virtual ICollection<PackageLog> PackageLogs { get; set; }
         public virtual Booking Booking { get; set; }
         public virtual User DeliveredBy { get; set; }
         public virtual User AssignedTo { get; set; }
+        public PackageType PackageType { get; set; }
     }
 }

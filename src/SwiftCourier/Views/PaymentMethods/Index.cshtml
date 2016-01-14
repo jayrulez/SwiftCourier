@@ -1,4 +1,4 @@
-@model IEnumerable<SwiftCourier.Models.PaymentMethod>
+@model IEnumerable<SwiftCourier.ViewModels.PaymentMethodListItemViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -20,12 +20,6 @@
                         <th></th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>@Html.DisplayNameFor(model => model.Name)</th>
-                        <th></th>
-                    </tr>
-                </tfoot>
                 <tbody>
                     @foreach (var item in Model)
                     {

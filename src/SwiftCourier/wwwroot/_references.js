@@ -29,6 +29,7 @@
 /// <reference path="scripts/pages/rickshaw.js" />
 /// <reference path="scripts/pages/table-edit.js" />
 /// <reference path="scripts/pages/vector-maps.js" />
+/// <reference path="scripts/print.js" />
 /// <reference path="scripts/ui/accordion.js" />
 /// <reference path="scripts/ui/animate.js" />
 /// <reference path="scripts/ui/link-transition.js" />

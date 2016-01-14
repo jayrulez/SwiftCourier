@@ -1,4 +1,4 @@
-@model IEnumerable<SwiftCourier.Models.Service>
+@model IEnumerable<SwiftCourier.ViewModels.ServiceListItemViewModel>
 
 @{
     ViewData["Title"] = "Services";
@@ -6,7 +6,7 @@
 
 <div class="panel mb25">
     <div class="panel-heading">
-        <span>Locations</span>
+        <span>Services</span>
         <span class="pull-right">
             <a asp-action="Create">Create New</a>
         </span>
@@ -25,17 +25,6 @@
                         <th></th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Name)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Cost)
-                        </th>
-                        <th></th>
-                    </tr>
-                </tfoot>
                 <tbody>
                     @foreach (var item in Model)
                     {

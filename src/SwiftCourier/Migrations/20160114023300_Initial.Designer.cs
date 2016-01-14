@@ -8,7 +8,7 @@ using SwiftCourier.Models;
 namespace SwiftCourier.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160111021833_Initial")]
+    [Migration("20160114023300_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -194,9 +194,9 @@ namespace SwiftCourier.Migrations
 
                     b.Property<int?>("DeliveredByUserId");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasAnnotation("Relational:ColumnType", "text");
+                    b.Property<string>("Description");
+
+                    b.Property<int>("PackageTypeId");
 
                     b.Property<DateTime?>("PickedUpAt");
 
@@ -208,8 +208,6 @@ namespace SwiftCourier.Migrations
 
                     b.Property<string>("TrackingNumber")
                         .HasAnnotation("MaxLength", 256);
-
-                    b.Property<int>("Type");
 
                     b.Property<decimal>("Weight");
 
@@ -233,6 +231,20 @@ namespace SwiftCourier.Migrations
                     b.HasKey("Id");
 
                     b.HasAnnotation("Relational:TableName", "PackageLogs");
+                });
+
+            modelBuilder.Entity("SwiftCourier.Models.PackageType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 100);
+
+                    b.HasKey("Id");
+
+                    b.HasAnnotation("Relational:TableName", "PackageTypes");
                 });
 
             modelBuilder.Entity("SwiftCourier.Models.Payment", b =>
@@ -535,6 +547,10 @@ namespace SwiftCourier.Migrations
                     b.HasOne("SwiftCourier.Models.User")
                         .WithMany()
                         .HasForeignKey("DeliveredByUserId");
+
+                    b.HasOne("SwiftCourier.Models.PackageType")
+                        .WithMany()
+                        .HasForeignKey("PackageTypeId");
                 });
 
             modelBuilder.Entity("SwiftCourier.Models.PackageLog", b =>
