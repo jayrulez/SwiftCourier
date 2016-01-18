@@ -26,6 +26,44 @@
             $('#PickupContactNumber').parents('div[class="form-group"]').hide();
         }
     });
+	
+    $('#CustomerId').select2({
+            placeholder: "Search for a customer",
+            minimumInputLength: 1,
+            ajax: {
+                url: "/api/customers",
+                dataType: 'json',
+                quietMillis: 250,
+                data: function (term, page) {
+                    return {
+                        q: term,
+                    };
+                },
+                results: function (data, page) {
+                    return { results: data.items };
+                },
+                cache: true
+            },
+            initSelection: function (element, callback) {
+                var id = $(element).val();
+                if (id != "" && id != 0) {
+                    console.log(id);
+
+                    $.ajax("/api/customer/" + id, {
+                        dataType: "json"
+                    }).done(function (data) { callback(data); });
+                }
+            },
+            id: function (data) { return data.Id },
+            formatResult: function (data) {
+                return data.Name;
+            },
+            formatSelection: function (data) {
+                return data.Name;
+            },
+            dropdownCssClass: "bigdrop",
+            escapeMarkup: function (m) { return m; }
+    });
 
     $('#CustomerId').on('change', function (e) {
         var customerId = $(this).val();
@@ -38,8 +76,7 @@
                 type: 'GET',
                 url: '/api/customer/' + customerId,
                 success: function (data) {
-                    if(data)
-                    {
+                    if (data) {
                         if (pickupRequired) {
                             $('#PickupAddress').val(data.Address);
                             $('#PickupContactNumber').val(data.ContactNumber);
@@ -86,8 +123,7 @@
                 type: 'GET',
                 url: '/api/service/' + serviceId,
                 success: function (data) {
-                    if(data)
-                    {
+                    if (data) {
                         $('#Invoice_ServiceCost').val(data.Cost).trigger('change');
                     } else {
                         $('#Invoice_ServiceCost').val('');

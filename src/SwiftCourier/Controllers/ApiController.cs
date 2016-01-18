@@ -5,6 +5,7 @@ using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Data.Entity;
 using SwiftCourier.Models;
+using Newtonsoft.Json;
 
 namespace SwiftCourier.Controllers
 {
@@ -37,6 +38,23 @@ namespace SwiftCourier.Controllers
         public Customer GetCustomer(int id)
         {
             return _context.Customers.FirstOrDefault(c => c.Id == id);
+        }
+
+        [Route("api/customers")]
+        [HttpGet]
+        public IActionResult GetCustomers(string q = "")
+        {
+            var customers = _context.Customers.Where(c => c.Name.StartsWith(q, System.StringComparison.OrdinalIgnoreCase) || c.Name.Contains(q)).ToList();
+
+            var list = customers.ToListViewModel();
+
+            var data = JsonConvert.SerializeObject(list);
+
+            var result = "{\"total_count\": {count}, \"incomplete_results\": false, \"items\": {data}}";
+
+            var response = result.Replace("{count}", customers.Count.ToString()).Replace("{data}", data);
+
+            return Content(response);
         }
 
         protected override void Dispose(bool disposing)

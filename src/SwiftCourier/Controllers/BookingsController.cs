@@ -77,7 +77,7 @@ namespace SwiftCourier.Controllers
 
         public IActionResult Create()
         {
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name");
+            //ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name");
             ViewData["PackageTypeId"] = new SelectList(_context.PackageTypes, "Id", "Name");
             ViewData["ServiceId"] = new SelectList(_context.Services, "Id", "Name");
 
@@ -137,7 +137,7 @@ namespace SwiftCourier.Controllers
                 return RedirectToAction("Details", "Bookings", new { id = booking.Id });
             }
 
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name", model.CustomerId);
+            //ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name", model.CustomerId);
             ViewData["PackageTypeId"] = new SelectList(_context.PackageTypes, "Id", "Name");
             ViewData["ServiceId"] = new SelectList(_context.Services, "Id", "Name", model.ServiceId);
 
@@ -164,8 +164,9 @@ namespace SwiftCourier.Controllers
 
             var model = booking.ToViewModel();
 
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name", model.CustomerId);
+            //ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name", model.CustomerId);
             ViewData["ServiceId"] = new SelectList(_context.Services, "Id", "Name", model.ServiceId);
+            ViewData["PackageTypeId"] = new SelectList(_context.PackageTypes, "Id", "Name");
 
             return View(model);
         }
@@ -198,8 +199,9 @@ namespace SwiftCourier.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name", model.CustomerId);
+            //sViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name", model.CustomerId);
             ViewData["ServiceId"] = new SelectList(_context.Services, "Id", "Name", model.ServiceId);
+            ViewData["PackageTypeId"] = new SelectList(_context.PackageTypes, "Id", "Name");
 
             return View(model);
         }

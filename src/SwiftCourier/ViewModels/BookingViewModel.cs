@@ -15,7 +15,7 @@ namespace SwiftCourier.ViewModels
         [Display(Name = "Created By")]
         public int CreatedByUserId { get; set; }
 
-        [Display(Name = "Customer Id")]
+        [Display(Name = "Customer")]
         public int CustomerId { get; set; }
 
         [Display(Name = "Service Id")]
