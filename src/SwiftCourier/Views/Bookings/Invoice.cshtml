@@ -147,7 +147,7 @@
                         </dd>
                     }
                 </dl>
-                @if (Model.Invoice != null && Model.Invoice.Payments != null)
+                @if (Model.Invoice != null && Model.Invoice.Payments != null && Model.Invoice.Payments.Count() > 0)
                 {
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped mb0">

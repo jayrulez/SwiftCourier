@@ -13,6 +13,7 @@ using SwiftCourier.Models;
 using SwiftCourier.Services;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Identity;
+using SwiftCourier.Middleware;
 
 namespace SwiftCourier
 {
@@ -46,7 +47,7 @@ namespace SwiftCourier
                 .AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
 
-            services.AddIdentity<User, Role>()
+            services.AddIdentity<User, Role>(options => options.User.AllowedUserNameCharacters = null)
                 .AddEntityFrameworkStores<ApplicationDbContext, int>()
                 .AddUserStore<UserStore<User, Role, ApplicationDbContext, int>>()
                 .AddRoleStore<RoleStore<Role, ApplicationDbContext, int>>()
@@ -96,23 +97,6 @@ namespace SwiftCourier
                 catch { }
             }
 
-            //Create initial user
-            using (var userManager = app.ApplicationServices.GetService<UserManager<User>>())
-            {
-                if (userManager.Users.Count() == 0)
-                {
-                    var user = new User()
-                    {
-                        UserName = "administrator",
-                        Email = "admin@appdevery.com"
-                    };
-
-                    var task = userManager.CreateAsync(user, "123@AppDevery");
-
-                    task.Wait();
-                }
-            }
-
             //Seed Database
             using (var dbContext = (ApplicationDbContext)app.ApplicationServices.GetService<ApplicationDbContext>())
             {
@@ -125,6 +109,8 @@ namespace SwiftCourier
             app.UseIdentity();
 
             // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
+
+            app.UseInstaller();
 
             app.UseMvc(routes =>
             {

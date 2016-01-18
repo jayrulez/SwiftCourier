@@ -67,7 +67,8 @@ namespace SwiftCourier.Controllers
                 var user = new User
                 {
                     Email = model.Email,
-                    UserName = model.UserName
+                    UserName = model.UserName,
+                    UserType = model.UserType
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
@@ -102,7 +103,8 @@ namespace SwiftCourier.Controllers
             return View(new EditUserViewModel {
                 Id = user.Id,
                 Email = user.Email,
-                UserName = user.UserName
+                UserName = user.UserName,
+                UserType = user.UserType
             });
         }
 
@@ -120,6 +122,7 @@ namespace SwiftCourier.Controllers
                     return HttpNotFound();
                 }
 
+                user.UserType = model.UserType;
                 await _userManager.SetEmailAsync(user, model.Email);
                 await _userManager.SetUserNameAsync(user, model.UserName);
 

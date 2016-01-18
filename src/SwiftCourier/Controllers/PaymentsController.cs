@@ -85,7 +85,7 @@ namespace SwiftCourier.Controllers
                 invoice.AmountPaid += payment.Amount;
                 invoice.AmountDue -= payment.Amount;
 
-                if(invoice.AmountPaid >= invoice.Total)
+                if(invoice.AmountDue <= 0)
                 {
                     invoice.Status = InvoiceStatus.Paid;
                 }

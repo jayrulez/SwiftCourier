@@ -48,7 +48,8 @@ namespace SwiftCourier.Controllers
             {
                 var user = new User
                 {
-                    UserName = model.UserName
+                    UserName = model.UserName,
+                    UserType = UserType.NORMAL_USER
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);

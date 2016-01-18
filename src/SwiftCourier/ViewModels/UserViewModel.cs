@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SwiftCourier.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -12,6 +13,9 @@ namespace SwiftCourier.ViewModels
 
     public class CreateUserViewModel
     {
+        [Display(Name ="User Tye")]
+        public UserType UserType { get; set; }
+
         [Display(Name = "Username")]
         public string UserName { get; set; }
 
@@ -24,6 +28,9 @@ namespace SwiftCourier.ViewModels
 
     public class EditUserViewModel
     {
+        [Display(Name = "User Tye")]
+        public UserType UserType { get; set; }
+
         public int Id { get; set; }
 
         [Display(Name = "Username")]

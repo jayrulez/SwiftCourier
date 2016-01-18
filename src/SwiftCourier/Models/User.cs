@@ -22,6 +22,8 @@ namespace SwiftCourier.Models
             CreatedBookings = new HashSet<Booking>();
         }
 
+        public UserType UserType { get; set; }
+
         /*
         public virtual new ICollection<UserClaim> Claims { get; set; }
         public virtual new ICollection<UserRole> Roles { get; set; }

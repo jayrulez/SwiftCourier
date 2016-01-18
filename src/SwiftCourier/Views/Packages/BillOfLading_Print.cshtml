@@ -10,29 +10,64 @@
         <div class="row no-margin">
             <div class="col-lg-12">
                 <div class="row">
-                    <div class="col-lg-6">
-                        Logo + Billing Mode + Date
-                    </div>
-                    <div class="col-lg-6">
-                        Account # + Tracking #
-                        + From Route - To Route
+                    <div class="text-center">
+                        <img src="~/images/logo_main.png" alt="*"/>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-3">
-                        Charges
-                    </div>
-                    <div class="col-lg-6">
-                        Package description
-                    </div>
-                    <div class="col-lg-3">
-                        Service
-                    </div>
+                    <table border="1" width="100%">
+                        <tr>
+                            <td>
+                                <table cellpadding="10">
+                                    <caption>SHIPPER</caption>
+                                    <tbody>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>@Model.Customer.Name</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Address</td>
+                                            <td>@Html.Raw(Model.Customer.Address.Replace("\n", "<br/>"))</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Contact Number</td>
+                                            <td>@Model.Customer.ContactNumber</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td>
+                                <table cellpadding="10">
+                                    <caption>CONSIGNEE</caption>
+                                    <tbody>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>@Model.ConsigneeName</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Address</td>
+                                            <td>@Html.Raw(Model.ConsigneeAddress.Replace("\n", "<br/>"))</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Contact Number</td>
+                                            <td>@Model.ConsigneeContactNumber</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Invoice
+                            </td>
+                            <td>
+                                Package Details
+                            </td>
+                        </tr>
+                    </table>
                 </div>
                 <div class="row">
-                    <div class="col-lg-12">
-                        Text
-                    </div>
+
                 </div>
             </div>
         </div>

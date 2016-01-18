@@ -1,10 +1,12 @@
 ﻿$(document).ready(function () {
     var GCT_RATE = 0.165;
 
+    $('#Invoice_GCT').attr('readonly', true);
+    $('#Invoice_Total').attr('readonly', true);
+
     $('.checkbo').checkBo();
 
-    if ($('#PickupRequired').is(':checked'))
-    {
+    if ($('#PickupRequired').is(':checked')) {
         $('#PickupAddress').parents('div[class="form-group"]').show();
         $('#PickupContactNumber').parents('div[class="form-group"]').show();
     } else {
@@ -13,8 +15,10 @@
     }
 
     $('#PickupRequired').on('change', function () {
-        if ($(this).is(':checked'))
-        {
+
+        $('#CustomerId').trigger('change');
+
+        if ($(this).is(':checked')) {
             $('#PickupAddress').parents('div[class="form-group"]').show();
             $('#PickupContactNumber').parents('div[class="form-group"]').show();
         } else {
@@ -34,7 +38,8 @@
                 type: 'GET',
                 url: '/api/customer/' + customerId,
                 success: function (data) {
-                    if (data) {
+                    if(data)
+                    {
                         if (pickupRequired) {
                             $('#PickupAddress').val(data.Address);
                             $('#PickupContactNumber').val(data.ContactNumber);
@@ -63,6 +68,15 @@
         }
     });
 
+    $('#Invoice_ServiceCost').on("change", function (e) {
+        var cost = parseFloat($(this).val());
+        if (cost) {
+            var gct = cost * parseFloat(GCT_RATE);
+            $('#Invoice_GCT').val(gct);
+            $('#Invoice_Total').val(cost + gct);
+        }
+    });
+
     $('#ServiceId').on('change', function (e) {
         var serviceId = $(this).val();
         if (serviceId) {
@@ -72,11 +86,9 @@
                 type: 'GET',
                 url: '/api/service/' + serviceId,
                 success: function (data) {
-                    if (data) {
-                        $('#Invoice_ServiceCost').val(data.Cost);
-                        var gct = data.Cost * GCT_RATE;
-                        $('#Invoice_GCT').val(gct);
-                        $('#Invoice_Total').val(data.Cost + gct);
+                    if(data)
+                    {
+                        $('#Invoice_ServiceCost').val(data.Cost).trigger('change');
                     } else {
                         $('#Invoice_ServiceCost').val('');
                         $('#Invoice_GCT').val('');
