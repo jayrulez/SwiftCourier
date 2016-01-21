@@ -113,7 +113,7 @@ namespace SwiftCourier.Controllers
 
                 if (booking.Package != null)
                 {
-                    booking.Package.TrackingNumber = Guid.NewGuid().ToString();
+                    booking.Package.TrackingNumber = DateTime.Now.Ticks.ToString();
 
                     if (booking.PickupRequired)
                     {

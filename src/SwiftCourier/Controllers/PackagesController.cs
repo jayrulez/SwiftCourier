@@ -200,6 +200,8 @@ namespace SwiftCourier.Controllers
                 return HttpNotFound();
             }
 
+            ViewData["Services"] = _context.Services.ToList();
+
             if (print.Equals("yes", StringComparison.OrdinalIgnoreCase))
             {
                 return View("BillOfLading_Print", booking.ToDetailsViewModel());
