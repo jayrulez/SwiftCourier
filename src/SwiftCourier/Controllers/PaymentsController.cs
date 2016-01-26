@@ -33,7 +33,7 @@ namespace SwiftCourier.Controllers
 
             if(invoice.AmountDue <= 0)
             {
-                return RedirectToAction("Invoice", "Bookings", new {
+                return RedirectToAction("Details", "Bookings", new {
                     id = id
                 });
             }
@@ -61,7 +61,7 @@ namespace SwiftCourier.Controllers
 
             if (invoice.AmountDue <= 0)
             {
-                return RedirectToAction("Invoice", "Bookings", new
+                return RedirectToAction("Details", "Bookings", new
                 {
                     id = id
                 });
@@ -94,7 +94,7 @@ namespace SwiftCourier.Controllers
 
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction("Invoice", "Bookings", new
+                return RedirectToAction("Details", "Bookings", new
                 {
                     id = id
                 });

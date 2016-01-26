@@ -36,6 +36,21 @@
                     <dd>
                         @Html.DisplayFor(model => model.RequestDate)
                     </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Origin.Name)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Origin.Name)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Destination.Name)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Destination.Name)
+                    </dd>
+
                     <dt>
                         @Html.DisplayNameFor(model => model.PickupAddress)
                     </dt>
@@ -86,6 +101,9 @@
                         <dt>@Html.DisplayNameFor(model => model.Package.TrackingNumber)</dt>
                         <dd>@Html.DisplayFor(model => model.Package.TrackingNumber)</dd>
 
+                        <dt>@Html.DisplayNameFor(model => model.Package.ReferenceNumber)</dt>
+                        <dd>@Html.DisplayFor(model => model.Package.ReferenceNumber)</dd>
+
                         @if (Model.Package.PickedUpAt != null)
                         {
                             <dt>@Html.DisplayNameFor(model => model.Package.PickedUpAt)</dt>
@@ -121,6 +139,26 @@
                         <dd>
                             @Html.DisplayFor(model => model.Invoice.ServiceCost)
                         </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Invoice.DiscountType)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Invoice.DiscountType)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Invoice.DiscountValue)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Invoice.DiscountValue)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Invoice.DiscountValue)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Invoice.DiscountValue)
+                        </dd>
+
                         <dt>
                             @Html.DisplayNameFor(model => model.Invoice.GCT)
                         </dt>

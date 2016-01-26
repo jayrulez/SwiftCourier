@@ -19,6 +19,7 @@ namespace SwiftCourier.Models
             destination.Weight = source.Weight;
             destination.SpecialInstructions = source.SpecialInstructions;
             destination.TrackingNumber = source.TrackingNumber;
+            destination.ReferenceNumber = source.ReferenceNumber;
             destination.PickedUpAt = source.PickedUpAt;
             destination.DeliveredAt = source.DeliveredAt;
             destination.AssignedToUserId = source.AssignedToUserId;
@@ -45,6 +46,7 @@ namespace SwiftCourier.Models
             destination.SpecialInstructions = source.SpecialInstructions;
 
             destination.TrackingNumber = source.TrackingNumber;
+            destination.ReferenceNumber = source.ReferenceNumber;
             destination.PickedUpAt = source.PickedUpAt;
             destination.DeliveredAt = source.DeliveredAt;
             destination.AssignedTo = source.AssignedTo != null ? source.AssignedTo.UserName : string.Empty;
@@ -78,6 +80,7 @@ namespace SwiftCourier.Models
             destination.Weight = source.Weight;
             destination.SpecialInstructions = source.SpecialInstructions;
             destination.TrackingNumber = source.TrackingNumber;
+            destination.ReferenceNumber = source.ReferenceNumber;
             destination.PickedUpAt = source.PickedUpAt;
             destination.DeliveredAt = source.DeliveredAt;
             destination.AssignedToUserId = source.AssignedToUserId;
@@ -105,6 +108,7 @@ namespace SwiftCourier.Models
             destination.Weight = source.Weight;
             destination.SpecialInstructions = source.SpecialInstructions;
             //destination.TrackingNumber = source.TrackingNumber;
+            destination.ReferenceNumber = source.ReferenceNumber;
             //destination.PickedUpAt = source.PickedUpAt;
             //destination.DeliveredAt = source.DeliveredAt;
             //destination.AssignedToUserId = source.AssignedToUserId;

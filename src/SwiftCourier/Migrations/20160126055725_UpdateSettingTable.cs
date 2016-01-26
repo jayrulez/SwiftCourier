@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Data.Entity.Migrations;
-using SwiftCourier.Models;
 
 namespace SwiftCourier.Migrations
 {
-    public partial class AddUserTypeToUser : Migration
+    public partial class UpdateSettingTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,6 +15,8 @@ namespace SwiftCourier.Migrations
             migrationBuilder.DropForeignKey(name: "FK_IdentityUserRole<int>_User_UserId", table: "UserRoles");
             migrationBuilder.DropForeignKey(name: "FK_Booking_User_CreatedByUserId", table: "Bookings");
             migrationBuilder.DropForeignKey(name: "FK_Booking_Customer_CustomerId", table: "Bookings");
+            migrationBuilder.DropForeignKey(name: "FK_Booking_Location_DestinationLocationId", table: "Bookings");
+            migrationBuilder.DropForeignKey(name: "FK_Booking_Location_OriginLocationId", table: "Bookings");
             migrationBuilder.DropForeignKey(name: "FK_Booking_Service_ServiceId", table: "Bookings");
             migrationBuilder.DropForeignKey(name: "FK_Invoice_Booking_BookingId", table: "Invoices");
             migrationBuilder.DropForeignKey(name: "FK_Package_Booking_BookingId", table: "Packages");
@@ -29,11 +30,10 @@ namespace SwiftCourier.Migrations
             migrationBuilder.DropForeignKey(name: "FK_RolePermission_Role_RoleId", table: "RolePermissions");
             migrationBuilder.DropForeignKey(name: "FK_UserPermission_Permission_PermissionId", table: "UserPermissions");
             migrationBuilder.DropForeignKey(name: "FK_UserPermission_User_UserId", table: "UserPermissions");
-            migrationBuilder.AddColumn<int>(
-                name: "UserType",
-                table: "Users",
-                nullable: false,
-                defaultValue: UserType.COURIER);
+            migrationBuilder.AddColumn<string>(
+                name: "Description",
+                table: "Settings",
+                nullable: true);
             migrationBuilder.AddForeignKey(
                 name: "FK_IdentityRoleClaim<int>_Role_RoleId",
                 table: "RoleClaims",
@@ -83,6 +83,20 @@ namespace SwiftCourier.Migrations
                 principalTable: "Customers",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
+            migrationBuilder.AddForeignKey(
+                name: "FK_Booking_Location_DestinationLocationId",
+                table: "Bookings",
+                column: "DestinationLocationId",
+                principalTable: "Locations",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.NoAction);
+            migrationBuilder.AddForeignKey(
+                name: "FK_Booking_Location_OriginLocationId",
+                table: "Bookings",
+                column: "OriginLocationId",
+                principalTable: "Locations",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.NoAction);
             migrationBuilder.AddForeignKey(
                 name: "FK_Booking_Service_ServiceId",
                 table: "Bookings",
@@ -185,6 +199,8 @@ namespace SwiftCourier.Migrations
             migrationBuilder.DropForeignKey(name: "FK_IdentityUserRole<int>_User_UserId", table: "UserRoles");
             migrationBuilder.DropForeignKey(name: "FK_Booking_User_CreatedByUserId", table: "Bookings");
             migrationBuilder.DropForeignKey(name: "FK_Booking_Customer_CustomerId", table: "Bookings");
+            migrationBuilder.DropForeignKey(name: "FK_Booking_Location_DestinationLocationId", table: "Bookings");
+            migrationBuilder.DropForeignKey(name: "FK_Booking_Location_OriginLocationId", table: "Bookings");
             migrationBuilder.DropForeignKey(name: "FK_Booking_Service_ServiceId", table: "Bookings");
             migrationBuilder.DropForeignKey(name: "FK_Invoice_Booking_BookingId", table: "Invoices");
             migrationBuilder.DropForeignKey(name: "FK_Package_Booking_BookingId", table: "Packages");
@@ -198,7 +214,7 @@ namespace SwiftCourier.Migrations
             migrationBuilder.DropForeignKey(name: "FK_RolePermission_Role_RoleId", table: "RolePermissions");
             migrationBuilder.DropForeignKey(name: "FK_UserPermission_Permission_PermissionId", table: "UserPermissions");
             migrationBuilder.DropForeignKey(name: "FK_UserPermission_User_UserId", table: "UserPermissions");
-            migrationBuilder.DropColumn(name: "UserType", table: "Users");
+            migrationBuilder.DropColumn(name: "Description", table: "Settings");
             migrationBuilder.AddForeignKey(
                 name: "FK_IdentityRoleClaim<int>_Role_RoleId",
                 table: "RoleClaims",
@@ -246,6 +262,20 @@ namespace SwiftCourier.Migrations
                 table: "Bookings",
                 column: "CustomerId",
                 principalTable: "Customers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+            migrationBuilder.AddForeignKey(
+                name: "FK_Booking_Location_DestinationLocationId",
+                table: "Bookings",
+                column: "DestinationLocationId",
+                principalTable: "Locations",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+            migrationBuilder.AddForeignKey(
+                name: "FK_Booking_Location_OriginLocationId",
+                table: "Bookings",
+                column: "OriginLocationId",
+                principalTable: "Locations",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
             migrationBuilder.AddForeignKey(

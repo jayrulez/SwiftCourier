@@ -24,6 +24,12 @@ namespace SwiftCourier.ViewModels
         [Display(Name = "Request Date")]
         public string RequestDate { get; set; }
 
+        [Display(Name = "Origin")]
+        public int OriginLocationId { get; set; }
+
+        [Display(Name = "Destination")]
+        public int DestinationLocationId { get; set; }
+
         [Display(Name = "Pickup Required")]
         public bool PickupRequired { get; set; }
 
@@ -81,6 +87,8 @@ namespace SwiftCourier.ViewModels
         [Display(Name = "Created At")]
         public DateTime CreatedAt { get; set; }
 
+        public LocationViewModel Origin { get; set; }
+        public LocationViewModel Destination { get; set; }
         public InvoiceViewModel Invoice { get; set; }
         public PackageViewModel Package { get; set; }
         public CustomerListItemViewModel Customer { get; set; }
@@ -121,6 +129,8 @@ namespace SwiftCourier.ViewModels
         [Display(Name = "Created At")]
         public DateTime CreatedAt { get; set; }
 
+        public LocationViewModel Origin { get; set; }
+        public LocationViewModel Destination { get; set; }
         public InvoiceDetailsViewModel Invoice { get; set; }
         public PackageDetailsViewModel Package { get; set; }
         public CustomerDetailsViewModel Customer { get; set; }

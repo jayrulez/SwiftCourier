@@ -21,6 +21,9 @@ namespace SwiftCourier.Models
             destination.BillingMode = source.BillingMode;
             destination.AmountPaid = source.AmountPaid;
             destination.AmountDue = source.AmountDue;
+            destination.DiscountType = source.DiscountType;
+            destination.DiscountValue = source.DiscountValue;
+            destination.DiscountAmount = source.DiscountAmount;
 
             return destination;
         }
@@ -38,8 +41,11 @@ namespace SwiftCourier.Models
             destination.BillingMode = source.BillingMode.ToString();
             destination.AmountPaid = source.AmountPaid;
             destination.AmountDue = source.AmountDue;
+            destination.DiscountType = source.DiscountType;
+            destination.DiscountValue = source.DiscountValue;
+            destination.DiscountAmount = source.DiscountAmount;
 
-            if(source.Payments != null)
+            if (source.Payments != null)
             {
                 destination.Payments = source.Payments.ToList().ToListViewModel();
             }
@@ -60,6 +66,9 @@ namespace SwiftCourier.Models
             destination.GCT = source.GCT;
             destination.Total = source.Total;
             destination.BillingMode = source.BillingMode;
+            destination.DiscountType = source.DiscountType;
+            destination.DiscountValue = source.DiscountValue;
+            destination.DiscountAmount = source.DiscountAmount;
 
             return destination;
         }
@@ -80,6 +89,9 @@ namespace SwiftCourier.Models
             destination.GCT = source.GCT;
             destination.Total = source.Total;
             destination.BillingMode = source.BillingMode;
+            destination.DiscountType = source.DiscountType;
+            destination.DiscountValue = source.DiscountValue;
+            destination.DiscountAmount = source.DiscountAmount;
 
             return destination;
         }

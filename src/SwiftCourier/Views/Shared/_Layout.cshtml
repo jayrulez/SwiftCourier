@@ -66,11 +66,6 @@
                         <a asp-controller="Bookings" asp-action="Index"><i class="fa fa-table"></i><span>Bookings</span></a>
                     </li>
                     <!-- /bookings -->                    
-                    <!-- bookings -->
-                    <li>
-                        <a asp-controller="Packages" asp-action="Index"><i class="fa fa-cubes"></i><span>Packages</span></a>
-                    </li>
-                    <!-- /bookings -->
                     <!-- customers -->
                     <li>
                         <a asp-controller="Customers" asp-action="Index"><i class="fa fa-users"></i><span>Customers</span></a>
@@ -89,6 +84,7 @@
                     <li>
                         <a href="javascript:;"><i class="fa fa-cogs"></i><span>Settings</span></a>
                         <ul class="sub-menu">
+                            <li><a asp-controller="Settings" asp-action="Index"><span>General</span></a></li>
                             <li><a asp-controller="Services" asp-action="Index"><span>Services</span></a></li>
                             <li><a asp-controller="PaymentMethods" asp-action="Index"><span>Payment Methods</span></a></li>
                             <li><a asp-controller="PackageTypes" asp-action="Index"><span>Package Types</span></a></li>

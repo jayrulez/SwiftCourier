@@ -27,6 +27,9 @@ namespace SwiftCourier.ViewModels
         [Display(Name = "Tracking #")]
         public string TrackingNumber { get; set; }
 
+        [Display(Name = "Reference #")]
+        public string ReferenceNumber { get; set; }
+
         [Display(Name = "Picked Up At")]
         public DateTime? PickedUpAt { get; set; }
 
@@ -64,6 +67,9 @@ namespace SwiftCourier.ViewModels
 
         [Display(Name = "Tracking #")]
         public string TrackingNumber { get; set; }
+
+        [Display(Name = "Reference #")]
+        public string ReferenceNumber { get; set; }
 
         [Display(Name = "Picked Up At")]
         public DateTime? PickedUpAt { get; set; }

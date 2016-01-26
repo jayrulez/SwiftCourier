@@ -25,10 +25,15 @@ namespace SwiftCourier.Models
 
         public DateTime CreatedAt { get; set; }
 
+        public int OriginLocationId { get; set; }
+        public int DestinationLocationId { get; set; }
+
         public virtual Invoice Invoice { get; set; }
         public virtual Package Package { get; set; }
         public virtual Customer Customer { get; set; }
         public virtual Service Service { get; set; }
         public virtual User CreatedBy { get; set; }
+        public virtual Location Origin { get; set; }
+        public virtual Location Destination { get; set; }
     }
 }

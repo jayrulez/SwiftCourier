@@ -22,6 +22,8 @@ namespace SwiftCourier.Controllers
         public async Task<IActionResult> Index()
         {
             var bookings = await _context.Bookings
+                .Include(b => b.Origin)
+                .Include(b => b.Destination)
                 .Include(b => b.Customer)
                 .Include(b => b.Package)
                 .Include(b => b.Package.PackageType)
@@ -35,10 +37,15 @@ namespace SwiftCourier.Controllers
         public async Task<IActionResult> Details(int id)
         {
             var booking = await _context.Bookings
+                .Include(b => b.Origin)
+                .Include(b => b.Destination)
                 .Include(b => b.Customer)
                 .Include(b => b.Invoice)
+                .Include(b => b.Invoice.Payments)
+                .ThenInclude(p => p.PaymentMethod)
                 .Include(b => b.Package)
                 .Include(b => b.Package.PackageType)
+                .Include(b => b.Package.PackageLogs)
                 .Include(b => b.Service)
                 .Include(b => b.CreatedBy)
                 .SingleAsync(m => m.Id == id);
@@ -50,7 +57,7 @@ namespace SwiftCourier.Controllers
             return View(booking.ToDetailsViewModel());
         }
 
-        public async Task<IActionResult> Invoice(int id, string print = "")
+        public async Task<IActionResult> Invoice(int id)
         {
             var booking = await _context.Bookings
                 .Include(b => b.Customer)
@@ -67,17 +74,12 @@ namespace SwiftCourier.Controllers
                 return HttpNotFound();
             }
 
-            if (print.Equals("yes", StringComparison.OrdinalIgnoreCase))
-            {
-                return View("Invoice_Print", booking.ToDetailsViewModel());
-            }
-
             return View(booking.ToDetailsViewModel());
         }
 
         public IActionResult Create()
         {
-            //ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name");
+            ViewData["LocationId"] = new SelectList(_context.Locations, "Id", "Name");
             ViewData["PackageTypeId"] = new SelectList(_context.PackageTypes, "Id", "Name");
             ViewData["ServiceId"] = new SelectList(_context.Services, "Id", "Name");
 
@@ -131,13 +133,13 @@ namespace SwiftCourier.Controllers
 
                 if (booking.Invoice.BillingMode == BillingMode.PayNow)
                 {
-                    return RedirectToAction("Invoice", "Bookings", new { id = booking.Id });
+                    return RedirectToAction("Create", "Payments", new { id = booking.Id });
                 }
 
                 return RedirectToAction("Details", "Bookings", new { id = booking.Id });
             }
 
-            //ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name", model.CustomerId);
+            ViewData["LocationId"] = new SelectList(_context.Locations, "Id", "Name");
             ViewData["PackageTypeId"] = new SelectList(_context.PackageTypes, "Id", "Name");
             ViewData["ServiceId"] = new SelectList(_context.Services, "Id", "Name", model.ServiceId);
 
@@ -164,7 +166,7 @@ namespace SwiftCourier.Controllers
 
             var model = booking.ToViewModel();
 
-            //ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name", model.CustomerId);
+            ViewData["LocationId"] = new SelectList(_context.Locations, "Id", "Name");
             ViewData["ServiceId"] = new SelectList(_context.Services, "Id", "Name", model.ServiceId);
             ViewData["PackageTypeId"] = new SelectList(_context.PackageTypes, "Id", "Name");
 
@@ -199,7 +201,7 @@ namespace SwiftCourier.Controllers
                 return RedirectToAction("Index");
             }
 
-            //sViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name", model.CustomerId);
+            ViewData["LocationId"] = new SelectList(_context.Locations, "Id", "Name");
             ViewData["ServiceId"] = new SelectList(_context.Services, "Id", "Name", model.ServiceId);
             ViewData["PackageTypeId"] = new SelectList(_context.PackageTypes, "Id", "Name");
 
@@ -214,13 +216,15 @@ namespace SwiftCourier.Controllers
                 return HttpNotFound();
             }
 
-            Booking booking = await _context.Bookings
-                            .Include(b => b.Customer)
-                            .Include(b => b.Invoice)
-                            .Include(b => b.Package)
-                            .Include(b => b.Package.PackageType)
-                            .Include(b => b.Service)
-                            .SingleAsync(m => m.Id == id);
+            var booking = await _context.Bookings
+                .Include(b => b.Origin)
+                .Include(b => b.Destination)
+                .Include(b => b.Customer)
+                .Include(b => b.Invoice)
+                .Include(b => b.Package)
+                .Include(b => b.Package.PackageType)
+                .Include(b => b.Service)
+                .SingleAsync(m => m.Id == id);
 
             if (booking == null)
             {

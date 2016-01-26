@@ -32,6 +32,15 @@ namespace SwiftCourier.ViewModels
 
         [Display(Name = "Amount Due")]
         public decimal AmountDue { get; set; }
+
+        [Display(Name = "Discount Type")]
+        public DiscountType DiscountType { get; set; }
+
+        [Display(Name = "Discount Value")]
+        public decimal DiscountValue { get; set; }
+
+        [Display(Name = "Discount Amount")]
+        public decimal DiscountAmount { get; set; }
     }
 
     public class InvoiceDetailsViewModel
@@ -59,6 +68,15 @@ namespace SwiftCourier.ViewModels
 
         [Display(Name = "Amount Due")]
         public decimal AmountDue { get; set; }
+
+        [Display(Name = "Discount Type")]
+        public DiscountType DiscountType { get; set; }
+
+        [Display(Name = "Discount Value")]
+        public decimal DiscountValue { get; set; }
+
+        [Display(Name = "Discount Amount")]
+        public decimal DiscountAmount { get; set; }
 
         public List<PaymentListItemViewModel> Payments { get; set; }
     }

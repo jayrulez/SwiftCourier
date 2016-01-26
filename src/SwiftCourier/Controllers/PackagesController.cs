@@ -20,19 +20,6 @@ namespace SwiftCourier.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
-        {
-            var bookings = await _context.Bookings
-                .Include(b => b.Customer)
-                .Include(b => b.Package)
-                .Include(b => b.Package.PackageType)
-                .Include(b => b.Invoice)
-                .Include(b => b.CreatedBy)
-                .Include(b => b.Service).ToListAsync();
-
-            return View(bookings.ToListViewModel());
-        }
-
         public async Task<IActionResult> Dispatch(int id)
         {
             var booking = await _context.Bookings
@@ -104,7 +91,7 @@ namespace SwiftCourier.Controllers
 
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction("Details", "Packages", new { id = booking.Id });
+                return RedirectToAction("Details", "Bookings", new { id = booking.Id });
             }
 
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName");
@@ -177,7 +164,7 @@ namespace SwiftCourier.Controllers
 
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction("Details", "Packages", new { id = booking.Id });
+                return RedirectToAction("Details", "Bookings", new { id = booking.Id });
             }
 
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName");
@@ -185,9 +172,11 @@ namespace SwiftCourier.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> BillOfLading(int id, string print = "")
+        public async Task<IActionResult> BillOfLading(int id)
         {
             var booking = await _context.Bookings
+                .Include(b => b.Origin)
+                .Include(b => b.Destination)
                 .Include(b => b.Customer)
                 .Include(b => b.Invoice)
                 .Include(b => b.Package)
@@ -201,30 +190,6 @@ namespace SwiftCourier.Controllers
             }
 
             ViewData["Services"] = _context.Services.ToList();
-
-            if (print.Equals("yes", StringComparison.OrdinalIgnoreCase))
-            {
-                return View("BillOfLading_Print", booking.ToDetailsViewModel());
-            }
-
-            return View(booking.ToDetailsViewModel());
-        }
-
-        public async Task<IActionResult> Details(int id)
-        {
-            var booking = await _context.Bookings
-                .Include(b => b.Customer)
-                .Include(b => b.Invoice)
-                .Include(b => b.Package)
-                .Include(b => b.Package.PackageType)
-                .Include(b => b.Package.PackageLogs)
-                .Include(b => b.Service)
-                .Include(b => b.CreatedBy)
-                .SingleAsync(m => m.Id == id);
-            if (booking == null)
-            {
-                return HttpNotFound();
-            }
 
             return View(booking.ToDetailsViewModel());
         }

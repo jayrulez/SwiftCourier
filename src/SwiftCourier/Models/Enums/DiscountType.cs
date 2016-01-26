@@ -8,6 +8,9 @@ namespace SwiftCourier.Models
 {
     public enum DiscountType
     {
+        [Display(Name = "None")]
+        None,
+
         [Display(Name = "Percentage")]
         Percentage,
 

@@ -8,8 +8,8 @@ using SwiftCourier.Models;
 namespace SwiftCourier.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160118005553_AddUserTypeToUser")]
-    partial class AddUserTypeToUser
+    [Migration("20160126055725_UpdateSettingTable")]
+    partial class UpdateSettingTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -94,6 +94,10 @@ namespace SwiftCourier.Migrations
                     b.Property<int>("CreatedByUserId");
 
                     b.Property<int>("CustomerId");
+
+                    b.Property<int>("DestinationLocationId");
+
+                    b.Property<int>("OriginLocationId");
 
                     b.Property<string>("PickupAddress");
 
@@ -201,6 +205,8 @@ namespace SwiftCourier.Migrations
                     b.Property<DateTime?>("PickedUpAt");
 
                     b.Property<int>("Pieces");
+
+                    b.Property<string>("ReferenceNumber");
 
                     b.Property<string>("SpecialInstructions");
 
@@ -409,6 +415,8 @@ namespace SwiftCourier.Migrations
                     b.Property<string>("Name")
                         .HasAnnotation("MaxLength", 100);
 
+                    b.Property<string>("Description");
+
                     b.Property<string>("DisplayName")
                         .HasAnnotation("Relational:ColumnType", "text");
 
@@ -523,6 +531,14 @@ namespace SwiftCourier.Migrations
                     b.HasOne("SwiftCourier.Models.Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId");
+
+                    b.HasOne("SwiftCourier.Models.Location")
+                        .WithMany()
+                        .HasForeignKey("DestinationLocationId");
+
+                    b.HasOne("SwiftCourier.Models.Location")
+                        .WithMany()
+                        .HasForeignKey("OriginLocationId");
 
                     b.HasOne("SwiftCourier.Models.Service")
                         .WithMany()

@@ -8,7 +8,7 @@ using SwiftCourier.Models;
 namespace SwiftCourier.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160114023300_Initial")]
+    [Migration("20160123065708_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -94,6 +94,10 @@ namespace SwiftCourier.Migrations
                     b.Property<int>("CreatedByUserId");
 
                     b.Property<int>("CustomerId");
+
+                    b.Property<int>("DestinationLocationId");
+
+                    b.Property<int>("OriginLocationId");
 
                     b.Property<string>("PickupAddress");
 
@@ -201,6 +205,8 @@ namespace SwiftCourier.Migrations
                     b.Property<DateTime?>("PickedUpAt");
 
                     b.Property<int>("Pieces");
+
+                    b.Property<string>("ReferenceNumber");
 
                     b.Property<string>("SpecialInstructions");
 
@@ -458,6 +464,8 @@ namespace SwiftCourier.Migrations
                     b.Property<string>("UserName")
                         .HasAnnotation("MaxLength", 256);
 
+                    b.Property<int>("UserType");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -521,6 +529,14 @@ namespace SwiftCourier.Migrations
                     b.HasOne("SwiftCourier.Models.Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId");
+
+                    b.HasOne("SwiftCourier.Models.Location")
+                        .WithMany()
+                        .HasForeignKey("DestinationLocationId");
+
+                    b.HasOne("SwiftCourier.Models.Location")
+                        .WithMany()
+                        .HasForeignKey("OriginLocationId");
 
                     b.HasOne("SwiftCourier.Models.Service")
                         .WithMany()

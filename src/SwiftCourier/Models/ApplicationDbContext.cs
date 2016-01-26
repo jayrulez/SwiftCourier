@@ -92,6 +92,8 @@ namespace SwiftCourier.Models
                 entity.HasOne<User>(d => d.CreatedBy).WithMany(p => p.CreatedBookings).HasForeignKey(d => d.CreatedByUserId);
                 entity.HasOne<Invoice>(d => d.Invoice).WithOne(p => p.Booking);
                 entity.HasOne<Package>(d => d.Package).WithOne(p => p.Booking);
+                entity.HasOne<Location>(d => d.Origin).WithMany(p => p.OriginBookings).HasForeignKey(d => d.OriginLocationId);
+                entity.HasOne<Location>(d => d.Destination).WithMany(p => p.DestinationBookings).HasForeignKey(d => d.DestinationLocationId);
                 entity.ToTable("Bookings");
             });
 
@@ -136,6 +138,10 @@ namespace SwiftCourier.Models
                 entity.Property(e => e.Name)
                     .HasMaxLength(100)
                     .IsRequired();
+
+                entity.HasMany<Booking>(d => d.OriginBookings).WithOne(p => p.Origin).HasForeignKey(p => p.OriginLocationId);
+                entity.HasMany<Booking>(d => d.DestinationBookings).WithOne(p => p.Destination).HasForeignKey(p => p.DestinationLocationId);
+
                 entity.ToTable("Locations");
             });
 
@@ -315,7 +321,7 @@ namespace SwiftCourier.Models
         public virtual DbSet<Payment> Payments { get; set; }
         public virtual DbSet<Permission> Permissions { get; set; }
         public virtual DbSet<Service> Services { get; set; }
-        public virtual DbSet<Service> Settings { get; set; }
+        public virtual DbSet<Setting> Settings { get; set; }
         public virtual DbSet<UserPermission> UserPermissions { get; set; }
     }
 }

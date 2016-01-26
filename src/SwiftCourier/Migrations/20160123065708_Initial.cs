@@ -133,7 +133,8 @@ namespace SwiftCourier.Migrations
                     PhoneNumberConfirmed = table.Column<bool>(nullable: false),
                     SecurityStamp = table.Column<string>(nullable: true),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    UserName = table.Column<string>(nullable: true)
+                    UserName = table.Column<string>(nullable: true),
+                    UserType = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -276,6 +277,8 @@ namespace SwiftCourier.Migrations
                     CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false),
                     CreatedByUserId = table.Column<int>(nullable: false),
                     CustomerId = table.Column<int>(nullable: false),
+                    DestinationLocationId = table.Column<int>(nullable: false),
+                    OriginLocationId = table.Column<int>(nullable: false),
                     PickupAddress = table.Column<string>(nullable: true),
                     PickupContactNumber = table.Column<string>(nullable: true),
                     PickupRequired = table.Column<bool>(nullable: false),
@@ -297,6 +300,18 @@ namespace SwiftCourier.Migrations
                         principalTable: "Customers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Booking_Location_DestinationLocationId",
+                        column: x => x.DestinationLocationId,
+                        principalTable: "Locations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                    table.ForeignKey(
+                        name: "FK_Booking_Location_OriginLocationId",
+                        column: x => x.OriginLocationId,
+                        principalTable: "Locations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Booking_Service_ServiceId",
                         column: x => x.ServiceId,
@@ -362,6 +377,7 @@ namespace SwiftCourier.Migrations
                     PackageTypeId = table.Column<int>(nullable: false),
                     PickedUpAt = table.Column<DateTime>(nullable: true),
                     Pieces = table.Column<int>(nullable: false),
+                    ReferenceNumber = table.Column<string>(nullable: true),
                     SpecialInstructions = table.Column<string>(nullable: true),
                     Status = table.Column<int>(nullable: false),
                     TrackingNumber = table.Column<string>(nullable: true),
@@ -523,7 +539,6 @@ namespace SwiftCourier.Migrations
             migrationBuilder.DropTable("UserClaims");
             migrationBuilder.DropTable("UserLogins");
             migrationBuilder.DropTable("UserRoles");
-            migrationBuilder.DropTable("Locations");
             migrationBuilder.DropTable("PackageLogs");
             migrationBuilder.DropTable("PaymentMethodFieldValues");
             migrationBuilder.DropTable("RolePermissions");
@@ -540,6 +555,7 @@ namespace SwiftCourier.Migrations
             migrationBuilder.DropTable("Bookings");
             migrationBuilder.DropTable("Users");
             migrationBuilder.DropTable("Customers");
+            migrationBuilder.DropTable("Locations");
             migrationBuilder.DropTable("Services");
         }
     }

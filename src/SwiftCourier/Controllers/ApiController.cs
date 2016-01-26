@@ -33,6 +33,13 @@ namespace SwiftCourier.Controllers
             return _context.Services.FirstOrDefault(s => s.Id == id);
         }
 
+        [Route("api/settings")]
+        [HttpGet]
+        public Setting GetSetting(string name)
+        {
+            return _context.Settings.FirstOrDefault(s => s.Name == name);
+        }
+
         [Route("api/customer/{id}")]
         [HttpGet]
         public Customer GetCustomer(int id)
