@@ -142,7 +142,7 @@
                         <label asp-for="ServiceId" class="col-sm-2 control-label"></label>
                         <div class="col-sm-10">
                             <select asp-for="ServiceId" asp-items="@((IEnumerable<SelectListItem>)ViewData["ServiceId"])" class="form-control">
-                                <option>Select Service</option>
+                                <option value="0">Select Service</option>
                             </select>
                         </div>
                     </div>

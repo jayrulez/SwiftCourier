@@ -6,6 +6,8 @@ using Microsoft.AspNet.Mvc;
 using Microsoft.Data.Entity;
 using SwiftCourier.Models;
 using Newtonsoft.Json;
+using SwiftCourier.Helpers;
+using System;
 
 namespace SwiftCourier.Controllers
 {
@@ -38,6 +40,74 @@ namespace SwiftCourier.Controllers
         public Setting GetSetting(string name)
         {
             return _context.Settings.FirstOrDefault(s => s.Name == name);
+        }
+
+        [Route("api/get_cost_data")]
+        [HttpGet]
+        public IActionResult GetCostData(int customerId, int serviceId, decimal weight, DiscountType discountType, decimal discountValue)
+        {
+            var data = "{\"success\": false}";
+            var gctRate = new Decimal(0.165);
+
+            var customer = _context.Customers.FirstOrDefault(c => c.Id == customerId);
+
+            if(customer != null && customer.TaxExempted)
+            {
+                gctRate = 0;
+            }
+
+            var service = _context.Services.FirstOrDefault(s => s.Id == serviceId);
+
+            if(service != null)
+            {
+                var baseWeight = new Decimal(10);
+
+                var costPerUnitOverBaseWeight = new Decimal(15);
+
+                var serviceCost = service.Cost;
+                var overWeight = weight - baseWeight;
+                if(overWeight < 0)
+                {
+                    overWeight = 0;
+                }
+
+                var additionalCost = overWeight * costPerUnitOverBaseWeight;
+
+                additionalCost = Number.Round(additionalCost);
+
+                serviceCost = serviceCost + additionalCost;
+
+                serviceCost = Number.Round(serviceCost);
+
+                var gct = gctRate * serviceCost;
+
+                gct = Number.Round(gct);
+
+                var total = Number.Round(serviceCost + gct);
+
+                var discount = new Decimal(0);
+
+                if(discountType == DiscountType.FlatAmount)
+                {
+                    discount = discountValue;
+                }
+
+                if(discountType == DiscountType.Percentage)
+                {
+                    discount = Number.Round(total * (discountValue / 100));
+                }
+
+                total = Number.Round(total - discount);
+
+                data = "{\"service_cost\": {0}, \"gct\": {1}, \"total\": {2}, \"discount_amount\": {3}, \"success\": {4} }"
+                    .Replace("{0}", serviceCost.ToString())
+                    .Replace("{1}", gct.ToString())
+                    .Replace("{2}", total.ToString())
+                    .Replace("{3}", discount.ToString())
+                    .Replace("{4}", true.ToString().ToLower());
+            }
+
+            return Content(data);
         }
 
         [Route("api/customer/{id}")]
