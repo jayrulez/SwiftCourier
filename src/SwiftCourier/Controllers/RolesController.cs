@@ -14,6 +14,7 @@ namespace SwiftCourier.Controllers
     {
         private readonly RoleManager<Role> _roleManager;
         private readonly ILogger _logger;
+        private ApplicationDbContext _context;
 
         private void AddErrors(IdentityResult result)
         {
@@ -23,19 +24,19 @@ namespace SwiftCourier.Controllers
             }
         }
 
-        public RolesController(RoleManager<Role> roleManager, ILoggerFactory loggerFactory)
+        public RolesController(RoleManager<Role> roleManager, ILoggerFactory loggerFactory, ApplicationDbContext context)
         {
             _roleManager = roleManager;
-            _logger = loggerFactory.CreateLogger<RolesController>();    
+            _logger = loggerFactory.CreateLogger<RolesController>();
+            _context = context;
         }
-
-        // GET: Roles
+        
         public async Task<IActionResult> Index()
         {
-            return View(await _roleManager.Roles.ToListAsync());
+            var roles = _roleManager.Roles;
+            return View(await roles.ToListAsync());
         }
-
-        // GET: Roles/Details/5
+        
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,7 +44,7 @@ namespace SwiftCourier.Controllers
                 return HttpNotFound();
             }
 
-            Role role = await _roleManager.FindByIdAsync(id.ToString());
+            var role = await _roleManager.Roles.Include(r => r.RolePermissions).FirstOrDefaultAsync(r => r.Id == id);
 
             if (role == null)
             {
@@ -56,6 +57,7 @@ namespace SwiftCourier.Controllers
         // GET: Roles/Create
         public IActionResult Create()
         {
+            var permissions = _context.Permissions;
             return View();
         }
 
@@ -78,6 +80,7 @@ namespace SwiftCourier.Controllers
                     AddErrors(result);
                 }
             }
+            var permissions = _context.Permissions;
             return View(role);
         }
 
@@ -89,12 +92,13 @@ namespace SwiftCourier.Controllers
                 return HttpNotFound();
             }
 
-            Role role = await _roleManager.FindByIdAsync(id.ToString());
+            var role = await _roleManager.FindByIdAsync(id.ToString());
 
             if (role == null)
             {
                 return HttpNotFound();
             }
+            var permissions = _context.Permissions;
             return View(role);
         }
 
@@ -116,6 +120,7 @@ namespace SwiftCourier.Controllers
                     AddErrors(result);
                 }
             }
+            var permissions = _context.Permissions;
             return View(role);
         }
 
@@ -128,7 +133,7 @@ namespace SwiftCourier.Controllers
                 return HttpNotFound();
             }
 
-            Role role = await _roleManager.FindByIdAsync(id.ToString());
+            var role = await _roleManager.FindByIdAsync(id.ToString());
 
             if (role == null)
             {
@@ -143,7 +148,7 @@ namespace SwiftCourier.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            Role role = await _roleManager.FindByIdAsync(id.ToString());
+            var role = await _roleManager.FindByIdAsync(id.ToString());
 
             await _roleManager.DeleteAsync(role);
 
