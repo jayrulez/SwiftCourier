@@ -35,9 +35,7 @@ namespace SwiftCourier.Controllers
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
         }
-
-        //
-        // GET: /Account/Login
+        
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Login(string returnUrl = null)
@@ -45,9 +43,7 @@ namespace SwiftCourier.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
-
-        //
-        // POST: /Account/Login
+        
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]

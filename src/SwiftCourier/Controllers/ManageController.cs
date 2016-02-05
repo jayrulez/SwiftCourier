@@ -33,9 +33,7 @@ namespace SwiftCourier.Controllers
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<ManageController>();
         }
-
-        //
-        // GET: /Manage/Index
+        
         [HttpGet]
         public async Task<IActionResult> Index(ManageMessageId? message = null)
         {
@@ -59,9 +57,7 @@ namespace SwiftCourier.Controllers
             };
             return View(model);
         }
-
-        //
-        // POST: /Manage/RemoveLogin
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveLogin(RemoveLoginViewModel account)
