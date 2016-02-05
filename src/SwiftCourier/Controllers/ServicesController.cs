@@ -5,16 +5,15 @@ using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.Data.Entity;
 using SwiftCourier.Models;
 using SwiftCourier.ViewModels;
+using Microsoft.AspNet.Identity;
 
 namespace SwiftCourier.Controllers
 {
     public class ServicesController : BaseController
     {
-        private ApplicationDbContext _context;
-
-        public ServicesController(ApplicationDbContext context)
-        {
-            _context = context;    
+        public ServicesController(
+            UserManager<User> userManager, ApplicationDbContext context) : base(userManager, context)
+        {   
         }
         
         public async Task<IActionResult> Index()

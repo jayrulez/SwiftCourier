@@ -5,17 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Authorization;
 using SwiftCourier.Models;
+using Microsoft.AspNet.Identity;
 
 namespace SwiftCourier.Controllers
 {
     [Authorize]
     public class HomeController : BaseController
     {
-        private ApplicationDbContext _context;
-
-        public HomeController(ApplicationDbContext context)
+        public HomeController(
+            UserManager<User> userManager, ApplicationDbContext context) : base(userManager, context)
         {
-            _context = context;
         }
 
         [Authorize(Policy = "HasPermission")]

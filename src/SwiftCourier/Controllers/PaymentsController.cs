@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.Data.Entity;
 using SwiftCourier.Models;
@@ -13,15 +14,18 @@ namespace SwiftCourier.Controllers
 {
     public class PaymentsController : BaseController
     {
-        private ApplicationDbContext _context;
-
-        public PaymentsController(ApplicationDbContext context)
+        public PaymentsController(
+            UserManager<User> userManager, ApplicationDbContext context) : base(userManager, context)
         {
-            _context = context;
         }
 
         public async Task<IActionResult> Create(int id)
         {
+            if (!HasPermission("PROCESS_PAYMENTS"))
+            {
+                return Unauthorized();
+            }
+
             var invoice = await _context.Invoices
                 .Include(i => i.Payments)
                 .SingleAsync(m => m.BookingId == id);
@@ -50,6 +54,11 @@ namespace SwiftCourier.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(int id, PaymentViewModel model)
         {
+            if (!HasPermission("PROCESS_PAYMENTS"))
+            {
+                return Unauthorized();
+            }
+
             var invoice = await _context.Invoices
                 .Include(i => i.Payments)
                 .SingleAsync(m => m.BookingId == id);
@@ -107,6 +116,11 @@ namespace SwiftCourier.Controllers
 
         public async Task<IActionResult> Details(int id, string print = "")
         {
+            if (!HasPermission("PROCESS_PAYMENTS"))
+            {
+                return Unauthorized();
+            }
+
             var payment = await _context.Payments
                 .Include(p => p.PaymentMethod)
                 .Include(p => p.User)

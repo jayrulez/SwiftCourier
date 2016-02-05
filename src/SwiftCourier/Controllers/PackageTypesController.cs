@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Mvc;
 using Microsoft.Data.Entity;
 using SwiftCourier.Models;
 using SwiftCourier.ViewModels;
@@ -11,15 +12,18 @@ namespace SwiftCourier.Controllers
 {
     public class PackageTypesController : BaseController
     {
-        private ApplicationDbContext _context;
-
-        public PackageTypesController(ApplicationDbContext context)
+        public PackageTypesController(
+            UserManager<User> userManager, ApplicationDbContext context) : base(userManager, context)
         {
-            _context = context;
         }
 
         public async Task<IActionResult> Index()
         {
+            if (!HasPermission("VIEW_PACKAGE_TYPES"))
+            {
+                return Unauthorized();
+            }
+
             var packageTypes = await _context.PackageTypes.ToListAsync();
 
             return View(packageTypes.ToListViewModel());
@@ -27,6 +31,11 @@ namespace SwiftCourier.Controllers
 
         public async Task<IActionResult> Details(int? id)
         {
+            if (!HasPermission("VIEW_PACKAGE_TYPES"))
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return HttpNotFound();
@@ -43,6 +52,11 @@ namespace SwiftCourier.Controllers
 
         public IActionResult Create()
         {
+            if (!HasPermission("CREATE_PACKAGE_TYPES"))
+            {
+                return Unauthorized();
+            }
+
             return View();
         }
 
@@ -50,6 +64,11 @@ namespace SwiftCourier.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(PackageTypeViewModel model)
         {
+            if (!HasPermission("CREATE_PACKAGE_TYPES"))
+            {
+                return Unauthorized();
+            }
+
             if (ModelState.IsValid)
             {
                 var packageType = model.ToEntity();
@@ -63,6 +82,11 @@ namespace SwiftCourier.Controllers
 
         public async Task<IActionResult> Edit(int? id)
         {
+            if (!HasPermission("EDIT_PACKAGE_TYPES"))
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return HttpNotFound();
@@ -81,6 +105,11 @@ namespace SwiftCourier.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(PackageTypeViewModel model)
         {
+            if (!HasPermission("EDIT_PACKAGE_TYPES"))
+            {
+                return Unauthorized();
+            }
+
             if (ModelState.IsValid)
             {
                 var packageType = await _context.PackageTypes.SingleAsync(m => m.Id == model.Id);
@@ -100,6 +129,11 @@ namespace SwiftCourier.Controllers
         [ActionName("Delete")]
         public async Task<IActionResult> Delete(int? id)
         {
+            if (!HasPermission("DELETE_PACKAGE_TYPES"))
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return HttpNotFound();
@@ -118,6 +152,11 @@ namespace SwiftCourier.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (!HasPermission("DELETE_PACKAGE_TYPES"))
+            {
+                return Unauthorized();
+            }
+
             var packageType = await _context.PackageTypes.SingleAsync(m => m.Id == id);
             _context.PackageTypes.Remove(packageType);
             await _context.SaveChangesAsync();

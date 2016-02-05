@@ -5,20 +5,24 @@ using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.Data.Entity;
 using SwiftCourier.Models;
 using SwiftCourier.ViewModels;
+using Microsoft.AspNet.Identity;
 
 namespace SwiftCourier.Controllers
 {
     public class CustomersController : BaseController
     {
-        private ApplicationDbContext _context;
-
-        public CustomersController(ApplicationDbContext context)
+        public CustomersController(
+            UserManager<User> userManager, ApplicationDbContext context) : base(userManager, context)
         {
-            _context = context;    
         }
         
         public async Task<IActionResult> Index()
         {
+            if (!HasPermission("VIEW_CUSTOMERS"))
+            {
+                return Unauthorized();
+            }
+
             var customers = await _context.Customers.ToListAsync();
 
             return View(customers.ToListViewModel());
@@ -26,6 +30,11 @@ namespace SwiftCourier.Controllers
         
         public async Task<IActionResult> Details(int? id)
         {
+            if (!HasPermission("VIEW_CUSTOMERS"))
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return HttpNotFound();
@@ -42,6 +51,11 @@ namespace SwiftCourier.Controllers
         
         public IActionResult Create()
         {
+            if (!HasPermission("CREATE_CUSTOMERS"))
+            {
+                return Unauthorized();
+            }
+
             return View();
         }
         
@@ -49,6 +63,11 @@ namespace SwiftCourier.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CustomerViewModel model)
         {
+            if (!HasPermission("CREATE_CUSTOMERS"))
+            {
+                return Unauthorized();
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Customers.Add(model.ToEntity());
@@ -60,6 +79,11 @@ namespace SwiftCourier.Controllers
         
         public async Task<IActionResult> Edit(int? id)
         {
+            if (!HasPermission("EDIT_CUSTOMERS"))
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return HttpNotFound();
@@ -78,6 +102,10 @@ namespace SwiftCourier.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(CustomerViewModel model)
         {
+            if (!HasPermission("EDIT_CUSTOMERS"))
+            {
+                return Unauthorized();
+            }
 
             var customer = await _context.Customers.SingleAsync(m => m.Id == model.Id);
 
@@ -97,11 +125,15 @@ namespace SwiftCourier.Controllers
             }
             return View(model);
         }
-
-        // GET: Customers/Delete/5
+        
         [ActionName("Delete")]
         public async Task<IActionResult> Delete(int? id)
         {
+            if (!HasPermission("DELETE_CUSTOMERS"))
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return HttpNotFound();
@@ -115,12 +147,16 @@ namespace SwiftCourier.Controllers
 
             return View(customer.ToDetailsViewModel());
         }
-
-        // POST: Customers/Delete/5
+        
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (!HasPermission("DELETE_CUSTOMERS"))
+            {
+                return Unauthorized();
+            }
+
             Customer customer = await _context.Customers.SingleAsync(m => m.Id == id);
             _context.Customers.Remove(customer);
             await _context.SaveChangesAsync();

@@ -7,6 +7,8 @@ using SwiftCourier.Models;
 using System;
 using Microsoft.AspNet.Identity;
 using Microsoft.Extensions.Logging;
+using SwiftCourier.Helpers;
+using SwiftCourier.ViewModels;
 
 namespace SwiftCourier.Controllers
 {
@@ -14,7 +16,6 @@ namespace SwiftCourier.Controllers
     {
         private readonly RoleManager<Role> _roleManager;
         private readonly ILogger _logger;
-        private ApplicationDbContext _context;
 
         private void AddErrors(IdentityResult result)
         {
@@ -24,21 +25,31 @@ namespace SwiftCourier.Controllers
             }
         }
 
-        public RolesController(RoleManager<Role> roleManager, ILoggerFactory loggerFactory, ApplicationDbContext context)
+        public RolesController(
+            UserManager<User> userManager, RoleManager<Role> roleManager, ILoggerFactory loggerFactory, ApplicationDbContext context) : base(userManager, context)
         {
             _roleManager = roleManager;
             _logger = loggerFactory.CreateLogger<RolesController>();
-            _context = context;
         }
         
         public async Task<IActionResult> Index()
         {
+            if (!HasPermission("VIEW_ROLES"))
+            {
+                return Unauthorized();
+            }
+
             var roles = _roleManager.Roles;
-            return View(await roles.ToListAsync());
+            return View(await roles.Include(r => r.RolePermissions).ToListAsync());
         }
         
         public async Task<IActionResult> Details(int? id)
         {
+            if (!HasPermission("VIEW_ROLES"))
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return HttpNotFound();
@@ -53,22 +64,32 @@ namespace SwiftCourier.Controllers
 
             return View(role);
         }
-
-        // GET: Roles/Create
+        
         public IActionResult Create()
         {
-            var permissions = _context.Permissions;
+            if (!HasPermission("CREATE_ROLES"))
+            {
+                return Unauthorized();
+            }
+
+            ViewBag.PermissionGroups = PermissionGroup.GetList();
+            ViewBag.Permissions = _context.Permissions.ToList().ToListViewModel();
             return View();
         }
-
-        // POST: Roles/Create
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Role role)
+        public async Task<IActionResult> Create(RoleViewModel model)
         {
+            if (!HasPermission("CREATE_ROLES"))
+            {
+                return Unauthorized();
+            }
+
             if (ModelState.IsValid)
             {
-                //role.ConcurrencyStamp = Guid.NewGuid().ToString();
+                var role = model.ToEntity();
+
                 var result = await _roleManager.CreateAsync(role);
 
                 if(result.Succeeded)
@@ -80,35 +101,58 @@ namespace SwiftCourier.Controllers
                     AddErrors(result);
                 }
             }
-            var permissions = _context.Permissions;
-            return View(role);
-        }
 
-        // GET: Roles/Edit/5
+            ViewBag.PermissionGroups = PermissionGroup.GetList();
+            ViewBag.Permissions = _context.Permissions.ToList().ToListViewModel();
+
+            return View(model);
+        }
+        
         public async Task<IActionResult> Edit(int? id)
         {
+            if (!HasPermission("EDIT_ROLES"))
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return HttpNotFound();
             }
 
-            var role = await _roleManager.FindByIdAsync(id.ToString());
+            var role = await _roleManager.Roles.Include(r => r.RolePermissions).FirstOrDefaultAsync(r => r.Id == id.Value);
 
             if (role == null)
             {
                 return HttpNotFound();
             }
-            var permissions = _context.Permissions;
-            return View(role);
-        }
 
-        // POST: Roles/Edit/5
+            ViewBag.PermissionGroups = PermissionGroup.GetList();
+            ViewBag.Permissions = _context.Permissions.ToList().ToListViewModel();
+
+            return View(role.ToViewModel());
+        }
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Role role)
+        public async Task<IActionResult> Edit(RoleViewModel model)
         {
+            if (!HasPermission("EDIT_ROLES"))
+            {
+                return Unauthorized();
+            }
+
+            var role = await _roleManager.Roles.Include(r => r.RolePermissions).FirstOrDefaultAsync(r => r.Id == model.Id);
+
+            if (role == null)
+            {
+                return HttpNotFound();
+            }
+
             if (ModelState.IsValid)
             {
+                role = model.UpdateEntity(role);
+
                 var result = await _roleManager.UpdateAsync(role);
 
                 if (result.Succeeded)
@@ -120,14 +164,21 @@ namespace SwiftCourier.Controllers
                     AddErrors(result);
                 }
             }
-            var permissions = _context.Permissions;
-            return View(role);
-        }
 
-        // GET: Roles/Delete/5
+            ViewBag.PermissionGroups = PermissionGroup.GetList();
+            ViewBag.Permissions = _context.Permissions.ToList().ToListViewModel();
+
+            return View(model);
+        }
+        
         [ActionName("Delete")]
         public async Task<IActionResult> Delete(int? id)
         {
+            if (!HasPermission("DELETE_ROLES"))
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return HttpNotFound();
@@ -142,12 +193,16 @@ namespace SwiftCourier.Controllers
 
             return View(role);
         }
-
-        // POST: Roles/Delete/5
+        
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (!HasPermission("DELETE_ROLES"))
+            {
+                return Unauthorized();
+            }
+
             var role = await _roleManager.FindByIdAsync(id.ToString());
 
             await _roleManager.DeleteAsync(role);

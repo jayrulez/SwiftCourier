@@ -61,8 +61,20 @@ namespace SwiftCourier.Controllers
             if(service != null)
             {
                 var baseWeight = new Decimal(10);
+                var baseWeightRecord = _context.Settings.FirstOrDefault(s => s.Name == "base_weight");
 
-                var costPerUnitOverBaseWeight = new Decimal(15);
+                if(baseWeightRecord != null)
+                {
+                    baseWeight = Decimal.Parse(baseWeightRecord.Value);
+                }
+
+                var costPerUnitOverBaseWeight = new Decimal(55);
+                var costPerUnitOverBaseWeightRecord = _context.Settings.FirstOrDefault(s => s.Name == "cost_per_unit");
+
+                if(costPerUnitOverBaseWeightRecord != null)
+                {
+                    costPerUnitOverBaseWeight = Decimal.Parse(costPerUnitOverBaseWeightRecord.Value);
+                }
 
                 var serviceCost = service.Cost;
                 var overWeight = weight - baseWeight;

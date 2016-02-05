@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.Data.Entity;
 using SwiftCourier.Models;
@@ -13,15 +14,18 @@ namespace SwiftCourier.Controllers
 {
     public class PackagesController : BaseController
     {
-        private ApplicationDbContext _context;
-
-        public PackagesController(ApplicationDbContext context)
+        public PackagesController(
+            UserManager<User> userManager, ApplicationDbContext context) : base(userManager, context)
         {
-            _context = context;
         }
 
         public async Task<IActionResult> Dispatch(int id)
         {
+            if (!HasPermission("DISPATCH"))
+            {
+                return Unauthorized();
+            }
+
             var booking = await _context.Bookings
                 .Include(b => b.Customer)
                 .Include(b => b.Invoice)
@@ -44,6 +48,11 @@ namespace SwiftCourier.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Dispatch(int id, DispatchViewModel model)
         {
+            if (!HasPermission("DISPATCH"))
+            {
+                return Unauthorized();
+            }
+
             var booking = await _context.Bookings
                 .Include(b => b.Customer)
                 .Include(b => b.Invoice)
@@ -101,6 +110,11 @@ namespace SwiftCourier.Controllers
 
         public async Task<IActionResult> Deliver(int id)
         {
+            if (!HasPermission("DELIVER"))
+            {
+                return Unauthorized();
+            }
+
             var booking = await _context.Bookings
                 .Include(b => b.Customer)
                 .Include(b => b.Invoice)
@@ -123,6 +137,11 @@ namespace SwiftCourier.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Deliver(int id, DeliverViewModel model)
         {
+            if (!HasPermission("DELIVER"))
+            {
+                return Unauthorized();
+            }
+
             var booking = await _context.Bookings
                 .Include(b => b.Customer)
                 .Include(b => b.Invoice)
@@ -174,6 +193,11 @@ namespace SwiftCourier.Controllers
 
         public async Task<IActionResult> BillOfLading(int id)
         {
+            if (!HasPermission("VIEW_BOOKINGS"))
+            {
+                return Unauthorized();
+            }
+
             var booking = await _context.Bookings
                 .Include(b => b.Origin)
                 .Include(b => b.Destination)

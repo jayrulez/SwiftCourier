@@ -5,20 +5,24 @@ using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.Data.Entity;
 using SwiftCourier.Models;
 using SwiftCourier.ViewModels;
+using Microsoft.AspNet.Identity;
 
 namespace SwiftCourier.Controllers
 {
     public class PaymentMethodsController : BaseController
     {
-        private ApplicationDbContext _context;
-
-        public PaymentMethodsController(ApplicationDbContext context)
-        {
-            _context = context;    
+        public PaymentMethodsController(
+            UserManager<User> userManager, ApplicationDbContext context) : base(userManager, context)
+        {  
         }
         
         public async Task<IActionResult> Index()
         {
+            if (!HasPermission("VIEW_PAYMENT_METHODS"))
+            {
+                return Unauthorized();
+            }
+
             var paymentMethods = await _context.PaymentMethods.ToListAsync();
 
             return View(paymentMethods.ToListViewModel());
@@ -26,6 +30,11 @@ namespace SwiftCourier.Controllers
         
         public async Task<IActionResult> Details(int? id)
         {
+            if (!HasPermission("VIEW_PAYMENT_METHODS"))
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return HttpNotFound();
@@ -42,6 +51,11 @@ namespace SwiftCourier.Controllers
         
         public IActionResult Create()
         {
+            if (!HasPermission("CREATE_PAYMENT_METHODS"))
+            {
+                return Unauthorized();
+            }
+
             return View();
         }
         
@@ -49,6 +63,11 @@ namespace SwiftCourier.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PaymentMethodViewModel model)
         {
+            if (!HasPermission("CREATE_PAYMENT_METHODS"))
+            {
+                return Unauthorized();
+            }
+
             if (ModelState.IsValid)
             {
                 var paymentMethod = model.ToEntity();
@@ -62,6 +81,11 @@ namespace SwiftCourier.Controllers
         
         public async Task<IActionResult> Edit(int? id)
         {
+            if (!HasPermission("EDIT_PAYMENT_METHODS"))
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return HttpNotFound();
@@ -79,6 +103,11 @@ namespace SwiftCourier.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(PaymentMethodViewModel model)
         {
+            if (!HasPermission("EDIT_PAYMENT_METHODS"))
+            {
+                return Unauthorized();
+            }
+
             if (ModelState.IsValid)
             {
                 var paymentMethod = await _context.PaymentMethods.SingleAsync(m => m.Id == model.Id);
@@ -98,6 +127,11 @@ namespace SwiftCourier.Controllers
         [ActionName("Delete")]
         public async Task<IActionResult> Delete(int? id)
         {
+            if (!HasPermission("DELETE_PAYMENT_METHODS"))
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return HttpNotFound();
@@ -116,6 +150,10 @@ namespace SwiftCourier.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (!HasPermission("DELETE_PAYMENT_METHODS"))
+            {
+                return Unauthorized();
+            }
             PaymentMethod paymentMethod = await _context.PaymentMethods.SingleAsync(m => m.Id == id);
             _context.PaymentMethods.Remove(paymentMethod);
             await _context.SaveChangesAsync();

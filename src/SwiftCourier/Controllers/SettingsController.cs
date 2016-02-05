@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Mvc;
 using Microsoft.Data.Entity;
 using SwiftCourier.Models;
 using SwiftCourier.ViewModels;
@@ -11,15 +12,18 @@ namespace SwiftCourier.Controllers
 {
     public class SettingsController : BaseController
     {
-        private ApplicationDbContext _context;
-
-        public SettingsController(ApplicationDbContext context)
+        public SettingsController(
+            UserManager<User> userManager, ApplicationDbContext context) : base(userManager, context)
         {
-            _context = context;
         }
 
         public async Task<IActionResult> Index()
         {
+            if (!HasPermission("VIEW_SETTINGS"))
+            {
+                return Unauthorized();
+            }
+
             var settings = await _context.Settings.ToListAsync();
 
             return View(settings.ToListViewModel());
@@ -27,6 +31,11 @@ namespace SwiftCourier.Controllers
 
         public async Task<IActionResult> Edit(string name)
         {
+            if (!HasPermission("EDIT_SETTINGS"))
+            {
+                return Unauthorized();
+            }
+
             if (name == null)
             {
                 return HttpNotFound();
@@ -44,6 +53,11 @@ namespace SwiftCourier.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(SettingViewModel model)
         {
+            if (!HasPermission("EDIT_SETTINGS"))
+            {
+                return Unauthorized();
+            }
+
             if (ModelState.IsValid)
             {
                 var setting = await _context.Settings.SingleAsync(m => m.Name == model.Name);

@@ -7,20 +7,24 @@ using SwiftCourier.Models;
 using SwiftCourier.ViewModels;
 using System;
 using System.Security.Claims;
+using Microsoft.AspNet.Identity;
 
 namespace SwiftCourier.Controllers
 {
     public class BookingsController : BaseController
     {
-        private ApplicationDbContext _context;
-
-        public BookingsController(ApplicationDbContext context)
+        public BookingsController(
+            UserManager<User> userManager, ApplicationDbContext context) : base(userManager, context)
         {
-            _context = context;
         }
 
         public async Task<IActionResult> Index()
         {
+            if(!HasPermission("VIEW_BOOKINGS"))
+            {
+                return Unauthorized();
+            }
+
             var bookings = await _context.Bookings
                 .Include(b => b.Origin)
                 .Include(b => b.Destination)
@@ -36,6 +40,11 @@ namespace SwiftCourier.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
+            if (!HasPermission("VIEW_BOOKINGS"))
+            {
+                return Unauthorized();
+            }
+
             var booking = await _context.Bookings
                 .Include(b => b.Origin)
                 .Include(b => b.Destination)
@@ -59,6 +68,11 @@ namespace SwiftCourier.Controllers
 
         public async Task<IActionResult> Invoice(int id)
         {
+            if (!HasPermission("VIEW_BOOKINGS"))
+            {
+                return Unauthorized();
+            }
+
             var booking = await _context.Bookings
                 .Include(b => b.Customer)
                 .Include(b => b.Invoice)
@@ -79,6 +93,11 @@ namespace SwiftCourier.Controllers
 
         public IActionResult Create()
         {
+            if (!HasPermission("CREATE_BOOKINGS"))
+            {
+                return Unauthorized();
+            }
+
             ViewData["LocationId"] = new SelectList(_context.Locations, "Id", "Name");
             ViewData["PackageTypeId"] = new SelectList(_context.PackageTypes, "Id", "Name");
             ViewData["ServiceId"] = new SelectList(_context.Services, "Id", "Name");
@@ -90,6 +109,11 @@ namespace SwiftCourier.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(BookingViewModel model)
         {
+            if (!HasPermission("CREATE_BOOKINGS"))
+            {
+                return Unauthorized();
+            }
+
             if (ModelState.IsValid)
             {
                 var booking = model.ToEntity();
@@ -148,6 +172,11 @@ namespace SwiftCourier.Controllers
 
         public async Task<IActionResult> Edit(int? id)
         {
+            if (!HasPermission("EDIT_BOOKINGS"))
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return HttpNotFound();
@@ -177,6 +206,11 @@ namespace SwiftCourier.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(BookingViewModel model)
         {
+            if (!HasPermission("EDIT_BOOKINGS"))
+            {
+                return Unauthorized();
+            }
+
             if (ModelState.IsValid)
             {
 
@@ -211,6 +245,11 @@ namespace SwiftCourier.Controllers
         [ActionName("Delete")]
         public async Task<IActionResult> Delete(int? id)
         {
+            if (!HasPermission("DELETE_BOOKINGS"))
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return HttpNotFound();
@@ -238,6 +277,11 @@ namespace SwiftCourier.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (!HasPermission("DELETE_BOOKINGS"))
+            {
+                return Unauthorized();
+            }
+
             Booking booking = await _context.Bookings.SingleAsync(m => m.Id == id);
             _context.Bookings.Remove(booking);
             await _context.SaveChangesAsync();

@@ -12,7 +12,6 @@ namespace SwiftCourier.Controllers
 {
     public class UsersController : BaseController
     {
-        private readonly UserManager<User> _userManager;
         private readonly ILogger _logger;
 
         private void AddErrors(IdentityResult result)
@@ -25,19 +24,28 @@ namespace SwiftCourier.Controllers
 
         public UsersController(
             UserManager<User> userManager,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory, ApplicationDbContext context) : base(userManager, context)
         {
-            _userManager = userManager;
             _logger = loggerFactory.CreateLogger<AccountController>();
         }
         
         public async Task<IActionResult> Index()
         {
+            if (!HasPermission("VIEW_USERS"))
+            {
+                return Unauthorized();
+            }
+
             return View(await _userManager.Users.ToListAsync());
         }
         
         public async Task<IActionResult> Details(int? id)
         {
+            if (!HasPermission("VIEW_USERS"))
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return HttpNotFound();
@@ -55,21 +63,28 @@ namespace SwiftCourier.Controllers
         
         public IActionResult Create()
         {
+            if (!HasPermission("CREATE_USERS"))
+            {
+                return Unauthorized();
+            }
+
+            ViewBag.Roles = _context.Roles.ToList().ToListViewModel();
+
             return View();
         }
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateUserViewModel model)
+        public async Task<IActionResult> Create(UserViewModel model)
         {
+            if (!HasPermission("CREATE_USERS"))
+            {
+                return Unauthorized();
+            }
+
             if (ModelState.IsValid)
             {
-                var user = new User
-                {
-                    Email = model.Email,
-                    UserName = model.UserName,
-                    UserType = model.UserType
-                };
+                var user = model.ToEntity();
 
                 var result = await _userManager.CreateAsync(user, model.Password);
 
@@ -82,49 +97,59 @@ namespace SwiftCourier.Controllers
                     AddErrors(result);
                 }
             }
+
+            ViewBag.Roles = _context.Roles.ToList().ToListViewModel();
+
             return View(model);
         }
-
-        // GET: Users/Edit/5
+        
         public async Task<IActionResult> Edit(int? id)
         {
+            if (!HasPermission("EDIT_USERS"))
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return HttpNotFound();
             }
 
-            User user = await _userManager.FindByIdAsync(id.ToString());
+            var user = await _userManager.Users.Include(u => u.Roles).FirstOrDefaultAsync(u => u.Id == id.Value);
+
             if (user == null)
             {
                 return HttpNotFound();
             }
 
 
-            return View(new EditUserViewModel {
-                Id = user.Id,
-                Email = user.Email,
-                UserName = user.UserName,
-                UserType = user.UserType
-            });
-        }
+            ViewBag.Roles = _context.Roles.ToList().ToListViewModel();
 
-        // POST: Users/Edit/5
+            return View(user.ToViewModel());
+        }
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(EditUserViewModel model)
+        public async Task<IActionResult> Edit(UserViewModel model)
         {
+            if (!HasPermission("EDIT_USERS"))
+            {
+                return Unauthorized();
+            }
+
             if (ModelState.IsValid)
             {
-                User user = await _userManager.FindByIdAsync(model.Id.ToString());
+                var user = await _userManager.Users.Include(u => u.Roles).FirstOrDefaultAsync(u => u.Id == model.Id);
 
                 if (user == null)
                 {
                     return HttpNotFound();
                 }
-
-                user.UserType = model.UserType;
+                
                 await _userManager.SetEmailAsync(user, model.Email);
                 await _userManager.SetUserNameAsync(user, model.UserName);
+
+                user = model.UpdateEntity(user);
 
                 var result = await _userManager.UpdateAsync(user);
 
@@ -137,13 +162,20 @@ namespace SwiftCourier.Controllers
                     AddErrors(result);
                 }
             }
+
+            ViewBag.Roles = _context.Roles.ToList().ToListViewModel();
+
             return View(model);
         }
-
-        // GET: Users/Delete/5
+        
         [ActionName("Delete")]
         public async Task<IActionResult> Delete(int? id)
         {
+            if (!HasPermission("DELETE_USERS"))
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return HttpNotFound();
@@ -157,12 +189,16 @@ namespace SwiftCourier.Controllers
 
             return View(user);
         }
-
-        // POST: Users/Delete/5
+        
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (!HasPermission("DELETE_USERS"))
+            {
+                return Unauthorized();
+            }
+
             User user = await _userManager.FindByIdAsync(id.ToString());
             await _userManager.DeleteAsync(user);
 
