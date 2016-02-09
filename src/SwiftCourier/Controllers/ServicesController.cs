@@ -111,8 +111,7 @@ namespace SwiftCourier.Controllers
 
             return View(service.ToDetailsViewModel());
         }
-
-        // POST: Services/Delete/5
+        
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

@@ -80,13 +80,8 @@ namespace SwiftCourier.Controllers
             {
                 var payment = model.ToEntity();
                 payment.ProcessedAt = DateTime.Now;
-                int userId;
 
-                if(!int.TryParse(HttpContext.User.GetUserId(), out userId))
-                {
-                    //XXX:TODO Gracefully handle this
-                    throw new Exception("Unable to get logged in User Id.");
-                }
+                int userId = GetCurrentUserId();
 
                 payment.UserId = userId;
 

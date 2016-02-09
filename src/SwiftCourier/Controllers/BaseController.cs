@@ -25,6 +25,18 @@ namespace SwiftCourier.Controllers
             return await _userManager.Users.Include(u => u.Roles).FirstOrDefaultAsync(u => u.Id.ToString() == HttpContext.User.GetUserId());
         }
 
+        protected int GetCurrentUserId()
+        {
+            var user = GetCurrentUserAsync();
+
+            if(user == null)
+            {
+                throw new Exception("Unable to get id of current user.");
+            }
+
+            return user.Id;
+        }
+
         protected bool HasPermission(string permissionName)
         {
             var task = GetCurrentUserAsync();
