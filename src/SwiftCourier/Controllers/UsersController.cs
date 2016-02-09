@@ -167,7 +167,65 @@ namespace SwiftCourier.Controllers
 
             return View(model);
         }
-        
+
+        public async Task<IActionResult> ChangePassword(int? id)
+        {
+            if (!HasPermission("CHANGE_USERS_PASSWORD"))
+            {
+                return Unauthorized();
+            }
+
+            if (id == null)
+            {
+                return HttpNotFound();
+            }
+
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == id.Value);
+
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(UserChangePasswordViewModel model)
+        {
+            if (!HasPermission("CHANGE_USERS_PASSWORD"))
+            {
+                return Unauthorized();
+            }
+
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == model.Id);
+
+                if (user == null)
+                {
+                    return HttpNotFound();
+                }
+
+                await _userManager.RemovePasswordAsync(user);
+                await _userManager.AddPasswordAsync(user, model.Password);
+
+                var result = await _userManager.UpdateAsync(user);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    AddErrors(result);
+                }
+            }
+
+            return View(model);
+        }
+
         [ActionName("Delete")]
         public async Task<IActionResult> Delete(int? id)
         {

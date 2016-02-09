@@ -50,7 +50,8 @@ namespace SwiftCourier.Controllers
                     new Permission() { Group = "user_management", Name = "EDIT_USERS", Description = "Edit Users" },
                     new Permission() { Group = "user_management", Name = "VIEW_USERS", Description = "View Users" },
                     new Permission() { Group = "user_management", Name = "DELETE_USERS", Description = "Delete Users" },
-
+                    new Permission() { Group = "user_management", Name = "CHANGE_USERS_PASSWORD", Description = "Change User Password" },
+                    
                     new Permission() { Group = "customer_management", Name = "CREATE_CUSTOMERS", Description = "Create Customers" },
                     new Permission() { Group = "customer_management", Name = "EDIT_CUSTOMERS", Description = "Edit Customers" },
                     new Permission() { Group = "customer_management", Name = "VIEW_CUSTOMERS", Description = "View Customers" },
@@ -60,11 +61,6 @@ namespace SwiftCourier.Controllers
                     new Permission() { Group = "administration", Name = "EDIT_LOCATIONS", Description = "Edit Locations" },
                     new Permission() { Group = "administration", Name = "VIEW_LOCATIONS", Description = "View Locations" },
                     new Permission() { Group = "administration", Name = "DELETE_LOCATIONS", Description = "Delete Locations" },
-
-                    //new Permission() { Group = "administration", Name = "CREATE_USERS", Description = "Create Users" },
-                    //new Permission() { Group = "administration", Name = "EDIT_USERS", Description = "Edit Users" },
-                    //new Permission() { Group = "administration", Name = "VIEW_USERS", Description = "View Users" },
-                    //new Permission() { Group = "administration", Name = "DELETE_USERS", Description = "Delete Users" },
 
                     new Permission() { Group = "settings", Name = "CREATE_SERVICES", Description = "Create Services" },
                     new Permission() { Group = "settings", Name = "EDIT_SERVICES", Description = "Edit Services" },

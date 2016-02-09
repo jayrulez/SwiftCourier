@@ -30,4 +30,15 @@ namespace SwiftCourier.ViewModels
 
         public List<int> RoleIds { get; set; }
     }
+
+    public class UserChangePasswordViewModel
+    {
+        public int Id { get; set; }
+
+        [Display(Name = "Password")]
+        public string Password { get; set; }
+
+        [Display(Name = "Confirm Password")]
+        public string ConfirmPassword { get; set; }
+    }
 }
