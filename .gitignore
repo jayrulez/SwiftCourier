@@ -45,3 +45,7 @@ Temporary Items
 artifacts/
 src\SwiftCourier\project.lock.json
 
+.vs/SwiftCourier/v14/.suo
+src/SwiftCourier/appsettings.json
+src/SwiftCourier/appsettings.json
+.vs/SwiftCourier/v14/.suo

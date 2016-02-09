@@ -170,7 +170,7 @@ namespace SwiftCourier.Controllers
 
         public async Task<IActionResult> ChangePassword(int? id)
         {
-            if (!HasPermission("CHANGE_USERS_PASSWORD"))
+            if (!HasPermission("CHANGE_USERS_PASSWORDS"))
             {
                 return Unauthorized();
             }
@@ -194,7 +194,7 @@ namespace SwiftCourier.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(UserChangePasswordViewModel model)
         {
-            if (!HasPermission("CHANGE_USERS_PASSWORD"))
+            if (!HasPermission("CHANGE_USERS_PASSWORDS"))
             {
                 return Unauthorized();
             }
