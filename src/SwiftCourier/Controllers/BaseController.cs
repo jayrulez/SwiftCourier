@@ -27,7 +27,9 @@ namespace SwiftCourier.Controllers
 
         protected int GetCurrentUserId()
         {
-            var user = GetCurrentUserAsync();
+            var task = GetCurrentUserAsync();
+
+            var user = task.Result;
 
             if(user == null)
             {
