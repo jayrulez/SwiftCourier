@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
@@ -5,6 +6,7 @@ using SwiftCourier.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using SwiftCourier.Models.Extensions;
 using SwiftCourier.Web.ViewModels;
+using SwiftCourier.Web.Models.Enums;
 
 namespace SwiftCourier.Web.Controllers
 {
@@ -26,7 +28,41 @@ namespace SwiftCourier.Web.Controllers
 
             return View(customers.ToListViewModel());
         }
-        
+
+        public async Task<IActionResult> Statement(int? id)
+        {
+            if (!HasPermission("VIEW_CUSTOMERS"))
+            {
+                return Unauthorized();
+            }
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Customer customer = await _context.Customers.SingleAsync(m => m.Id == id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            var bookings = await _context.Bookings
+                .Include(b => b.Origin)
+                .Include(b => b.Destination)
+                .Include(b => b.Customer)
+                .Include(b => b.Package)
+                .Include(b => b.Package.PackageType)
+                .Include(b => b.Invoice)
+                .Include(b => b.CreatedBy)
+                .Where(b => b.Invoice.Status != InvoiceStatus.Paid && b.Invoice.BillingMode == BillingMode.BillToAccount)
+                .ToListAsync();
+
+            ViewData["Customer"] = customer.ToDetailsViewModel();
+
+            return View(bookings.ToListViewModel());
+        }
+
         public async Task<IActionResult> Details(int? id)
         {
             if (!HasPermission("VIEW_CUSTOMERS"))
