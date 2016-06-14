@@ -8,8 +8,13 @@ namespace SwiftCourier.Web.ViewModels
 {
     public class PaymentViewModel
     {
+        [Display(Name = "Payment Method")]
         public int PaymentMethodId { get; set; }
+
+        [Display(Name = "Amount")]
         public decimal Amount { get; set; }
+
+        [Display(Name = "Amount Due")]
         public decimal AmountDue { get; set; }
     }
 

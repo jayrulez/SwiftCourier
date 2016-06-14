@@ -8,9 +8,9 @@
 
 <div class="panel mb25">
     <div class="panel-heading">
-        <span>Statement</span>
+        <span>Statement for <strong>@customer.Name</strong> - <strong>@customer.Id</strong></span>
         <span class="pull-right">
-            <a href="#">Print</a>
+            <a class="print-document" href="#">Print</a>
         </span>
     </div>
     <div class="panel-body">
@@ -22,7 +22,7 @@
                             @Html.DisplayNameFor(model => model.Id)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Customer.Name)
+                            @Html.DisplayNameFor(model => model.CreatedAt)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.ConsigneeName)
@@ -34,7 +34,7 @@
                             @Html.DisplayNameFor(model => model.Package.Status)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.CreatedAt)
+                            @Html.DisplayNameFor(model => model.Invoice.AmountDue)
                         </th>
                         <th></th>
                     </tr>
@@ -48,7 +48,7 @@
                                 @Html.DisplayFor(modelItem => item.Id)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Customer.Name)
+                                @Html.DisplayFor(modelItem => item.CreatedAt)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.ConsigneeName)
@@ -63,10 +63,13 @@
                                 }
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.CreatedAt)
+                                @if (item.Invoice != null)
+                                {
+                                    <text>@Html.DisplayFor(modelItem => item.Invoice.AmountDue)</text>
+                                }
                             </td>
                             <td>
-                                <a asp-action="Details" asp-route-id="@item.Id" data-toggle=tooltip data-placement=top title="Details"><i class="fa fa-eye"></i></a>
+                                <a asp-controller="Bookings" asp-action="Details" asp-route-id="@item.Id" data-toggle=tooltip data-placement=top title="Details"><i class="fa fa-eye"></i></a>
                             </td>
                         </tr>
                     }
@@ -97,6 +100,7 @@
 }
 
 @section Scripts {
+    <script src="~/scripts/print.js"></script>
     <script type="text/javascript">
         $("[data-toggle=tooltip]").tooltip();
     </script>

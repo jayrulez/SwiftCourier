@@ -92,25 +92,29 @@ namespace SwiftCourier.Web.Controllers
 
                 serviceCost = Number.Round(serviceCost);
 
-                var gct = gctRate * serviceCost;
+                var total = serviceCost;
 
-                gct = Number.Round(gct);
-
-                var total = Number.Round(serviceCost + gct);
-
+                //Discount
                 var discount = new Decimal(0);
 
-                if(discountType == DiscountType.FlatAmount)
+                if (discountType == DiscountType.FlatAmount)
                 {
                     discount = discountValue;
                 }
 
-                if(discountType == DiscountType.Percentage)
+                if (discountType == DiscountType.Percentage)
                 {
                     discount = Number.Round(total * (discountValue / 100));
                 }
 
                 total = Number.Round(total - discount);
+
+                //GCT
+                var gct = gctRate * total;
+
+                gct = Number.Round(gct);
+
+                total = Number.Round(total + gct);
 
                 data = "{\"service_cost\": {0}, \"gct\": {1}, \"total\": {2}, \"discount_amount\": {3}, \"success\": {4} }"
                     .Replace("{0}", serviceCost.ToString())

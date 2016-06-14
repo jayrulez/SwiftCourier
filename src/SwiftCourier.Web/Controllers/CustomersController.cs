@@ -55,7 +55,8 @@ namespace SwiftCourier.Web.Controllers
                 .Include(b => b.Package.PackageType)
                 .Include(b => b.Invoice)
                 .Include(b => b.CreatedBy)
-                .Where(b => b.Invoice.Status != InvoiceStatus.Paid && b.Invoice.BillingMode == BillingMode.BillToAccount)
+                .Include(b => b.Service)
+                .Where(b => b.Invoice.Status != InvoiceStatus.Paid /*&& b.Invoice.BillingMode == BillingMode.BillToAccount*/)
                 .ToListAsync();
 
             ViewData["Customer"] = customer.ToDetailsViewModel();
