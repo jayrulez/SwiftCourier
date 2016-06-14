@@ -50,8 +50,11 @@ src/SwiftCourier/appsettings.json
 src/SwiftCourier/appsettings.json
 .vs/SwiftCourier/v14/.suo
 .vs
-src/SwiftCourier.Web/obj/Debug/netcoreapp1.0/dotnet-compile.rsp
+/src/SwiftCourier.Web/obj/*
 *.rsp
-src/SwiftCourier.Web/obj/Debug/netcoreapp1.0/.IncrementalCache
 *.pdb
-src/SwiftCourier.Web/bin/Debug/netcoreapp1.0/SwiftCourier.Web.dll
+/src/SwiftCourier.Web/bin/*
+.vs/config/applicationhost.config
+*.ps1
+/*.xproj.user
+/db.txt
