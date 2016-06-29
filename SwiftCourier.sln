@@ -1,16 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E1F7429F-5C74-49ED-A69A-D97381A1FAC5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{486E7150-E6EC-4070-8DE3-49E719CCFFC0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9714A525-7503-4033-8E6C-36E37B972F8A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{068FCC92-6079-41E9-8832-DC0A6A578C98}"
 	ProjectSection(SolutionItems) = preProject
 		global.json = global.json
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "SwiftCourier.Web", "src\SwiftCourier.Web\SwiftCourier.Web.xproj", "{407EF3D4-8411-421F-9742-624BDE060FEE}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "SwiftCourier", "src\SwiftCourier\SwiftCourier.xproj", "{BC4DDC85-BA91-4630-99C1-924DFA065290}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,15 +18,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{407EF3D4-8411-421F-9742-624BDE060FEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{407EF3D4-8411-421F-9742-624BDE060FEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{407EF3D4-8411-421F-9742-624BDE060FEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{407EF3D4-8411-421F-9742-624BDE060FEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC4DDC85-BA91-4630-99C1-924DFA065290}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC4DDC85-BA91-4630-99C1-924DFA065290}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC4DDC85-BA91-4630-99C1-924DFA065290}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC4DDC85-BA91-4630-99C1-924DFA065290}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{407EF3D4-8411-421F-9742-624BDE060FEE} = {E1F7429F-5C74-49ED-A69A-D97381A1FAC5}
+		{BC4DDC85-BA91-4630-99C1-924DFA065290} = {486E7150-E6EC-4070-8DE3-49E719CCFFC0}
 	EndGlobalSection
 EndGlobal
