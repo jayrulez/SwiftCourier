@@ -45,19 +45,19 @@ Temporary Items
 artifacts/
 src\SwiftCourier\project.lock.json
 
-src/SwiftCourier.Web/appsettings.json
-src/SwiftCourier.Web/appsettings.json
+src/SwiftCourier/appsettings.json
+src/SwiftCourier/appsettings.json
 /.vs/*
-/src/SwiftCourier.Web/obj/*
+/src/SwiftCourier/obj/*
 *.rsp
 *.pdb
-/src/SwiftCourier.Web/bin/*
+/src/SwiftCourier/bin/*
 .vs/config/applicationhost.config
 *.ps1
 /*.xproj.user
 /db.txt
-src/SwiftCourier.Web/bin/Debug/netcoreapp1.0/SwiftCourier.Web.dll
-src/SwiftCourier.Web/Properties/PublishProfiles/uniononeground - Web Deploy.pubxml
-src/SwiftCourier.Web/Properties/PublishProfiles/uniononeground - Web Deploy.pubxml.user
-src/SwiftCourier.Web/SwiftCourier.Web.xproj.user
-src/SwiftCourier.Web/appsettings.json
+src/SwiftCourier/bin/Debug/netcoreapp1.0/SwiftCourier.dll
+src/SwiftCourier/Properties/PublishProfiles/uniononeground - Web Deploy.pubxml
+src/SwiftCourier/Properties/PublishProfiles/uniononeground - Web Deploy.pubxml.user
+src/SwiftCourier/SwiftCourier.xproj.user
+src/SwiftCourier/appsettings.json
