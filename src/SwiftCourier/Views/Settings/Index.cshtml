@@ -1,0 +1,58 @@
+@model IEnumerable<SettingViewModel>
+
+@{
+    ViewData["Title"] = "Settings";
+}
+
+<div class="panel mb25">
+    <div class="panel-heading">
+        <span>Settings</span>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped mb0">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.DisplayName)</th>
+                        <th>@Html.DisplayNameFor(model => model.Value)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Value)</td>
+                            <td>
+                                <a asp-action="Edit" asp-controller="Settings" asp-route-name="@item.Name" data-toggle=tooltip data-placement=top title="Edit"><i class="fa fa-edit"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section NavBarText {
+    <text>Settings</text>
+}
+
+@section Breadcrumbs {
+    <ol class="breadcrumb">
+        <li>
+            <a asp-controller="Home" asp-action="Index">Home</a>
+        </li>
+        <li class="active ng-binding">
+            <a href="javascript:;">Settings</a>
+        </li>
+    </ol>
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        $("[data-toggle=tooltip]").tooltip();
+    </script>
+}
+

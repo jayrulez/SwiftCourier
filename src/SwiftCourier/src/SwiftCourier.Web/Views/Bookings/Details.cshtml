@@ -1,0 +1,277 @@
+@model BookingDetailsViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="panel mb25">
+    <div class="panel-heading border">
+        Details
+    </div>
+    <div class="panel-body">
+        <div class="row no-margin">
+            <div class="col-lg-8">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.CreatedBy)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.CreatedBy)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.CreatedAt)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.CreatedAt)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Customer.Name)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Customer.Name)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.RequestDate)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.RequestDate)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Origin.Name)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Origin.Name)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Destination.Name)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Destination.Name)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PickupAddress)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.PickupAddress)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PickupContactNumber)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.PickupContactNumber)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.ConsigneeName)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.ConsigneeName)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.ConsigneeContactNumber)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.ConsigneeContactNumber)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.ConsigneeAddress)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.ConsigneeAddress)
+                    </dd>
+                    @if (Model.Package != null)
+                    {
+                        <dt>@Html.DisplayNameFor(model => model.Package.PackageType.Name)</dt>
+                        <dd>@Html.DisplayFor(model => model.Package.PackageType.Name)</dd>
+
+                        <dt>@Html.DisplayNameFor(model => model.Package.Description)</dt>
+                        <dd>@Html.DisplayFor(model => model.Package.Description)</dd>
+
+                        <dt>@Html.DisplayNameFor(model => model.Package.Pieces)</dt>
+                        <dd>@Html.DisplayFor(model => model.Package.Pieces)</dd>
+
+                        <dt>@Html.DisplayNameFor(model => model.Package.Weight)</dt>
+                        <dd>@Html.DisplayFor(model => model.Package.Weight)</dd>
+
+                        <dt>@Html.DisplayNameFor(model => model.Package.SpecialInstructions)</dt>
+                        <dd>@Html.DisplayFor(model => model.Package.SpecialInstructions)</dd>
+
+                        <dt>@Html.DisplayNameFor(model => model.Package.ReferenceNumber)</dt>
+                        <dd>@Html.DisplayFor(model => model.Package.ReferenceNumber)</dd>
+
+                        <dt>@Html.DisplayNameFor(model => model.Package.TrackingNumber)</dt>
+                        <dd>@Html.DisplayFor(model => model.Package.TrackingNumber)</dd>
+
+                        @if (Model.Package.PickedUpAt != null)
+                        {
+                            <dt>@Html.DisplayNameFor(model => model.Package.PickedUpAt)</dt>
+                            <dd>@Html.DisplayFor(model => model.Package.PickedUpAt)</dd>
+                        }
+                        
+                        @if (Model.Package.DeliveredAt != null)
+                        {
+                            <dt>@Html.DisplayNameFor(model => model.Package.DeliveredAt)</dt>
+                            <dd>@Html.DisplayFor(model => model.Package.DeliveredAt)</dd>
+                        }
+
+                        @if (!string.IsNullOrEmpty(Model.Package.AssignedTo))
+                        {
+                            <dt>@Html.DisplayNameFor(model => model.Package.AssignedTo)</dt>
+                            <dd>@Html.DisplayFor(model => model.Package.AssignedTo)</dd>
+                        }
+
+                        @if (!string.IsNullOrEmpty(Model.Package.DeliveredBy))
+                        {
+                            <dt>@Html.DisplayNameFor(model => model.Package.DeliveredBy)</dt>
+                            <dd>@Html.DisplayFor(model => model.Package.DeliveredBy)</dd>
+                        }
+
+                        <dt>@Html.DisplayNameFor(model => model.Package.Status)</dt>
+                        <dd>@Html.DisplayFor(model => model.Package.Status)</dd>
+                    }
+                    @if (Model.Invoice != null)
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Invoice.ServiceCost)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Invoice.ServiceCost)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Invoice.DiscountType)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Invoice.DiscountType)
+                        </dd>                    
+                        <dt>
+                        @Html.DisplayNameFor(model => model.Invoice.DiscountValue)
+                    </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Invoice.DiscountValue)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Invoice.DiscountValue)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Invoice.DiscountValue)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Invoice.GCT)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Invoice.GCT)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Invoice.Total)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Invoice.Total)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Invoice.BillingMode)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Invoice.BillingMode)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Invoice.Status)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Invoice.Status)
+                        </dd>
+
+
+                    }
+                </dl>
+                @if (Model.Invoice != null && Model.Invoice.Payments != null && Model.Invoice.Payments.Count() > 0)
+                {
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped mb0">
+                            <caption>Invoice Payments</caption>
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Invoice.Payments.FirstOrDefault().Id)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Invoice.Payments.FirstOrDefault().Amount)
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Invoice.Payments)
+                                {
+                                    <tr>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Id)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Amount)
+                                        </td>
+                                        <td>
+                                            <a asp-action="Details" asp-controller="Payments" asp-route-id="@item.Id" data-toggle=tooltip data-placement=top title="Details"><i class="fa fa-eye"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+            <div class="col-lg-4">
+                <a asp-action="Edit" asp-controller="Bookings" asp-route-id="@Model.Id">Edit</a>
+                <br />
+                <a asp-action="Delete" asp-controller="Bookings" asp-route-id="@Model.Id">Delete</a>
+                <br/>
+                <a href="@Url.Action("BillOfLading", "Packages", new { id = Model.Package.BookingId})" class="print-document" data-document-name="Bill Of Lading">Print Bill Of Lading</a>
+                <br />
+                <a href="@Url.Action("Invoice", "Bookings", new { id=Model.Invoice.BookingId })" class="print-document" data-document-name="Invoice">Print Invoice</a>
+
+                @if (!(Model.Package.Status.Equals(PackageStatus.OutForDelivery.ToString(), StringComparison.OrdinalIgnoreCase)
+                    || Model.Package.Status.Equals(PackageStatus.Delivered.ToString(), StringComparison.OrdinalIgnoreCase)))
+                {
+                    <br />
+                    <a asp-action="Dispatch" asp-controller="Packages" asp-route-id="@Model.Id">Dispatch To Courier</a>
+                }
+
+                @if (Model.Package.Status.Equals(PackageStatus.OutForDelivery.ToString(), StringComparison.OrdinalIgnoreCase))
+                {
+                    <br />
+                    <a asp-action="Deliver" asp-controller="Packages" asp-route-id="@Model.Id">Mark As Delivered</a>
+                }
+
+                @if (Model.Invoice.Status.Equals(InvoiceStatus.Pending.ToString(), StringComparison.OrdinalIgnoreCase))
+                {
+                    <br />
+                    <a asp-action="Create" asp-controller="Payments" asp-route-id="@Model.Invoice.BookingId">Make Payment</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/scripts/print.js"></script>
+}
+
+@section NavBarText {
+    <text>Bookings</text>
+}
+
+@section Breadcrumbs {
+    <ol class="breadcrumb">
+        <li>
+            <a asp-controller="Home" asp-action="Index">Home</a>
+        </li>
+        <li>
+            <a asp-controller="Bookings" asp-action="Index">Bookings</a>
+        </li>
+        <li class="active ng-binding">
+            <a href="javascript:;">Details</a>
+        </li>
+    </ol>
+}

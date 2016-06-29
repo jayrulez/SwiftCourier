@@ -1,0 +1,111 @@
+@using SwiftCourier.Helpers
+@model RoleViewModel
+
+@{
+    ViewData["Title"] = "Create Role";
+    var PermissionGroups = ViewBag.PermissionGroups as List<PermissionGroup>;
+    var Permissions = ViewBag.Permissions as List<PermissionViewModel>;
+}
+
+<div class="panel mb25">
+    <div class="panel-heading border">
+        Create Role
+    </div>
+    <div class="panel-body">
+        <div class="row no-margin">
+            <div class="col-lg-12">
+                <form asp-action="Create" class="form-horizontal bordered-group" role="form">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Name" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger" />
+                        </div>
+                    </div>
+
+                    <div class="form-group checkbo">
+                        <label class="col-sm-2 control-label">Permissions</label>
+                        <div class="col-sm-10">
+                            <div>
+                                <select name="permissionGroups" class="form-control">
+                                    @foreach (var group in PermissionGroups)
+                                    {
+                                        <option value="@group.Id">@group.Name</option>
+                                    }
+                                </select>
+                                <br />
+                            </div>
+                            @foreach (var permission in Permissions)
+                            {
+                                <div class="permission">
+                                    <label for="@permission.Id" class="cb-checkbox cb-sm">
+                                        <input type="checkbox" name="PermissionIds" data-group="@permission.Group" value="@permission.Id" @if (Model != null && Model.PermissionIds.Contains(permission.Id)) {<text>checked</text> }/>
+                                        <span>@permission.Description</span>
+                                    </label>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <input type="submit" value="Create" class="btn btn-default" />
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section styles {
+    <link rel="stylesheet" href="~/vendor/checkbo/src/0.1.4/css/checkBo.css">
+}
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/vendor/checkbo/src/0.1.4/js/checkBo.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.checkbo').checkBo();
+            var selectedGroup = $('select[name="permissionGroups"]').val();
+            showGroup(selectedGroup);
+            function showGroup(groupName) {
+                $('input[data-group]').each(function (index) {
+                    var group = $(this).attr('data-group');
+                    var label = $(this).parents('div[class="permission"]');
+                    if (group != groupName) {
+                        $(label).hide();
+                    } else {
+                        $(label).show();
+                    }
+                });
+            }
+            $('select[name="permissionGroups"]').on('change', function (e) {
+                showGroup($(this).val());
+            });
+        });
+    </script>
+}
+
+@section NavBarText {
+    <text>Roles</text>
+}
+
+@section Breadcrumbs {
+    <ol class="breadcrumb">
+        <li>
+            <a asp-controller="Home" asp-action="Index">Home</a>
+        </li>
+        <li>
+            <a asp-controller="Roles" asp-action="Index">Roles</a>
+        </li>
+        <li class="active ng-binding">
+            <a href="javascript:;">Create</a>
+        </li>
+    </ol>
+}

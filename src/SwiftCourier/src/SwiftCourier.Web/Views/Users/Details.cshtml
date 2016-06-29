@@ -1,0 +1,55 @@
+@model SwiftCourier.Web.Data.User
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="panel mb25">
+    <div class="panel-heading border">
+        Details
+    </div>
+    <div class="panel-body">
+        <div class="row no-margin">
+            <div class="col-lg-8">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.UserName)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.UserName)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Email)
+                    </dd>
+                </dl>
+            </div>
+            <div class="col-lg-4">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-default">Edit</a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section NavBarText {
+    <text>Locations</text>
+}
+
+@section Breadcrumbs {
+    <ol class="breadcrumb">
+        <li>
+            <a asp-controller="Home" asp-action="Index">Home</a>
+        </li>
+        <li>
+            <a asp-controller="Users" asp-action="Index">Users</a>
+        </li>
+        <li class="active ng-binding">
+            <a href="javascript:;">Details</a>
+        </li>
+    </ol>
+}
+
+

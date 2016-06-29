@@ -1,0 +1,82 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+@section NavBarText {
+    <text>Dashboard</text>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div>
+            <div class="widget bg-white">
+                <div class="widget-icon bg-blue pull-left fa fa-table">
+                </div>
+                <div class="overflow-hidden">
+                    <span class="widget-title">@ViewData["countBookings"]</span>
+                    <span class="widget-subtitle">Total Bookings</span>
+                </div>
+            </div>
+            <div class="widget bg-white">
+                <div class="widget-icon bg-danger pull-left fa fa-calendar">
+                </div>
+                <div class="overflow-hidden">
+                    <span class="widget-title">@ViewData["countBookingsThisWeek"]</span>
+                    <span class="widget-subtitle">Bookings This Week</span>
+                </div>
+            </div>
+            <div class="widget bg-white">
+                <div class="widget-icon bg-success pull-left fa fa-table">
+                </div>
+                <div class="overflow-hidden">
+                    <span class="widget-title">@ViewData["countBookingsToday"]</span>
+                    <span class="widget-subtitle">Bookings Today</span>
+                </div>
+            </div>
+            <div class="widget bg-white">
+                <div class="widget-icon bg-blue pull-left fa fa-users">
+                </div>
+                <div class="overflow-hidden">
+                    <span class="widget-title">@ViewData["countCustomers"]</span>
+                    <span class="widget-subtitle">Registered Customers</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="widget bg-white">
+            <div class="widget-icon bg-blue pull-left fa fa-clock-o">
+            </div>
+            <div class="overflow-hidden">
+                <span class="widget-title">@ViewData["countPackagesPendingPickup"]</span>
+                <span class="widget-subtitle">Packages Pending Pickup</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+
+        <div class="widget bg-white">
+            <div class="widget-icon bg-blue pull-left fa fa-plane">
+            </div>
+            <div class="overflow-hidden">
+                <span class="widget-title">@ViewData["countPackagesDeliveredToday"]</span>
+                <span class="widget-subtitle">Packages Delivered Today</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+
+        <div class="widget bg-white">
+            <div class="widget-icon bg-blue pull-left fa fa-dollar">
+            </div>
+            <div class="overflow-hidden">
+                <span class="widget-title">$@ViewData["incomeToday"]</span>
+                <span class="widget-subtitle">Today's Income</span>
+            </div>
+        </div>
+    </div>
+</div>
+
