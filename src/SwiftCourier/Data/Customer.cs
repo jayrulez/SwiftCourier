@@ -19,6 +19,9 @@ namespace SwiftCourier.Data
         public string Name { get; set; }
         public bool TaxExempted { get; set; }
 
+        public string Username { get; set; }
+        public string Password { get; set; }
+
         public virtual ICollection<Booking> Bookings { get; set; }
     }
 }

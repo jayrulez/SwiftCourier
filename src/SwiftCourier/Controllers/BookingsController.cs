@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using SwiftCourier.Models.Extensions;
 using SwiftCourier.Models.Enums;
 using SwiftCourier.Models;
+using System.Linq;
 
 namespace SwiftCourier.Controllers
 {
@@ -18,14 +19,18 @@ namespace SwiftCourier.Controllers
         {
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index(int? page)
         {
-            if(!HasPermission("VIEW_BOOKINGS"))
+            if (!HasPermission("VIEW_BOOKINGS"))
             {
                 return Unauthorized();
             }
 
-            var bookings = await _context.Bookings
+            var pageNumber = page ?? 1;
+
+            var pageSize = 50;
+
+            var bookings = _context.Bookings
                 .Include(b => b.Origin)
                 .Include(b => b.Destination)
                 .Include(b => b.Customer)
@@ -33,9 +38,18 @@ namespace SwiftCourier.Controllers
                 .Include(b => b.Package.PackageType)
                 .Include(b => b.Invoice)
                 .Include(b => b.CreatedBy)
-                .Include(b => b.Service).ToListAsync();
+                .Include(b => b.Service)
+                .OrderByDescending(b => b.CreatedAt);
 
-            return View(bookings.ToListViewModel());
+            var bookingsPage = bookings
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize).ToList();
+
+            ViewData["PageNumber"] = pageNumber;
+            ViewData["PageSize"] = pageSize;
+            ViewData["TotalItemCount"] = bookings.Count();
+
+            return View(bookingsPage.ToListViewModel());
         }
 
         public async Task<IActionResult> Details(int id)
@@ -215,6 +229,11 @@ namespace SwiftCourier.Controllers
                     .SingleAsync(m => m.Id == model.Id);
 
                 booking = model.UpdateEntity(booking);
+
+                if (booking.Invoice.Status == InvoiceStatus.NotIssued)
+                {
+                    booking.Invoice.Status = InvoiceStatus.Pending;
+                }
 
                 if (booking.Invoice.AmountPaid >= booking.Invoice.Total)
                 {

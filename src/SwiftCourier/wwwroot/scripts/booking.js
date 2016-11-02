@@ -77,10 +77,14 @@
 
                 $.ajax("/api/customer/" + id, {
                     dataType: "json"
-                }).done(function (data) { callback(data); });
+                }).done(function (data) {
+                    callback(data);
+                });
             }
         },
-        id: function (data) { return data.Id },
+        id: function (data) {
+            return data.Id
+        },
         formatResult: function (data) {
             return data.Name;
         },
@@ -104,8 +108,8 @@
                 success: function (data) {
                     if (data) {
                         if (pickupRequired) {
-                            $('#PickupAddress').val(data.Address);
-                            $('#PickupContactNumber').val(data.ContactNumber);
+                            $('#PickupAddress').val(data.address);
+                            $('#PickupContactNumber').val(data.contactNumber);
                         } else {
                             $('#PickupAddress').val('');
                             $('#PickupContactNumber').val('');

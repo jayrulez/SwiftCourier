@@ -86,11 +86,15 @@ namespace SwiftCourier.Controllers
 
                 var additionalCost = overWeight * costPerUnitOverBaseWeight;
 
-                additionalCost = Number.Round(additionalCost);
+                var additionalCostGCT = additionalCost * gctRate;
 
-                serviceCost = serviceCost + additionalCost;
+                var additionalCostTotal = additionalCost + additionalCostGCT;
+
+                additionalCostTotal = Number.Round(additionalCostTotal);
 
                 serviceCost = Number.Round(serviceCost);
+
+                // Do discount before adding additionalcosttotal to service cost
 
                 var total = serviceCost;
 
@@ -115,6 +119,8 @@ namespace SwiftCourier.Controllers
                 gct = Number.Round(gct);
 
                 total = Number.Round(total + gct);
+
+                total = total + additionalCostGCT;
 
                 data = "{\"service_cost\": {0}, \"gct\": {1}, \"total\": {2}, \"discount_amount\": {3}, \"success\": {4} }"
                     .Replace("{0}", serviceCost.ToString())

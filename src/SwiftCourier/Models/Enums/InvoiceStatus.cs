@@ -12,6 +12,9 @@ namespace SwiftCourier.Models.Enums
         Pending,
 
         [Display(Name = "Paid")]
-        Paid
+        Paid,
+
+        [Display(Name = "Pending Issue")]
+        NotIssued
     }
 }

@@ -1,0 +1,212 @@
+@model EditBookingViewModel
+
+@{
+    ViewData["Title"] = "Edit Booking";
+}
+
+<div class="panel mb25">
+    <div class="panel-heading border">
+        Edit Booking
+    </div>
+    <div class="panel-body">
+        <div class="row no-margin">
+            <div class="col-lg-12">
+                <form asp-action="Edit" class="form-horizontal bordered-group" role="form">
+                    <input asp-for="Id" type="hidden"/>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="RequestDate" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <input asp-for="RequestDate" class="form-control" data-provide="datepicker" />
+                            <span asp-validation-for="RequestDate" class="text-danger" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="OriginLocationId" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <select asp-for="OriginLocationId" asp-items="@((IEnumerable<SelectListItem>)ViewData["LocationId"])" class="form-control"></select>
+                            <span asp-validation-for="OriginLocationId" class="text-danger" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="DestinationLocationId" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <select asp-for="DestinationLocationId" asp-items="@((IEnumerable<SelectListItem>)ViewData["LocationId"])" class="form-control"></select>
+                            <span asp-validation-for="DestinationLocationId" class="text-danger" />
+                        </div>
+                    </div>
+
+                    <div class="form-group checkbo">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <label for="PickupRequired" class="cb-checkbox cb-sm">
+                                <input asp-for="PickupRequired" />
+                                <span>@Html.DisplayNameFor(model => model.PickupRequired)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="PickupAddress" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <textarea asp-for="PickupAddress" class="form-control" rows="5" cols="300"></textarea>
+                            <span asp-validation-for="PickupAddress" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PickupContactNumber" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <input asp-for="PickupContactNumber" class="form-control" />
+                            <span asp-validation-for="PickupContactNumber" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ConsigneeName" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <input asp-for="ConsigneeName" class="form-control" />
+                            <span asp-validation-for="ConsigneeName" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ConsigneeAddress" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <textarea asp-for="ConsigneeAddress" class="form-control" rows="5" cols="300"></textarea>
+                            <span asp-validation-for="ConsigneeAddress" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ConsigneeContactNumber" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <input asp-for="ConsigneeContactNumber" class="form-control" />
+                            <span asp-validation-for="ConsigneeContactNumber" class="text-danger" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="PackageTypeId" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <select asp-for="PackageTypeId" asp-items="@((IEnumerable<SelectListItem>)ViewData["PackageTypeId"])" class="form-control"></select>
+                            <span asp-validation-for="PackageTypeId" class="text-danger" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="ReferenceNumber" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <input asp-for="ReferenceNumber" class="form-control" />
+                            <span asp-validation-for="ReferenceNumber" class="text-danger" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="PackageDescription" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <textarea asp-for="PackageDescription" class="form-control" rows="5" cols="300"></textarea>
+                            <span asp-validation-for="PackageDescription" class="text-danger" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Pieces" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <input asp-for="Pieces" class="form-control" />
+                            <span asp-validation-for="Pieces" class="text-danger" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Weight" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <input asp-for="Weight" class="form-control" />
+                            <span asp-validation-for="Weight" class="text-danger" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="SpecialInstructions" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <textarea asp-for="SpecialInstructions" class="form-control" rows="5" cols="300"></textarea>
+                            <span asp-validation-for="SpecialInstructions" class="text-danger" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="ServiceId" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <select asp-for="ServiceId" asp-items="@((IEnumerable<SelectListItem>)ViewData["ServiceId"])" class="form-control">
+                                <option value="0">Select Service</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <input type="submit" value="Save" class="btn btn-default" />
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section styles {
+    <link rel="stylesheet" href="~/vendor/checkbo/src/0.1.4/css/checkBo.css">
+    <link rel="stylesheet" href="/vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css">
+    <link rel="stylesheet" href="/vendor/select2/select2.css">
+    <link rel="stylesheet" href="/vendor/select2/select2-bootstrap.css">
+}
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/vendor/checkbo/src/0.1.4/js/checkBo.min.js"></script>
+    <script src="~/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="~/vendor/select2/select2.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.checkbo').checkBo();
+
+            if ($('#PickupRequired').is(':checked')) {
+                $('#PickupAddress').parents('div[class="form-group"]').show();
+                $('#PickupContactNumber').parents('div[class="form-group"]').show();
+            } else {
+                $('#PickupAddress').parents('div[class="form-group"]').hide();
+                $('#PickupContactNumber').parents('div[class="form-group"]').hide();
+            }
+
+            $('#PickupRequired').on('change', function () {
+
+                $('#CustomerId').trigger('change');
+
+                if ($(this).is(':checked')) {
+                    $('#PickupAddress').parents('div[class="form-group"]').show();
+                    $('#PickupContactNumber').parents('div[class="form-group"]').show();
+                } else {
+                    $('#PickupAddress').parents('div[class="form-group"]').hide();
+                    $('#PickupContactNumber').parents('div[class="form-group"]').hide();
+                }
+            });
+        });
+    </script>
+}
+
+@section NavBarText {
+    <text>Bookings</text>
+}
+
+@section Breadcrumbs {
+    <ol class="breadcrumb">
+        <li>
+            <a asp-area="Client" asp-controller="Bookings" asp-action="Index">Bookings</a>
+        </li>
+        <li class="active ng-binding">
+            <a href="javascript:;">Create</a>
+        </li>
+    </ol>
+}
+

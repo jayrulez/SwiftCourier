@@ -44,15 +44,36 @@ namespace SwiftCourier
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<User, Role>(options => options.User.AllowedUserNameCharacters = null)
+            services.AddIdentity<User, Role>(options => {
+                options.User.AllowedUserNameCharacters = null;
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+            })
                 .AddEntityFrameworkStores<ApplicationDbContext, int>()
                 .AddUserStore<UserStore<User, Role, ApplicationDbContext, int>>()
                 .AddRoleStore<RoleStore<Role, ApplicationDbContext, int>>()
                 //.AddRoleManager<RoleManager<Role>>()
                 .AddDefaultTokenProviders();
 
+            services.AddDistributedSqlServerCache(o =>
+            {
+                o.ConnectionString = Configuration.GetConnectionString("DefaultConnection");
+                o.SchemaName = "dbo";
+                o.TableName = "Sessions";
+            });
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(500000);
+            });
+
+            services.AddCloudscribePagination();
+
             services.AddMvc();
-			
+
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("HasPermission", policy => policy.Requirements.Add(new AuthorizationPolicies.HasPermissionRequirement()));
@@ -73,12 +94,11 @@ namespace SwiftCourier
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
-                app.UseBrowserLink();
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-				
+
                 try
                 {
                     using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
@@ -98,9 +118,14 @@ namespace SwiftCourier
             app.UseInstaller();
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
+            app.UseSession();
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: "areaRoute",
+                    template: "{area:exists}/{controller=Bookings}/{action=Index}");
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");

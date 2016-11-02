@@ -46,7 +46,7 @@ namespace SwiftCourier.Models.Extensions
 
             destination.Id = source.Id;
 
-            destination.CreatedBy = source.CreatedBy.UserName;
+            destination.CreatedBy = source.CreatedBy != null ? source.CreatedBy.UserName : "Customer";
             destination.ServiceName = source.Service.Name;
             destination.RequestDate = source.RequestDate;
             destination.PickupRequired = source.PickupRequired;
@@ -105,7 +105,7 @@ namespace SwiftCourier.Models.Extensions
 
             destination.Id = source.Id;
 
-            destination.CreatedBy = source.CreatedBy.UserName;
+            destination.CreatedBy = source.CreatedBy != null ? source.CreatedBy.UserName : "Customer";
             destination.ServiceName = source.Service.Name;
             destination.RequestDate = source.RequestDate;
             destination.PickupRequired = source.PickupRequired ? "Yes" : "No";

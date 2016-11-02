@@ -9,7 +9,7 @@ namespace SwiftCourier.Models
         public int Id { get; set; }
 
         [Display(Name = "Created By")]
-        public int CreatedByUserId { get; set; }
+        public int? CreatedByUserId { get; set; }
 
         [Display(Name = "Customer")]
         public int CustomerId { get; set; }

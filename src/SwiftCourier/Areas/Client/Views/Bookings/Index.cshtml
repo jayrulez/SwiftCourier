@@ -1,11 +1,7 @@
-@model IEnumerable<BookingListItemViewModel>
+@model IEnumerable<SwiftCourier.Models.BookingListItemViewModel>
 
 @{
     ViewData["Title"] = "Bookings";
-
-    int PageNumber = (int)ViewData["PageNumber"];
-    int PageSize = (int)ViewData["PageSize"];
-    int TotalItemCount = (int)ViewData["TotalItemCount"];
 }
 
 <div class="panel mb25">
@@ -79,12 +75,6 @@
                 </tbody>
             </table>
         </div>
-        <cs-pager cs-paging-pagesize="@PageSize"
-                  cs-paging-pagenumber="@PageNumber"
-                  cs-paging-totalitems="@TotalItemCount"
-                  cs-pagenumber-param="page"
-                  asp-controller="Bookings"
-                  asp-action="Index"></cs-pager>
     </div>
 </div>
 @section NavBarText {
@@ -93,9 +83,6 @@
 
 @section Breadcrumbs {
     <ol class="breadcrumb">
-        <li>
-            <a asp-controller="Home" asp-action="Index">Home</a>
-        </li>
         <li class="active ng-binding">
             <a href="javascript:;">Bookings</a>
         </li>

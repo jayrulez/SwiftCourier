@@ -12,7 +12,7 @@ namespace SwiftCourier.Data
         }
 
         public int Id { get; set; }
-        public int CreatedByUserId { get; set; }
+        public int? CreatedByUserId { get; set; }
         public int CustomerId { get; set; }
         public int ServiceId { get; set; }
         public string RequestDate { get; set; }

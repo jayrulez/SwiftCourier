@@ -1,4 +1,4 @@
-@model BookingDetailsViewModel
+@model SwiftCourier.Models.BookingDetailsViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -131,127 +131,15 @@
                         <dt>@Html.DisplayNameFor(model => model.Package.Status)</dt>
                         <dd>@Html.DisplayFor(model => model.Package.Status)</dd>
                     }
-                    @if (Model.Invoice != null)
-                    {
-                        <dt>
-                            @Html.DisplayNameFor(model => model.Invoice.ServiceCost)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.Invoice.ServiceCost)
-                        </dd>
-                        <dt>
-                            @Html.DisplayNameFor(model => model.Invoice.DiscountType)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.Invoice.DiscountType)
-                        </dd>
-                        <dt>
-                            @Html.DisplayNameFor(model => model.Invoice.DiscountValue)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.Invoice.DiscountValue)
-                        </dd>
-                        <dt>
-                            @Html.DisplayNameFor(model => model.Invoice.DiscountValue)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.Invoice.DiscountValue)
-                        </dd>
-                        <dt>
-                            @Html.DisplayNameFor(model => model.Invoice.GCT)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.Invoice.GCT)
-                        </dd>
-                        <dt>
-                            @Html.DisplayNameFor(model => model.Invoice.Total)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.Invoice.Total)
-                        </dd>
-                        <dt>
-                            @Html.DisplayNameFor(model => model.Invoice.BillingMode)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.Invoice.BillingMode)
-                        </dd>
-                        <dt>
-                            @Html.DisplayNameFor(model => model.Invoice.Status)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.Invoice.Status)
-                        </dd>
-
-
-                    }
                 </dl>
-                @if (Model.Invoice != null && Model.Invoice.Payments != null && Model.Invoice.Payments.Count() > 0)
-                {
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-striped mb0">
-                            <caption>Invoice Payments</caption>
-                            <thead>
-                                <tr>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Invoice.Payments.FirstOrDefault().Id)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Invoice.Payments.FirstOrDefault().Amount)
-                                    </th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model.Invoice.Payments)
-                                {
-                                    <tr>
-
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Id)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Amount)
-                                        </td>
-                                        <td>
-                                            <a asp-action="Details" asp-controller="Payments" asp-route-id="@item.Id" data-toggle=tooltip data-placement=top title="Details"><i class="fa fa-eye"></i></a>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                }
             </div>
             <div class="col-lg-4">
-                <a asp-action="Edit" asp-controller="Bookings" asp-route-id="@Model.Id">Edit</a>
-                <br />
-                <a asp-action="Delete" asp-controller="Bookings" asp-route-id="@Model.Id">Delete</a>
-                <br />
-                <a href="@Url.Action("BillOfLading", "Packages", new { id = Model.Package.BookingId})" class="print-document" data-document-name="Bill Of Lading">Print Bill Of Lading</a>
-                @if (Model.Invoice != null)
+                @if (Model.Invoice.Status == SwiftCourier.Models.Enums.InvoiceStatus.NotIssued.ToString())
                 {
+                    <a area="Client" asp-action="Edit" asp-controller="Bookings" asp-route-id="@Model.Id">Edit</a>
                     <br />
-                    <a href="@Url.Action("Invoice", "Bookings", new { id=Model.Invoice.BookingId })" class="print-document" data-document-name="Invoice">Print Invoice</a>
                 }
-
-                @if (!(Model.Package.Status.Equals(PackageStatus.OutForDelivery.ToString(), StringComparison.OrdinalIgnoreCase)
-                || Model.Package.Status.Equals(PackageStatus.Delivered.ToString(), StringComparison.OrdinalIgnoreCase)))
-                {
-                    <br />
-                    <a asp-action="Dispatch" asp-controller="Packages" asp-route-id="@Model.Id">Dispatch To Courier</a>
-                }
-
-                @if (Model.Package.Status.Equals(PackageStatus.OutForDelivery.ToString(), StringComparison.OrdinalIgnoreCase))
-                {
-                    <br />
-                    <a asp-action="Deliver" asp-controller="Packages" asp-route-id="@Model.Id">Mark As Delivered</a>
-                }
-
-                @if (Model.Invoice != null && Model.Invoice.Status.Equals(InvoiceStatus.Pending.ToString(), StringComparison.OrdinalIgnoreCase))
-                {
-                    <br />
-                    <a asp-action="Create" asp-controller="Payments" asp-route-id="@Model.Invoice.BookingId">Make Payment</a>
-                }
+                <a href="@Url.Action("BillOfLading", "Bookings", new { area="Client", id = Model.Package.BookingId})" class="print-document" data-document-name="Bill Of Lading">Print AWB</a>
             </div>
         </div>
     </div>
@@ -268,10 +156,7 @@
 @section Breadcrumbs {
     <ol class="breadcrumb">
         <li>
-            <a asp-controller="Home" asp-action="Index">Home</a>
-        </li>
-        <li>
-            <a asp-controller="Bookings" asp-action="Index">Bookings</a>
+            <a asp-area="Client" asp-controller="Bookings" asp-action="Index">Bookings</a>
         </li>
         <li class="active ng-binding">
             <a href="javascript:;">Details</a>

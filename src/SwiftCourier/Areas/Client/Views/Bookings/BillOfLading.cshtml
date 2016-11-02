@@ -1,4 +1,4 @@
-@model BookingDetailsViewModel
+@model SwiftCourier.Models.BookingDetailsViewModel
 
 @{
     Layout = "_PrintLite";
@@ -12,7 +12,7 @@
     <div class="top-col pull-left">
         <div class="circle pull-left">
             <span>
-                @if (Model.Invoice.BillingMode.Equals(BillingMode.CashOnDelivery.ToString(), StringComparison.OrdinalIgnoreCase))
+                @if (Model.Invoice.BillingMode.Equals(SwiftCourier.Models.Enums.BillingMode.CashOnDelivery.ToString(), StringComparison.OrdinalIgnoreCase))
             { <text>X</text>}
             </span>
         </div>
@@ -21,7 +21,7 @@
         </div>
         <div class="circle pull-left">
             <span>
-                @if (Model.Invoice.BillingMode.Equals(BillingMode.PayNow.ToString(), StringComparison.OrdinalIgnoreCase))
+                @if (Model.Invoice.BillingMode.Equals(SwiftCourier.Models.Enums.BillingMode.PayNow.ToString(), StringComparison.OrdinalIgnoreCase))
             { <text>X</text>}
             </span>
         </div>
@@ -30,7 +30,7 @@
         </div>
         <div class="circle pull-left">
             <span>
-                @if (Model.Invoice.BillingMode.Equals(BillingMode.BillToAccount.ToString(), StringComparison.OrdinalIgnoreCase))
+                @if (Model.Invoice.BillingMode.Equals(SwiftCourier.Models.Enums.BillingMode.BillToAccount.ToString(), StringComparison.OrdinalIgnoreCase))
             { <text>X</text>}
             </span>
         </div>
@@ -102,24 +102,17 @@
     <div class="clearfix">
     </div>
     <div class="sub-cons border-right animated shake">
-        <h3>Invoice</h3>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>CHARGES</th>
-                    <th>$</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model.Invoice.Status == InvoiceStatus.NotIssued.ToString())
-            {
+        @if (Model.Invoice.Status != SwiftCourier.Models.Enums.InvoiceStatus.NotIssued.ToString()) {
+            <h3>Invoice</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>CHARGES</th>
+                        <th>$</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-                <tr>
-                    <td>Invoice not issued.</td>
-                </tr>
-            }
-            else
-            {
                     <tr>
                         <td>Base</td>
                         <td>@Model.Invoice.ServiceCost</td>
@@ -132,9 +125,10 @@
                         <td class="roboto-medium">TOTAL</td>
                         <td>@Model.Invoice.Total</td>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+
+        }
     </div>
     <!--/sub-cons-->
     <div class="sub-cons animated shake">
